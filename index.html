@@ -240,8 +240,9 @@
             showSection('result-page');
         }
 
+        window.onload = buscarCotacao; 
+        setInterval(buscarCotacao, 60000);
         buscarCotacao();
-        setInterval(buscarCotacao, 30000);
     </script>
 
     <a href="https://wa.me/5511974788391" target="_blank" 
