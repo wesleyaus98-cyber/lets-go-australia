@@ -13,27 +13,32 @@
         .bg-australia-yellow { background-color: #FFCD00; }
         .premium-gradient { background: linear-gradient(135deg, #002B7F 0%, #001a4d 100%); border: 2px solid #FFCD00; }
         
-        /* AJUSTE PARA MOBILE NÃO SER TAMPADO PELA BARRA */
-        section { padding-bottom: 380px; } 
+        /* AJUSTE DE SEGURANÇA MÁXIMA PARA MOBILE */
+        section { padding-bottom: 550px !important; } 
         @media (min-width: 768px) {
-            section { padding-bottom: 180px; }
+            section { padding-bottom: 180px !important; }
         }
+        
+        /* Suavizar o scroll */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen">
 
     <section id="landing-page" class="min-h-[85vh] flex flex-col items-center justify-center text-center p-6 bg-australia-blue text-white">
         <div class="mb-4 px-4 py-1 border border-blue-400 rounded-full text-[10px] md:text-sm uppercase tracking-widest text-blue-200 text-center">Consultoria de Imigração e Intercâmbio</div>
-        <h1 class="text-3xl md:text-6xl font-bold mb-6">Viabilize seu projeto <span class="text-australia-yellow">Austrália</span></h1>
-        <p class="text-lg md:text-xl mb-10 max-w-3xl text-blue-100 leading-relaxed">Diagnóstico financeiro profissional baseado na cotação atual.</p>
+        <h1 class="text-3xl md:text-6xl font-bold mb-6 leading-tight">Viabilize seu projeto <span class="text-australia-yellow">Austrália</span></h1>
+        <p class="text-lg md:text-xl mb-12 max-w-3xl text-blue-100 leading-relaxed">Diagnóstico financeiro profissional baseado na cotação atual.</p>
         
-        <button onclick="showSection('form-page')" class="w-full md:w-auto bg-australia-yellow text-blue-900 font-bold py-4 px-12 rounded-lg text-lg hover:bg-yellow-400 transition-all shadow-xl uppercase tracking-wider mb-4">
+        <button onclick="showSection('form-page')" class="w-full md:w-auto bg-australia-yellow text-blue-900 font-bold py-5 px-12 rounded-xl text-xl hover:bg-yellow-400 transition-all shadow-[0_10px_25px_rgba(0,0,0,0.3)] uppercase tracking-wider mb-8">
             Solicitar Diagnóstico Gratuito
         </button>
 
-        <button onclick="showSection('sobre-mim')" class="text-blue-200 underline text-sm hover:text-white transition-all block">
+        <button onclick="showSection('sobre-mim')" class="text-blue-200 underline text-sm hover:text-white transition-all block mb-10">
             Conheça a minha história na Austrália 🇦🇺
         </button>
+        
+        <div class="h-20 md:hidden"></div>
     </section>
 
     <section id="sobre-mim" class="hidden min-h-screen py-12 px-6 bg-white text-gray-900">
@@ -54,65 +59,81 @@
                 </div>
             </div>
 
-            <div class="text-left space-y-4 text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
+            <div class="text-left space-y-4 text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto mb-12">
                 <p>Fala, futuro intercambista! Eu sou o <b>Wesley</b>.</p>
                 <p>Em 20XX, tomei a decisão que mudaria minha vida. Mas, como você, eu estava perdido nos números e com medo de faltar dinheiro.</p>
                 <p>Sei como o começo pode ser desafiador. Por isso, criei o <b>Plano Master</b> para que você tenha acesso imediato aos grupos de emprego e suporte que eu não tive no início.</p>
                 <p class="font-semibold text-blue-900">Decidi ajudar o próximo porque sei que, com a informação certa, o seu sucesso na Austrália chega muito mais rápido!</p>
             </div>
 
-            <button onclick="showSection('landing-page')" class="mt-12 bg-gray-200 text-gray-700 font-bold py-3 px-8 rounded-full hover:bg-gray-300 transition-all uppercase text-sm">
+            <button onclick="showSection('landing-page')" class="bg-gray-200 text-gray-700 font-bold py-4 px-10 rounded-full hover:bg-gray-300 transition-all uppercase text-sm mb-20">
                 Voltar ao Início
             </button>
+            
+            <div class="h-60 md:hidden"></div>
         </div>
     </section>
 
     <section id="form-page" class="hidden min-h-screen py-8 md:py-12 px-4 md:px-6">
         <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8">
-            <h2 class="text-xl md:text-2xl font-bold mb-6 text-australia-blue text-center">Análise de Perfil Financeiro</h2>
-            <form id="calc-form" onsubmit="generatePlan(event)" class="space-y-4">
-                <input type="text" id="nome" required placeholder="Nome Completo" class="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="email" id="email" required placeholder="Digite melhor E-mail" class="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+            <h2 class="text-xl md:text-2xl font-bold mb-6 text-australia-blue text-center uppercase tracking-tight">Análise Financeira</h2>
+            <form id="calc-form" onsubmit="generatePlan(event)" class="space-y-5">
+                <input type="text" id="nome" required placeholder="Seu Nome Completo" class="w-full p-4 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
+                <input type="email" id="email" required placeholder="Seu melhor E-mail" class="w-full p-4 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
                 
-                <select id="visto" class="w-full p-3 border border-gray-300 rounded-lg bg-white">
+                <select id="visto" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50 font-semibold text-gray-700">
                     <option value="working">Working Holiday (Subclass 462)</option>
                     <option value="student">Visto de Estudante (Subclass 500)</option>
                 </select>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="number" id="salario" required placeholder="Renda (R$)" class="w-full p-3 border border-gray-300 rounded-lg">
-                    <input type="number" id="guardar" required placeholder="Aporte (R$)" class="w-full p-3 border border-gray-300 rounded-lg">
+                    <div class="flex flex-col">
+                        <label class="text-[10px] font-bold text-gray-400 ml-2 mb-1">Renda Mensal (R$)</label>
+                        <input type="number" id="salario" required placeholder="Ex: 5000" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-[10px] font-bold text-gray-400 ml-2 mb-1">Pode Guardar (R$)</label>
+                        <input type="number" id="guardar" required placeholder="Ex: 1000" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50">
+                    </div>
                 </div>
                 
-                <input type="number" id="tempo" required placeholder="Tempo pretendido (Meses)" class="w-full p-3 border border-gray-300 rounded-lg">
+                <div class="flex flex-col">
+                    <label class="text-[10px] font-bold text-gray-400 ml-2 mb-1">Em quantos meses quer viajar?</label>
+                    <input type="number" id="tempo" required placeholder="Ex: 12" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50">
+                </div>
                 
-                <button type="submit" class="w-full bg-australia-blue text-white font-bold py-4 rounded-lg hover:bg-blue-900 transition-all uppercase">Gerar Diagnóstico</button>
-                <button type="button" onclick="showSection('landing-page')" class="w-full text-gray-400 text-sm mt-2">Cancelar</button>
+                <button type="submit" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl hover:bg-blue-900 transition-all uppercase shadow-lg mt-4 mb-2">Gerar Diagnóstico</button>
+                <button type="button" onclick="showSection('landing-page')" class="w-full text-gray-400 text-xs py-2 uppercase tracking-widest font-bold">Cancelar</button>
+                
+                <div class="h-10 md:hidden"></div>
             </form>
         </div>
+        <div class="h-40 md:hidden"></div>
     </section>
 
     <section id="result-page" class="hidden min-h-screen py-8 px-4 bg-gray-100">
         <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
             <div class="bg-australia-blue p-6 text-white text-center">
-                <h2 class="text-2xl font-bold italic" id="res-saudacao">Relatório de Viabilidade</h2>
+                <h2 class="text-2xl font-bold italic uppercase tracking-tighter" id="res-saudacao">Relatório Concluído</h2>
             </div>
             <div class="p-6 text-left">
-                <div id="res-diagnostico" class="bg-blue-50 p-5 rounded-xl mb-6 border border-blue-100 text-blue-900 leading-relaxed text-base md:text-lg"></div>
+                <div id="res-diagnostico" class="bg-blue-50 p-6 rounded-xl mb-8 border border-blue-100 text-blue-900 leading-relaxed text-base md:text-lg"></div>
                 
-                <div class="premium-gradient p-6 rounded-2xl text-white text-center">
-                    <h3 class="text-xl font-bold mb-4 italic">Quer o Plano Master? 🚀</h3>
-                    <p class="mb-6 text-blue-100 text-sm md:text-base">
-                        Custos reais, cronograma de visto e o brinde de links de grupos de emprego por apenas R$ 49,90.
+                <div class="premium-gradient p-8 rounded-2xl text-white text-center shadow-2xl">
+                    <h3 class="text-2xl font-black mb-4 italic text-australia-yellow">QUER O PLANO MASTER? 🚀</h3>
+                    <p class="mb-8 text-blue-100 text-sm md:text-base leading-relaxed">
+                        Custos reais detalhados, cronograma de visto e o acesso exclusivo aos nossos links de grupos de emprego.
                     </p>
-                    <a href="https://wa.me/5511974788391?text=Quero+o+Plano+Premium" class="inline-block bg-australia-yellow text-blue-900 font-black py-3 px-8 rounded-full hover:scale-105 transition-all text-sm uppercase">Liberar por R$ 49,90</a>
+                    <a href="https://wa.me/5511974788391?text=Quero+o+Plano+Premium" class="inline-block bg-australia-yellow text-blue-900 font-black py-4 px-10 rounded-full hover:scale-110 transition-all text-sm uppercase shadow-xl">Liberar por R$ 49,90</a>
                 </div>
-                <button onclick="showSection('landing-page')" class="w-full text-center mt-6 text-gray-500 underline text-sm">Fazer outro diagnóstico</button>
+                <button onclick="showSection('landing-page')" class="w-full text-center mt-10 text-gray-400 font-bold uppercase text-[10px] tracking-widest">Fazer outro diagnóstico</button>
+                
+                <div class="h-40 md:hidden"></div>
             </div>
         </div>
     </section>
 
-    <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
+    <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 shadow-[0_-5px_30px_rgba(0,0,0,0.15)]">
         <div class="max-w-5xl mx-auto p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-between w-full md:w-auto gap-8">
                 <div class="flex flex-col text-left">
@@ -184,9 +205,9 @@
             document.getElementById('res-saudacao').innerText = `Sr(a). ${nome}, Diagnóstico Concluído.`;
             
             document.getElementById('res-diagnostico').innerHTML = `
-                <p class="mb-3 italic">Com seu aporte de <b>R$ ${guardar.toLocaleString('pt-br', {minimumFractionDigits: 2})}</b> o tempo real de embarque seria de <b>${tempoReal} meses</b>.</p>
-                <p class="mb-4 italic">Para realizar seu sonho em <b>${tempoDesejado} meses</b> o aporte mensal seria de <b>R$ ${aporteIdeal.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b>.</p>
-                <p class="mt-6 font-bold text-blue-900 text-center">Clique no botão abaixo para analisarmos e já aproveite o plano premium.</p>
+                <p class="mb-4 italic">Com seu aporte atual de <b>R$ ${guardar.toLocaleString('pt-br', {minimumFractionDigits: 2})}</b>, o tempo real estimado para o seu projeto é de <b>${tempoReal} meses</b>.</p>
+                <p class="mb-4 italic font-semibold">Para atingir sua meta em <b>${tempoDesejado} meses</b>, o aporte mensal ideal seria de <b>R$ ${aporteIdeal.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b>.</p>
+                <p class="mt-6 font-bold text-blue-900 text-center border-t border-blue-200 pt-4 text-sm">Receba o detalhamento completo agora pelo Plano Master abaixo:</p>
             `;
 
             fetch("https://hook.us2.make.com/h4autqs8pdlhskimons1qlnf8cdp3dp4", {
