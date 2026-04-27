@@ -5,154 +5,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Let's Go Austrália | Consultoria Especializada</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .bg-australia-blue { background-color: #002B7F; }
         .text-australia-yellow { color: #FFCD00; }
         .bg-australia-yellow { background-color: #FFCD00; }
-        .premium-gradient { background: linear-gradient(135deg, #002B7F 0%, #001a4d 100%); border: 2px solid #FFCD00; }
         
-        /* AJUSTE DE SEGURANÇA MÁXIMA PARA MOBILE */
-        section { padding-bottom: 550px !important; } 
-        @media (min-width: 768px) {
-            section { padding-bottom: 180px !important; }
+        /* Efeito de Brilho no Botão VIP */
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #002B7F 0%, #001a4d 100%);
+            border: 2px solid #FFCD00;
         }
-        
-        /* Suavizar o scroll */
-        html { scroll-behavior: smooth; }
+        .glow-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(255, 205, 0, 0.4);
+            transform: rotate(30deg);
+            transition: none;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -60%; }
+            100% { left: 140%; }
+        }
+
+        /* Animação de Fade-In */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ajuste Mobile */
+        section { padding-bottom: 500px !important; }
+        @media (min-width: 768px) {
+            section { padding-bottom: 200px !important; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen">
 
-    <section id="landing-page" class="min-h-[85vh] flex flex-col items-center justify-center text-center p-6 bg-australia-blue text-white">
-        <div class="mb-4 px-4 py-1 border border-blue-400 rounded-full text-[10px] md:text-sm uppercase tracking-widest text-blue-200 text-center">Consultoria de Imigração e Intercâmbio</div>
-        <h1 class="text-3xl md:text-6xl font-bold mb-6 leading-tight">Viabilize seu projeto <span class="text-australia-yellow">Austrália</span></h1>
-        <p class="text-lg md:text-xl mb-12 max-w-3xl text-blue-100 leading-relaxed">Diagnóstico financeiro profissional baseado na cotação atual.</p>
+    <section id="landing-page" class="fade-in min-h-[85vh] flex flex-col items-center justify-center text-center p-6 bg-australia-blue text-white">
+        <div class="mb-4 px-4 py-1 border border-blue-400 rounded-full text-[10px] md:text-sm uppercase tracking-widest text-blue-200">Consultoria de Imigração e Intercâmbio</div>
+        <h1 class="text-3xl md:text-6xl font-black mb-6 leading-tight uppercase italic">Viabilize seu projeto <span class="text-australia-yellow">Austrália</span></h1>
+        <p class="text-lg md:text-xl mb-12 max-w-3xl text-blue-100 leading-relaxed font-light">Diagnóstico financeiro profissional baseado na cotação real e atualizada.</p>
         
-        <button onclick="showSection('form-page')" class="w-full md:w-auto bg-australia-yellow text-blue-900 font-bold py-5 px-12 rounded-xl text-xl hover:bg-yellow-400 transition-all shadow-[0_10px_25px_rgba(0,0,0,0.3)] uppercase tracking-wider mb-8">
+        <button onclick="showSection('form-page')" class="w-full md:w-auto bg-australia-yellow text-blue-900 font-black py-5 px-14 rounded-xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-widest mb-8">
             Solicitar Diagnóstico Gratuito
         </button>
 
         <button onclick="showSection('sobre-mim')" class="text-blue-200 underline text-sm hover:text-white transition-all block mb-10">
             Conheça a minha história na Austrália 🇦🇺
         </button>
-        
-        <div class="h-20 md:hidden"></div>
     </section>
 
-    <section id="sobre-mim" class="hidden min-h-screen py-12 px-6 bg-white text-gray-900">
+    <section id="sobre-mim" class="hidden fade-in py-12 px-6 bg-white text-gray-900">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl md:text-5xl font-black text-australia-blue mb-8 uppercase italic">Minha Trajetória</h2>
+            <h2 class="text-3xl md:text-5xl font-black text-australia-blue mb-8 uppercase italic underline decoration-australia-yellow">Minha Trajetória</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                <div class="rounded-2xl overflow-hidden shadow-lg h-80 bg-gray-200">
-                    <img src="URL_DA_SUA_FOTO_PRINCIPAL" class="w-full h-full object-cover" alt="Minha foto">
+                <div class="rounded-2xl overflow-hidden shadow-2xl h-80 bg-gray-200">
+                    <img src="URL_DA_SUA_FOTO_PRINCIPAL" class="w-full h-full object-cover">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="URL_FOTO_1" class="w-full h-full object-cover"></div>
                     <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="URL_FOTO_2" class="w-full h-full object-cover"></div>
                     <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="URL_FOTO_3" class="w-full h-full object-cover"></div>
-                    <div class="bg-australia-yellow rounded-xl flex items-center justify-center p-4 text-blue-900 font-bold text-[10px] uppercase">
-                        Vencendo na Austrália
+                    <div class="bg-australia-yellow rounded-xl flex items-center justify-center p-4 text-blue-900 font-bold text-[10px] uppercase italic text-center">
+                        Vencendo na <br> Austrália
                     </div>
                 </div>
             </div>
 
-            <div class="text-left space-y-4 text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto mb-12">
+            <div class="text-left space-y-6 text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto mb-16">
                 <p>Fala, futuro intercambista! Eu sou o <b>Wesley</b>.</p>
                 <p>Em 20XX, tomei a decisão que mudaria minha vida. Mas, como você, eu estava perdido nos números e com medo de faltar dinheiro.</p>
                 <p>Sei como o começo pode ser desafiador. Por isso, criei o <b>Plano Master</b> para que você tenha acesso imediato aos grupos de emprego e suporte que eu não tive no início.</p>
-                <p class="font-semibold text-blue-900">Decidi ajudar o próximo porque sei que, com a informação certa, o seu sucesso na Austrália chega muito mais rápido!</p>
+                <p class="font-bold text-blue-900 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-900">Decidi ajudar o próximo porque sei que, com a informação certa, o seu sucesso na Austrália chega muito mais rápido!</p>
             </div>
 
-            <button onclick="showSection('landing-page')" class="bg-gray-200 text-gray-700 font-bold py-4 px-10 rounded-full hover:bg-gray-300 transition-all uppercase text-sm mb-20">
-                Voltar ao Início
+            <button onclick="showSection('landing-page')" class="bg-gray-100 text-gray-500 font-bold py-4 px-10 rounded-full hover:bg-gray-200 transition-all uppercase text-xs tracking-widest">
+                ← Voltar ao Início
             </button>
-            
-            <div class="h-60 md:hidden"></div>
         </div>
     </section>
 
-    <section id="form-page" class="hidden min-h-screen py-8 md:py-12 px-4 md:px-6">
-        <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8">
-            <h2 class="text-xl md:text-2xl font-bold mb-6 text-australia-blue text-center uppercase tracking-tight">Análise Financeira</h2>
-            <form id="calc-form" onsubmit="generatePlan(event)" class="space-y-5">
-                <input type="text" id="nome" required placeholder="Seu Nome Completo" class="w-full p-4 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
-                <input type="email" id="email" required placeholder="Seu melhor E-mail" class="w-full p-4 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
+    <section id="form-page" class="hidden fade-in py-8 md:py-12 px-4 md:px-6">
+        <div class="max-w-xl mx-auto bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8">
+            <h2 class="text-2xl font-black mb-8 text-australia-blue text-center uppercase">Seu Perfil Financeiro</h2>
+            <form id="calc-form" onsubmit="handleFormSubmit(event)" class="space-y-5">
+                <input type="text" id="nome" required placeholder="Nome Completo" class="w-full p-4 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
+                <input type="email" id="email" required placeholder="Seu melhor E-mail" class="w-full p-4 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
                 
-                <select id="visto" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50 font-semibold text-gray-700">
+                <select id="visto" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 font-bold text-gray-600">
                     <option value="working">Working Holiday (Subclass 462)</option>
                     <option value="student">Visto de Estudante (Subclass 500)</option>
                 </select>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col">
-                        <label class="text-[10px] font-bold text-gray-400 ml-2 mb-1">Renda Mensal (R$)</label>
-                        <input type="number" id="salario" required placeholder="Ex: 5000" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50">
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-[10px] font-bold text-gray-400 ml-2 mb-1">Pode Guardar (R$)</label>
-                        <input type="number" id="guardar" required placeholder="Ex: 1000" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50">
-                    </div>
+                    <input type="number" id="salario" required placeholder="Renda (R$)" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
+                    <input type="number" id="guardar" required placeholder="Aporte (R$)" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
                 </div>
                 
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-bold text-gray-400 ml-2 mb-1">Em quantos meses quer viajar?</label>
-                    <input type="number" id="tempo" required placeholder="Ex: 12" class="w-full p-4 border border-gray-300 rounded-xl bg-gray-50">
-                </div>
+                <input type="number" id="tempo" required placeholder="Meta em Meses (Ex: 12)" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
                 
-                <button type="submit" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl hover:bg-blue-900 transition-all uppercase shadow-lg mt-4 mb-2">Gerar Diagnóstico</button>
-                <button type="button" onclick="showSection('landing-page')" class="w-full text-gray-400 text-xs py-2 uppercase tracking-widest font-bold">Cancelar</button>
-                
-                <div class="h-10 md:hidden"></div>
+                <button type="submit" id="btn-submit" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl hover:bg-blue-900 transition-all uppercase tracking-widest shadow-lg">
+                    Gerar Diagnóstico
+                </button>
+                <p id="error-msg" class="text-red-500 text-xs text-center hidden font-bold">Por favor, preencha valores válidos!</p>
             </form>
         </div>
-        <div class="h-40 md:hidden"></div>
     </section>
 
-    <section id="result-page" class="hidden min-h-screen py-8 px-4 bg-gray-100">
-        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <div class="bg-australia-blue p-6 text-white text-center">
-                <h2 class="text-2xl font-bold italic uppercase tracking-tighter" id="res-saudacao">Relatório Concluído</h2>
+    <section id="result-page" class="hidden fade-in py-8 px-4 bg-gray-50">
+        <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden mb-10">
+            <div class="bg-australia-blue p-8 text-white text-center">
+                <h2 class="text-2xl font-black italic uppercase" id="res-saudacao">Relatório Pronto</h2>
             </div>
-            <div class="p-6 text-left">
-                <div id="res-diagnostico" class="bg-blue-50 p-6 rounded-xl mb-8 border border-blue-100 text-blue-900 leading-relaxed text-base md:text-lg"></div>
+            <div class="p-8">
+                <div id="res-diagnostico" class="bg-blue-50 p-6 rounded-2xl mb-8 border border-blue-100 text-blue-900 text-lg leading-relaxed"></div>
                 
-                <div class="premium-gradient p-8 rounded-2xl text-white text-center shadow-2xl">
-                    <h3 class="text-2xl font-black mb-4 italic text-australia-yellow">QUER O PLANO MASTER? 🚀</h3>
-                    <p class="mb-8 text-blue-100 text-sm md:text-base leading-relaxed">
-                        Custos reais detalhados, cronograma de visto e o acesso exclusivo aos nossos links de grupos de emprego.
+                <div class="glow-button p-8 rounded-2xl text-white text-center shadow-2xl">
+                    <h3 class="text-2xl font-black mb-4 italic text-australia-yellow tracking-tighter">LIBERAR PLANO MASTER? 🚀</h3>
+                    <p class="mb-8 text-blue-100 text-sm leading-relaxed">
+                        Custos detalhados, cronograma completo e o bônus exclusivo de acesso aos grupos de emprego.
                     </p>
-                    <a href="https://wa.me/5511974788391?text=Quero+o+Plano+Premium" class="inline-block bg-australia-yellow text-blue-900 font-black py-4 px-10 rounded-full hover:scale-110 transition-all text-sm uppercase shadow-xl">Liberar por R$ 49,90</a>
+                    <a href="https://wa.me/5511974788391?text=Quero+o+Plano+Premium" class="inline-block bg-australia-yellow text-blue-900 font-black py-4 px-12 rounded-full hover:scale-110 transition-all text-sm uppercase shadow-xl tracking-widest">Garantir Acesso - R$ 49,90</a>
                 </div>
-                <button onclick="showSection('landing-page')" class="w-full text-center mt-10 text-gray-400 font-bold uppercase text-[10px] tracking-widest">Fazer outro diagnóstico</button>
-                
-                <div class="h-40 md:hidden"></div>
+
+                <div class="mt-16">
+                    <h4 class="text-center font-black text-gray-400 uppercase text-xs tracking-widest mb-8">Quem já utilizou:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 italic text-sm">
+                            "O diagnóstico me abriu os olhos sobre o aporte mensal. O Plano Master valeu cada centavo pelos grupos!" - <b>Ricardo M.</b> ⭐⭐⭐⭐⭐
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 italic text-sm">
+                            "Muito prático! O suporte do Wesley no Whats depois da compra foi 10/10." - <b>Ana Paula S.</b> ⭐⭐⭐⭐⭐
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 space-y-4">
+                    <h4 class="text-center font-black text-australia-blue uppercase text-sm mb-6">Perguntas Frequentes</h4>
+                    <details class="bg-white border border-gray-200 rounded-xl p-4 cursor-pointer">
+                        <summary class="font-bold text-gray-700">O diagnóstico é atualizado?</summary>
+                        <p class="text-gray-500 text-sm mt-2">Sim! Usamos a cotação do câmbio em tempo real para os cálculos.</p>
+                    </details>
+                    <details class="bg-white border border-gray-200 rounded-xl p-4 cursor-pointer">
+                        <summary class="font-bold text-gray-700">O que vem no Plano Master?</summary>
+                        <p class="text-gray-500 text-sm mt-2">Planilha de custos detalhada, guia de vistos e links de grupos de emprego no WhatsApp.</p>
+                    </details>
+                </div>
+
+                <button onclick="showSection('landing-page')" class="w-full text-center mt-12 text-gray-400 font-bold uppercase text-[10px] tracking-widest">← Novo Diagnóstico</button>
             </div>
         </div>
     </section>
 
-    <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 shadow-[0_-5px_30px_rgba(0,0,0,0.15)]">
+    <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
         <div class="max-w-5xl mx-auto p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center justify-between w-full md:w-auto gap-8">
                 <div class="flex flex-col text-left">
-                    <span class="text-[9px] font-bold text-green-600 uppercase tracking-widest">Câmbio Live</span>
-                    <h3 class="text-base md:text-lg font-black text-blue-900 italic">AUD / BRL</h3>
+                    <span class="text-[10px] font-black text-green-600 uppercase tracking-widest">Câmbio Live</span>
+                    <h3 class="text-base md:text-xl font-black text-blue-900 italic tracking-tighter">AUD / BRL</h3>
                 </div>
                 <div class="text-right">
-                    <p id="cotacao-val" class="text-3xl md:text-4xl font-black text-gray-900 italic tracking-tighter">R$ ---</p>
-                    <p id="cotacao-data" class="text-[9px] text-gray-400 italic">Sincronizando...</p>
+                    <p id="cotacao-val" class="text-3xl md:text-5xl font-black text-gray-900 italic tracking-tighter">R$ ---</p>
+                    <p id="cotacao-data" class="text-[9px] text-gray-400 italic">Sincronizando mercado...</p>
                 </div>
             </div>
-            <div class="w-full md:w-1/2 bg-gray-50 p-3 rounded-xl border border-gray-100 flex gap-4">
-                <div class="relative w-1/2 text-left">
-                    <label class="text-[9px] font-bold text-blue-600 absolute -top-2 left-2 bg-gray-50 px-1">BRL</label>
-                    <input type="number" id="conv-brl" oninput="converter('BRL')" class="w-full p-2 bg-transparent border-b border-gray-300 outline-none font-bold text-sm">
+            <div class="w-full md:w-1/2 bg-gray-50 p-4 rounded-2xl border border-gray-200 flex gap-4">
+                <div class="relative w-1/2">
+                    <label class="text-[9px] font-black text-blue-600 absolute -top-2 left-2 bg-gray-50 px-1 uppercase">Reais</label>
+                    <input type="number" id="conv-brl" oninput="converter('BRL')" class="w-full p-3 bg-transparent border-b-2 border-gray-300 outline-none font-black text-lg">
                 </div>
-                <div class="relative w-1/2 text-left">
-                    <label class="text-[9px] font-bold text-yellow-600 absolute -top-2 left-2 bg-gray-50 px-1">AUD</label>
-                    <input type="number" id="conv-aud" oninput="converter('AUD')" class="w-full p-2 bg-transparent border-b border-gray-300 outline-none font-bold text-sm">
+                <div class="relative w-1/2">
+                    <label class="text-[9px] font-black text-yellow-600 absolute -top-2 left-2 bg-gray-50 px-1 uppercase">Dólares</label>
+                    <input type="number" id="conv-aud" oninput="converter('AUD')" class="w-full p-3 bg-transparent border-b-2 border-gray-300 outline-none font-black text-lg text-australia-yellow">
                 </div>
             </div>
         </div>
@@ -169,7 +205,7 @@
                     cotacaoAUD = parseFloat(data.AUDBRL.bid);
                     document.getElementById('cotacao-val').innerText = `R$ ${cotacaoAUD.toFixed(2)}`;
                     const agora = new Date();
-                    document.getElementById('cotacao-data').innerText = `Atualizado às ${agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
+                    document.getElementById('cotacao-data').innerText = `Sync: ${agora.toLocaleTimeString('pt-BR')}`;
                     document.getElementById('conv-brl').value = 1000;
                     converter('BRL');
                 }
@@ -186,11 +222,33 @@
         function showSection(id) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
-            window.scrollTo(0,0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function generatePlan(e) {
+        function handleFormSubmit(e) {
             e.preventDefault();
+            const btn = document.getElementById('btn-submit');
+            const guardar = parseFloat(document.getElementById('guardar').value);
+            
+            if(guardar <= 0) {
+                document.getElementById('error-msg').classList.remove('hidden');
+                return;
+            }
+
+            // Simulação de processamento da IA
+            btn.disabled = true;
+            btn.innerHTML = "Processando com IA...";
+            btn.classList.add('opacity-50');
+
+            setTimeout(() => {
+                generatePlan();
+                btn.disabled = false;
+                btn.innerHTML = "Gerar Diagnóstico";
+                btn.classList.remove('opacity-50');
+            }, 1500);
+        }
+
+        function generatePlan() {
             const nome = document.getElementById('nome').value;
             const email = document.getElementById('email').value;
             const guardar = parseFloat(document.getElementById('guardar').value);
@@ -205,9 +263,8 @@
             document.getElementById('res-saudacao').innerText = `Sr(a). ${nome}, Diagnóstico Concluído.`;
             
             document.getElementById('res-diagnostico').innerHTML = `
-                <p class="mb-4 italic">Com seu aporte atual de <b>R$ ${guardar.toLocaleString('pt-br', {minimumFractionDigits: 2})}</b>, o tempo real estimado para o seu projeto é de <b>${tempoReal} meses</b>.</p>
-                <p class="mb-4 italic font-semibold">Para atingir sua meta em <b>${tempoDesejado} meses</b>, o aporte mensal ideal seria de <b>R$ ${aporteIdeal.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b>.</p>
-                <p class="mt-6 font-bold text-blue-900 text-center border-t border-blue-200 pt-4 text-sm">Receba o detalhamento completo agora pelo Plano Master abaixo:</p>
+                <p class="mb-4">Para embarcar em <b>${tempoDesejado} meses</b>, seu aporte mensal deveria ser de <br><span class="text-2xl font-black text-blue-900">R$ ${aporteIdeal.toLocaleString('pt-br', {minimumFractionDigits: 2})}</span></p>
+                <p class="text-sm text-gray-500 italic">Com o seu aporte atual de R$ ${guardar.toLocaleString('pt-br')}, o tempo real de espera seria de <b>${tempoReal} meses</b>.</p>
             `;
 
             fetch("https://hook.us2.make.com/h4autqs8pdlhskimons1qlnf8cdp3dp4", {
