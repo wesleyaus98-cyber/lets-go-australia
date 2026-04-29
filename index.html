@@ -7,13 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Permitir rolagem e suavidade */
-        html, body { 
-            height: auto; 
-            overflow-x: hidden; 
-            scroll-behavior: smooth;
+        /* Correção de Scroll e Altura */
+        html { height: -webkit-fill-available; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth; 
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            min-height: 100vh;
         }
-        body { font-family: 'Inter', sans-serif; }
         
         .bg-australia-blue { background-color: #002B7F; }
         .text-australia-yellow { color: #FFCD00; }
@@ -21,17 +23,26 @@
         
         .hidden { display: none !important; }
 
-        /* Ajuste de Espaçamento para o Rodapé Fixo */
-        /* Criamos um espaço bem grande no final de cada seção para os botões não ficarem atrás da barra */
+        /* Ajuste para seções não ficarem presas à altura da tela */
         section { 
-            padding-bottom: 250px !important; 
-            min-height: 100vh;
+            position: relative;
+            width: 100%;
+            padding-bottom: 250px !important; /* Espaço para a barra de cotação */
+        }
+
+        /* Espaçador extra para mobile no final de cada seção */
+        .mobile-spacer {
+            height: 150px;
+            width: 100%;
+            display: block;
         }
 
         @media (max-width: 768px) {
-            section { padding-bottom: 400px !important; } /* Espaço maior no mobile */
+            section { padding-bottom: 350px !important; }
+            h1 { font-size: 2.2rem !important; }
         }
 
+        /* Efeito de Brilho no Botão VIP */
         .glow-button {
             position: relative;
             overflow: hidden;
@@ -47,23 +58,23 @@
             animation: shimmer 3s infinite;
         }
         @keyframes shimmer { 0% { left: -60%; } 100% { left: 140%; } }
-        
+
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
-    <section id="home-quiz" class="fade-in flex flex-col items-center justify-center p-6 bg-australia-blue text-white">
+    <section id="home-quiz" class="fade-in flex flex-col items-center justify-center p-6 bg-australia-blue text-white min-h-screen">
         <div class="max-w-2xl w-full text-center">
             <div class="mb-6 px-4 py-1 border border-blue-400 rounded-full text-[10px] md:text-sm uppercase tracking-widest text-blue-200 inline-block">Seja bem-vindo à Let's Go Austrália</div>
-            <h1 class="text-3xl md:text-5xl font-black mb-4 leading-tight uppercase">Descubra qual visto combina <br><span class="text-australia-yellow">com você</span></h1>
-            <p class="text-blue-100 mb-10 font-light">Responda 4 perguntas rápidas para começar.</p>
+            <h1 class="text-3xl md:text-5xl font-black mb-4 leading-tight uppercase">Qual visto combina <br><span class="text-australia-yellow">com você?</span></h1>
+            <p class="text-blue-100 mb-10 font-light">Planeje sua ida com base no seu perfil, objetivo e orçamento.</p>
 
             <div id="quiz-box" class="bg-white text-gray-900 rounded-3xl p-8 shadow-2xl text-left space-y-6">
                 <div>
                     <label class="block font-bold text-australia-blue mb-2">1. Qual sua idade?</label>
-                    <select id="q-idade" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-yellow-500 font-medium text-gray-700">
+                    <select id="q-idade" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
                         <option value="18-24">18 a 24 anos</option>
                         <option value="25-30">25 a 30 anos</option>
                         <option value="31+">31 anos ou mais</option>
@@ -71,7 +82,7 @@
                 </div>
                 <div>
                     <label class="block font-bold text-australia-blue mb-2">2. Seu objetivo principal?</label>
-                    <select id="q-objetivo" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-yellow-500 font-medium text-gray-700">
+                    <select id="q-objetivo" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
                         <option value="estudar">Estudar e me qualificar</option>
                         <option value="trabalhar">Trabalhar e juntar dinheiro</option>
                         <option value="experiencia">Viver uma experiência (Gap Year)</option>
@@ -80,38 +91,41 @@
                 </div>
                 <div>
                     <label class="block font-bold text-australia-blue mb-2">3. Tem pelo menos 2 anos de faculdade?</label>
-                    <select id="q-faculdade" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-yellow-500 font-medium text-gray-700">
+                    <select id="q-faculdade" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
                         <option value="sim">Sim, completo ou cursando</option>
                         <option value="nao">Não</option>
                     </select>
                 </div>
                 <div>
                     <label class="block font-bold text-australia-blue mb-2">4. Como está seu inglês?</label>
-                    <select id="q-ingles" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-yellow-500 font-medium text-gray-700">
+                    <select id="q-ingles" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
                         <option value="basico">Básico (Entendo pouco ou nada)</option>
                         <option value="intermediario">Intermediário (Consigo me comunicar)</option>
                         <option value="avancado">Pronto para prova (IELTS/PTE)</option>
                     </select>
                 </div>
-                <button onclick="processarQuiz()" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl hover:bg-blue-900 transition-all uppercase tracking-widest shadow-lg">Ver Meu Resultado</button>
+                <button onclick="processarQuiz()" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl uppercase tracking-widest">Ver Meu Resultado</button>
             </div>
 
             <div id="quiz-result" class="hidden bg-white text-gray-900 rounded-3xl p-8 shadow-2xl text-center fade-in">
                 <div class="text-5xl mb-4">🎯</div>
                 <h2 class="text-2xl font-black text-australia-blue uppercase mb-2" id="visto-titulo">Resultado</h2>
                 <p class="text-gray-600 mb-8 leading-relaxed" id="visto-descricao"></p>
-                <button onclick="showSection('landing-page')" class="w-full bg-australia-yellow text-blue-900 font-black py-5 rounded-xl hover:scale-105 transition-all uppercase tracking-widest shadow-lg">Solicitar Diagnóstico Financeiro 🚀</button>
+                <button onclick="showSection('landing-page')" class="w-full bg-australia-yellow text-blue-900 font-black py-5 rounded-xl uppercase tracking-widest shadow-lg">Solicitar Diagnóstico Financeiro 🚀</button>
             </div>
+            <div class="mobile-spacer"></div>
         </div>
     </section>
 
     <main id="original-content" class="hidden">
-        <section id="landing-page" class="fade-in flex flex-col items-center justify-center text-center p-6 bg-australia-blue text-white">
+        
+        <section id="landing-page" class="fade-in flex flex-col items-center justify-center text-center p-6 bg-australia-blue text-white min-h-screen">
             <div class="mb-4 px-4 py-1 border border-blue-400 rounded-full text-[10px] md:text-sm uppercase tracking-widest text-blue-200">Consultoria de Imigração e Intercâmbio</div>
             <h1 class="text-3xl md:text-6xl font-black mb-6 leading-tight uppercase italic">Viabilize seu projeto <span class="text-australia-yellow">Austrália</span></h1>
             <p class="text-lg md:text-xl mb-12 max-w-3xl text-blue-100 leading-relaxed font-light">Diagnóstico financeiro profissional baseado na cotação real e atualizada.</p>
-            <button onclick="showSection('form-page')" class="w-full md:w-auto bg-australia-yellow text-blue-900 font-black py-5 px-14 rounded-xl text-xl hover:scale-105 transition-all shadow-2xl uppercase tracking-widest mb-8">Solicitar Diagnóstico Gratuito</button>
-            <button onclick="showSection('sobre-mim')" class="text-blue-200 underline text-sm hover:text-white transition-all block mb-10">Conheça a minha história na Austrália 🇦🇺</button>
+            <button onclick="showSection('form-page')" class="w-full md:w-auto bg-australia-yellow text-blue-900 font-black py-5 px-14 rounded-xl text-xl uppercase tracking-widest mb-8">Solicitar Diagnóstico Gratuito</button>
+            <button onclick="showSection('sobre-mim')" class="text-blue-200 underline text-sm block mb-10">Conheça a minha história na Austrália 🇦🇺</button>
+            <div class="mobile-spacer"></div>
         </section>
 
         <section id="sobre-mim" class="hidden fade-in py-12 px-6 bg-white text-gray-900">
@@ -122,76 +136,80 @@
                         <img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-operahouse.jpeg" class="w-full h-full object-cover">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-manlybeach.jpeg" class="w-full h-full object-cover"></div>
-                        <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-canguru.jpeg" class="w-full h-full object-cover"></div>
-                        <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-bluemountains.jpeg" class="w-full h-full object-cover"></div>
-                        <div class="rounded-xl overflow-hidden shadow-md h-36 bg-gray-100"><img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-figure8.jpeg" class="w-full h-full object-cover"></div>
-                        <div class="bg-australia-yellow rounded-xl flex items-center justify-center p-4 text-blue-900 font-bold text-[10px] uppercase italic text-center">Vencendo na <br> Austrália</div>
+                        <img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-manlybeach.jpeg" class="rounded-xl h-36 w-full object-cover">
+                        <img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-canguru.jpeg" class="rounded-xl h-36 w-full object-cover">
+                        <img src="https://raw.githubusercontent.com/wesleyaus98-cyber/lets-go-australia/refs/heads/main/wesley-bluemountains.jpeg" class="rounded-xl h-36 w-full object-cover">
+                        <div class="bg-australia-yellow rounded-xl flex items-center justify-center p-4 text-blue-900 font-bold text-[10px] uppercase italic text-center">Vencendo na Austrália</div>
                     </div>
                 </div>
                 <div class="text-left space-y-6 text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto mb-16">
                     <p>Fala, futuro intercambista! Eu sou o <b>Wesley</b>.</p>
-                    <p>Em 2024, tomei a decisão que mudaria minha vida. Mas, como você, eu estava perdido nos números e com medo de faltar dinheiro.</p>
-                    <p>Sei como o começo pode ser desafiador. Por isso, criei o <b>Plano Master</b> para que você tenha acesso imediato aos grupos de emprego e suporte que eu não tive no início.</p>
-                    <p class="font-bold text-blue-900 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-900">Decidi ajudar o próximo porque sei que, com a informação certa, o seu sucesso na Austrália chega muito mais rápido!</p>
+                    <p>Em 2024, tomei a decisão que mudaria minha vida. Sei como o começo pode ser desafiador. Por isso, criei o <b>Plano Master</b> para você ter o suporte que eu não tive.</p>
                 </div>
-                <button onclick="showSection('landing-page')" class="bg-gray-100 text-gray-500 font-bold py-4 px-10 rounded-full hover:bg-gray-200 transition-all uppercase text-xs tracking-widest">← Voltar ao Início</button>
+                <button onclick="showSection('landing-page')" class="bg-gray-100 text-gray-500 font-bold py-4 px-10 rounded-full uppercase text-xs tracking-widest">← Voltar ao Início</button>
+                <div class="mobile-spacer"></div>
             </div>
         </section>
 
-        <section id="form-page" class="hidden fade-in py-8 md:py-12 px-4 md:px-6 bg-white">
-            <div class="max-w-xl mx-auto bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8">
+        <section id="form-page" class="hidden fade-in py-8 md:py-12 px-4 md:px-6">
+            <div class="max-w-xl mx-auto bg-white rounded-3xl shadow-2xl p-8">
                 <h2 class="text-2xl font-black mb-8 text-australia-blue text-center uppercase">Seu Perfil Financeiro</h2>
                 <form id="calc-form" onsubmit="handleFormSubmit(event)" class="space-y-5">
-                    <input type="text" id="nome" required placeholder="Nome Completo" class="w-full p-4 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
-                    <input type="email" id="email" required placeholder="Seu melhor E-mail" class="w-full p-4 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
-                    <select id="visto" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 font-bold text-gray-600">
+                    <input type="text" id="nome" required placeholder="Nome Completo" class="w-full p-4 border rounded-xl bg-gray-50">
+                    <input type="email" id="email" required placeholder="Seu melhor E-mail" class="w-full p-4 border rounded-xl bg-gray-50">
+                    <select id="visto" class="w-full p-4 border rounded-xl bg-gray-50 font-bold">
                         <option value="working">Working Holiday (Subclass 462)</option>
                         <option value="student">Visto de Estudante (Subclass 500)</option>
                     </select>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="number" id="salario" required placeholder="Renda (R$)" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
-                        <input type="number" id="guardar" required placeholder="Aporte (R$)" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
+                        <input type="number" id="salario" required placeholder="Renda (R$)" class="w-full p-4 border rounded-xl bg-gray-50">
+                        <input type="number" id="guardar" required placeholder="Aporte (R$)" class="w-full p-4 border rounded-xl bg-gray-50">
                     </div>
-                    <input type="number" id="tempo" required placeholder="Meta em Meses (Ex: 12)" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50">
-                    <button type="submit" id="btn-submit" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl hover:bg-blue-900 transition-all uppercase tracking-widest shadow-lg">Gerar Diagnóstico</button>
-                    <p id="error-msg" class="text-red-500 text-xs text-center hidden font-bold">Por favor, preencha valores válidos!</p>
+                    <input type="number" id="tempo" required placeholder="Meta em Meses" class="w-full p-4 border rounded-xl bg-gray-50">
+                    <button type="submit" id="btn-submit" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl uppercase">Gerar Diagnóstico</button>
                 </form>
+                <div class="mobile-spacer"></div>
             </div>
         </section>
 
         <section id="result-page" class="hidden fade-in py-8 px-4 bg-gray-50">
-            <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden mb-10">
+            <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
                 <div class="bg-australia-blue p-8 text-white text-center">
-                    <h2 class="text-2xl font-black italic uppercase" id="res-saudacao">Relatório Pronto</h2>
+                    <h2 class="text-2xl font-black uppercase" id="res-saudacao">Relatório Pronto</h2>
                 </div>
                 <div class="p-8">
                     <div id="res-diagnostico" class="bg-blue-50 p-6 rounded-2xl mb-8 border border-blue-100 text-blue-900 text-lg leading-relaxed"></div>
-                    <div class="glow-button p-8 rounded-2xl text-white text-center shadow-2xl">
-                        <h3 class="text-2xl font-black mb-4 italic text-australia-yellow tracking-tighter">LIBERAR PLANO MASTER? 🚀</h3>
-                        <p class="mb-8 text-blue-100 text-sm leading-relaxed">Custos detalhados, cronograma completo e o bônus exclusivo de acesso aos grupos de emprego.</p>
-                        <a href="https://wa.me/5511974788391?text=Olá,+Quero+o+Plano+Premium" class="inline-block bg-australia-yellow text-blue-900 font-black py-4 px-12 rounded-full hover:scale-110 transition-all text-sm uppercase shadow-xl tracking-widest">Garantir Acesso - R$ 49,90</a>
+                    <div class="glow-button p-8 rounded-2xl text-white text-center shadow-2xl mb-8">
+                        <h3 class="text-2xl font-black mb-4 italic text-australia-yellow">LIBERAR PLANO MASTER? 🚀</h3>
+                        <a href="https://wa.me/5511974788391?text=Olá,+Quero+o+Plano+Premium" class="inline-block bg-australia-yellow text-blue-900 font-black py-4 px-12 rounded-full uppercase text-sm">Garantir Acesso - R$ 49,90</a>
                     </div>
-                    <button onclick="showSection('landing-page')" class="w-full text-center mt-12 text-gray-400 font-bold uppercase text-[10px] tracking-widest">← Novo Diagnóstico</button>
+                    <button onclick="showSection('landing-page')" class="w-full text-center text-gray-400 font-bold uppercase text-[10px]">← Novo Diagnóstico</button>
                 </div>
+                <div class="mobile-spacer"></div>
             </div>
         </section>
 
-        <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-[9999] shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-[9999] shadow-2xl">
             <div class="max-w-5xl mx-auto p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center justify-between w-full md:w-auto gap-8">
                     <div class="flex flex-col text-left">
                         <span class="text-[10px] font-black text-green-600 uppercase tracking-widest">Câmbio Live</span>
-                        <h3 class="text-base md:text-xl font-black text-blue-900 italic tracking-tighter">AUD / BRL</h3>
+                        <h3 class="text-base md:text-xl font-black text-blue-900 italic">AUD / BRL</h3>
                     </div>
                     <div class="text-right">
-                        <p id="cotacao-val" class="text-3xl md:text-5xl font-black text-gray-900 italic tracking-tighter">R$ ---</p>
-                        <p id="cotacao-data" class="text-[9px] text-gray-400 italic">Sincronizando mercado...</p>
+                        <p id="cotacao-val" class="text-3xl md:text-5xl font-black text-gray-900 italic">R$ ---</p>
+                        <p id="cotacao-data" class="text-[9px] text-gray-400">Sincronizando mercado...</p>
                     </div>
                 </div>
-                <div class="w-full md:w-1/2 bg-gray-50 p-4 rounded-2xl border border-gray-200 flex gap-4">
-                    <div class="relative w-1/2"><label class="text-[9px] font-black text-blue-600 absolute -top-2 left-2 bg-gray-50 px-1 uppercase">Reais</label><input type="number" id="conv-brl" oninput="converter('BRL')" class="w-full p-3 bg-transparent border-b-2 border-gray-300 outline-none font-black text-lg"></div>
-                    <div class="relative w-1/2"><label class="text-[9px] font-black text-yellow-600 absolute -top-2 left-2 bg-gray-50 px-1 uppercase">Dólares</label><input type="number" id="conv-aud" oninput="converter('AUD')" class="w-full p-3 bg-transparent border-b-2 border-gray-300 outline-none font-black text-lg text-australia-yellow"></div>
+                <div class="w-full md:w-1/2 bg-gray-50 p-4 rounded-2xl border flex gap-4">
+                    <div class="relative w-1/2">
+                        <input type="number" id="conv-brl" oninput="converter('BRL')" class="w-full p-3 bg-transparent border-b-2 font-black text-lg">
+                        <label class="text-[9px] font-black text-blue-600 absolute -top-2 left-2 bg-gray-50 px-1 uppercase text-xs">Reais</label>
+                    </div>
+                    <div class="relative w-1/2">
+                        <input type="number" id="conv-aud" oninput="converter('AUD')" class="w-full p-3 bg-transparent border-b-2 font-black text-lg text-australia-yellow">
+                        <label class="text-[9px] font-black text-yellow-600 absolute -top-2 left-2 bg-gray-50 px-1 uppercase text-xs">Dólares</label>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -209,11 +227,11 @@
 
             if (idade === "31+" || faculdade === "nao" || ingles === "basico" || objetivo === "estudar") {
                 visto = "Visto de Estudante (Subclass 500)";
-                desc = "Com base no seu perfil, o visto de estudante é a sua melhor porta de entrada. Ele permite que você se qualifique, aprenda o idioma e trabalhe legalmente na Austrália.";
+                desc = "Com base no seu perfil, o visto de estudante é a sua melhor porta de entrada para se qualificar e trabalhar legalmente.";
                 document.getElementById('visto').value = 'student';
             } else {
                 visto = "Work and Holiday (Subclass 462)";
-                desc = "Excelente! Você tem o perfil ideal para o WHV. Este visto permite que você trabalhe em tempo integral e viaje pelo país. É a melhor opção para quem quer liberdade.";
+                desc = "Excelente! Você tem o perfil ideal para o WHV. Melhor opção para quem quer liberdade e economia.";
                 document.getElementById('visto').value = 'working';
             }
             document.getElementById('quiz-box').classList.add('hidden');
@@ -257,8 +275,8 @@
         function handleFormSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-submit');
-            btn.disabled = true; btn.innerHTML = "Processando com IA..."; btn.classList.add('opacity-50');
-            setTimeout(() => { generatePlan(); btn.disabled = false; btn.innerHTML = "Gerar Diagnóstico"; btn.classList.remove('opacity-50'); }, 1500);
+            btn.disabled = true; btn.innerHTML = "Processando...";
+            setTimeout(() => { generatePlan(); btn.disabled = false; btn.innerHTML = "Gerar Diagnóstico"; }, 1500);
         }
 
         function generatePlan() {
@@ -271,14 +289,8 @@
             let metaBRL = metaAUD * cotacaoAUD;
             const tempoReal = Math.ceil(metaBRL / guardar);
             const aporteIdeal = (metaBRL / tempoDesejado);
-            document.getElementById('res-saudacao').innerText = `Sr(a). ${nome}, Diagnóstico Concluído.`;
-            document.getElementById('res-diagnostico').innerHTML = `
-                <p class="mb-4">Para embarcar em <b>${tempoDesejado} meses</b>, seu aporte mensal deveria ser de <br><span class="text-2xl font-black text-blue-900">R$ ${aporteIdeal.toLocaleString('pt-br', {minimumFractionDigits: 2})}</span></p>
-                <p class="text-sm text-gray-500 italic">Com o seu aporte atual de R$ ${guardar.toLocaleString('pt-br')}, o tempo real de espera seria de <b>${tempoReal} meses</b>.</p>`;
-            fetch("https://hook.us2.make.com/h4autqs8pdlhskimons1qlnf8cdp3dp4", {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome, email, visto: tipoVisto, guardarMensal: guardar, tempoDesejado, tempoRealMeses: tempoReal })
-            });
+            document.getElementById('res-saudacao').innerText = `${nome}, Diagnóstico Concluído.`;
+            document.getElementById('res-diagnostico').innerHTML = `<p>Para embarcar em <b>${tempoDesejado} meses</b>, seu aporte mensal deveria ser de <br><span class="text-2xl font-black text-blue-900">R$ ${aporteIdeal.toLocaleString('pt-br', {minimumFractionDigits: 2})}</span></p>`;
             showSection('result-page');
         }
 
