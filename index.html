@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Let's Go Austrália | Smart Intelligence Platform</title>
+    <title>Let's Go Austrália | Intelligence Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -12,262 +12,221 @@
         .bg-australia-blue { background-color: var(--aus-blue); }
         .text-australia-yellow { color: var(--aus-yellow); }
         .bg-australia-yellow { background-color: var(--aus-yellow); }
-        .border-aus-yellow { border-color: var(--aus-yellow); }
-
-        /* SaaS Premium Elements */
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #f1f5f9; }
-        .premium-lock { position: relative; overflow: hidden; }
-        .premium-blur { filter: blur(6px); pointer-events: none; user-select: none; opacity: 0.5; }
-        .lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.3); z-index: 10; }
         
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .progress-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s; }
+        /* Efeito de desfoque parcial mais elegante */
+        .premium-blur { filter: blur(5px); opacity: 0.3; user-select: none; pointer-events: none; }
+        .lock-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 70%; background: linear-gradient(transparent, white 40%); display: flex; align-items: center; justify-content: center; z-index: 20; }
         
-        /* Botão VIP com brilho */
-        .glow-button { position: relative; overflow: hidden; transition: 0.3s; }
-        .glow-button::after {
-            content: ''; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%;
-            background: rgba(255, 205, 0, 0.4); transform: rotate(30deg); animation: shimmer 4s infinite;
-        }
-        @keyframes shimmer { 0% { left: -60%; } 100% { left: 140%; } }
+        .progress-bar { transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-back { transition: all 0.2s; }
+        .btn-back:hover { transform: translateX(-5px); opacity: 0.7; }
     </style>
 </head>
 <body class="text-slate-900">
 
+    <nav id="nav-back" class="hidden fixed top-0 left-0 w-full p-4 z-[100] bg-white/90 backdrop-blur-md border-b border-slate-100 flex justify-between items-center">
+        <button onclick="goBack()" class="btn-back flex items-center gap-2 text-[10px] font-black text-australia-blue uppercase tracking-widest">
+            <span>←</span> Voltar
+        </button>
+        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Let's Go Austrália Intelligence</span>
+    </nav>
+
     <section id="home-quiz" class="fade-in flex flex-col items-center justify-center p-6 bg-australia-blue text-white min-h-screen">
         <div class="max-w-2xl w-full text-center">
-            <div class="mb-4 px-4 py-1 border border-blue-400 rounded-full text-[10px] uppercase tracking-widest text-blue-200 inline-block">Let's Go Austrália Intelligence</div>
-            <h1 class="text-4xl md:text-5xl font-black mb-4 uppercase italic">Qual visto combina <br><span class="text-australia-yellow">com você?</span></h1>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 uppercase italic tracking-tighter">Austrália <br><span class="text-australia-yellow">Intelligence</span></h1>
+            <p class="text-blue-100 mb-10 font-light">Diagnóstico de visto, simulador financeiro e GTE com Inteligência Artificial.</p>
             
-            <div id="quiz-box" class="bg-white text-gray-900 rounded-[2rem] p-8 mt-8 shadow-2xl text-left space-y-5">
-                <div>
-                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">1. Qual sua idade?</label>
-                    <select id="q-idade" class="w-full p-4 border border-slate-100 rounded-xl bg-slate-50 outline-none">
-                        <option value="20">18 a 24 anos</option>
-                        <option value="27">25 a 30 anos</option>
-                        <option value="35">31 anos ou mais</option>
-                    </select>
+            <div id="quiz-box" class="bg-white text-gray-900 rounded-[2.5rem] p-8 md:p-12 shadow-2xl text-left space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">Idade</label>
+                        <select id="q-idade" class="w-full p-4 border border-slate-100 rounded-xl bg-slate-50 outline-none">
+                            <option value="20">18 a 24 anos</option>
+                            <option value="27" selected>25 a 30 anos</option>
+                            <option value="35">31 anos ou mais</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">Formação</label>
+                        <select id="q-faculdade" class="w-full p-4 border border-slate-100 rounded-xl bg-slate-50 outline-none">
+                            <option value="sim">Superior Cursando/Completo</option>
+                            <option value="nao">Ensino Médio</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">2. Tem pelo menos 2 anos de faculdade?</label>
-                    <select id="q-faculdade" class="w-full p-4 border border-slate-100 rounded-xl bg-slate-50 outline-none">
-                        <option value="sim">Sim, completo ou cursando</option>
-                        <option value="nao">Não</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">3. Como está seu inglês?</label>
-                    <select id="q-ingles" class="w-full p-4 border border-slate-100 rounded-xl bg-slate-50 outline-none">
-                        <option value="1">Básico</option>
-                        <option value="2">Intermediário</option>
-                        <option value="3">Avançado</option>
-                    </select>
-                </div>
-                <button onclick="processarQuiz()" class="w-full bg-australia-blue text-white font-black py-5 rounded-xl uppercase tracking-widest shadow-lg">Ver Meu Resultado</button>
+                <button onclick="processarQuiz()" class="w-full bg-australia-blue text-white font-black py-5 rounded-2xl uppercase tracking-[0.2em] shadow-xl hover:bg-blue-800 transition-all">Iniciar Diagnóstico Gratuito</button>
             </div>
         </div>
     </section>
 
-    <section id="quiz-result-screen" class="hidden fade-in flex flex-col items-center justify-center p-6 bg-australia-blue text-white min-h-screen">
-        <div class="max-w-xl w-full bg-white text-slate-900 rounded-[2.5rem] p-10 shadow-2xl text-center">
-            <div class="text-4xl mb-4">🎯</div>
-            <h2 class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-2">Visto Recomendado</h2>
+    <section id="quiz-result-screen" class="hidden fade-in flex flex-col items-center justify-center p-6 bg-australia-blue text-white min-h-screen pt-24">
+        <div class="max-w-xl w-full bg-white text-slate-900 rounded-[3rem] p-10 shadow-2xl text-center">
+            <div class="inline-block px-4 py-1 bg-green-50 text-green-600 rounded-full text-[10px] font-bold uppercase mb-4 tracking-widest">Perfil Analisado</div>
             <h3 class="text-3xl font-black text-australia-blue uppercase mb-6" id="res-visto-nome">---</h3>
-            
             <div class="grid grid-cols-2 gap-4 text-left mb-8">
-                <div class="p-4 bg-slate-50 rounded-2xl">
-                    <p class="text-[9px] font-black text-slate-400 uppercase">Cidade Sugerida</p>
-                    <p class="font-bold text-slate-700" id="res-visto-cidade">Gold Coast</p>
+                <div class="p-5 bg-slate-50 rounded-3xl border border-slate-100">
+                    <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Custo Base</p>
+                    <p class="font-black text-slate-700 text-lg" id="res-visto-custo">--</p>
                 </div>
-                <div class="p-4 bg-slate-50 rounded-2xl">
-                    <p class="text-[9px] font-black text-slate-400 uppercase">Faixa de Custo</p>
-                    <p class="font-bold text-slate-700" id="res-visto-custo">R$ 25.000</p>
-                </div>
-                <div class="p-4 bg-slate-50 rounded-2xl col-span-2">
-                    <p class="text-[9px] font-black text-slate-400 uppercase">Curso Sugerido</p>
-                    <p class="font-bold text-slate-700" id="res-visto-curso">Certificate IV in Business / English</p>
+                <div class="p-5 bg-slate-50 rounded-3xl border border-slate-100">
+                    <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Cidade Foco</p>
+                    <p class="font-black text-slate-700 text-lg" id="res-visto-cidade">--</p>
                 </div>
             </div>
-
-            <button onclick="showSection('smart-planner')" class="w-full bg-australia-yellow text-blue-900 font-black py-5 rounded-xl uppercase tracking-widest shadow-xl">Iniciar Planejamento Financeiro 🚀</button>
+            <button onclick="showSection('smart-planner')" class="w-full bg-australia-yellow text-blue-900 font-black py-5 rounded-2xl uppercase tracking-widest shadow-xl">Configurar Smart Planner</button>
         </div>
     </section>
 
-    <main id="main-content" class="hidden pb-32">
+    <main id="main-content" class="hidden pb-32 pt-24">
         
         <section id="smart-planner" class="fade-in py-12 px-4 max-w-4xl mx-auto">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-black text-australia-blue uppercase italic tracking-tighter">Smart <span class="text-australia-yellow">Australia Planner</span></h2>
-                <p class="text-slate-500">Preencha os dados para calcular sua viabilidade financeira.</p>
+                <h2 class="text-3xl font-black text-australia-blue uppercase italic tracking-tighter">Smart <span class="text-australia-yellow">Planner</span></h2>
+                <p class="text-slate-500 text-sm">Planeje seu embarque com precisão financeira.</p>
             </div>
 
-            <div class="bg-white rounded-[2rem] p-8 md:p-12 shadow-xl border border-slate-100">
+            <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-slate-100 mb-10">
                 <form id="planner-form" onsubmit="handlePlanner(event)" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-slate-400">Salário Mensal (R$)</label>
-                        <input type="number" id="p-salario" required class="w-full p-4 bg-slate-50 rounded-xl outline-none focus:ring-2 ring-blue-600">
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Sua Profissão no Brasil</label>
+                        <input type="text" id="p-profissao" required placeholder="Ex: Designer, Vendedor, Advogado" class="w-full p-4 bg-slate-50 rounded-xl outline-none border focus:border-blue-600">
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-slate-400">Aporte Mensal (R$)</label>
-                        <input type="number" id="p-guarda" required class="w-full p-4 bg-slate-50 rounded-xl outline-none focus:ring-2 ring-blue-600">
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Cargo Desejado (Pós-Intercâmbio)</label>
+                        <input type="text" id="p-cargo-meta" required placeholder="Ex: Gerente, Diretor" class="w-full p-4 bg-slate-50 rounded-xl outline-none border focus:border-blue-600">
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-slate-400">Reserva Atual (R$)</label>
-                        <input type="number" id="p-reserva" required class="w-full p-4 bg-slate-50 rounded-xl outline-none focus:ring-2 ring-blue-600">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-slate-400">Virá com acompanhante?</label>
-                        <select id="p-acompanhante" class="w-full p-4 bg-slate-50 rounded-xl outline-none">
-                            <option value="nao">Não, sozinho(a)</option>
-                            <option value="sim">Sim, parceiro(a)</option>
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Possui Bens? (Casa/Carro)</label>
+                        <select id="p-bens" class="w-full p-4 bg-slate-50 rounded-xl border outline-none">
+                            <option value="nenhum">Não possuo</option>
+                            <option value="veiculo">Veículo</option>
+                            <option value="imovel">Imóvel</option>
+                            <option value="ambos">Casa e Carro</option>
                         </select>
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-slate-400">Cidade Desejada</label>
-                        <select id="p-cidade" class="w-full p-4 bg-slate-50 rounded-xl outline-none">
-                            <option value="goldcoast">Gold Coast (Custo Médio)</option>
-                            <option value="sydney">Sydney (Custo Alto)</option>
-                            <option value="perth">Perth (Custo Baixo)</option>
-                        </select>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase text-slate-400">Prazo para embarque</label>
-                        <select id="p-prazo" class="w-full p-4 bg-slate-50 rounded-xl outline-none">
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Em quantos meses quer ir?</label>
+                        <select id="p-meses-meta" class="w-full p-4 bg-slate-50 rounded-xl border outline-none">
                             <option value="6">6 meses</option>
-                            <option value="12">12 meses</option>
-                            <option value="24">24 meses</option>
+                            <option value="12" selected>12 meses</option>
+                            <option value="18">18 meses</option>
                         </select>
                     </div>
-                    <button type="submit" class="md:col-span-2 w-full bg-australia-blue text-white font-black py-5 rounded-xl uppercase tracking-widest mt-4">Gerar Estimativa e Score</button>
+                    <div class="md:col-span-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400 mb-2 block tracking-widest">Reserva Atual (R$)</label>
+                        <input type="number" id="p-reserva" value="5000" class="w-full p-4 bg-slate-50 rounded-xl border outline-none">
+                    </div>
+                    <button type="submit" class="md:col-span-2 w-full bg-australia-blue text-white font-black py-5 rounded-xl uppercase tracking-[0.2em] shadow-lg">Gerar Diagnóstico Financeiro</button>
                 </form>
             </div>
 
-            <div id="planner-result" class="hidden mt-10 space-y-6 fade-in">
+            <div id="planner-result" class="hidden space-y-6 fade-in">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-blue-600 p-6 rounded-3xl text-white text-center shadow-lg">
-                        <p class="text-[9px] uppercase font-bold opacity-70">Tempo p/ Embarque</p>
-                        <p class="text-2xl font-black italic" id="res-meses">--</p>
+                    <div class="bg-blue-600 p-8 rounded-[2rem] text-white text-center shadow-blue-900/20 shadow-xl">
+                        <p class="text-[9px] uppercase font-bold opacity-70 mb-2 tracking-widest">Aporte Mensal</p>
+                        <p class="text-3xl font-black italic" id="res-aporte">R$ --</p>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl border text-center shadow-sm">
-                        <p class="text-[9px] uppercase font-bold text-slate-400">Investimento Total</p>
-                        <p class="text-2xl font-black" id="res-investimento">--</p>
+                    <div class="bg-white p-8 rounded-[2rem] border text-center shadow-sm">
+                        <p class="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Custo Total</p>
+                        <p class="text-2xl font-black text-slate-800" id="res-investimento">R$ --</p>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl border text-center shadow-sm">
-                        <p class="text-[9px] uppercase font-bold text-slate-400">Score Financeiro</p>
-                        <p class="text-2xl font-black" id="res-score-f">--</p>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-[2rem] border border-slate-100 relative premium-lock">
-                    <h4 class="text-xs font-black uppercase text-blue-600 mb-6 italic">Análise de Recomendação</h4>
-                    <div id="res-feedback-texto" class="text-sm leading-relaxed text-slate-600 mb-6"></div>
-                    
-                    <div class="premium-blur">
-                        <h4 class="text-xs font-black uppercase text-slate-400 mb-4 italic">Estratégia Avançada de Aplicação</h4>
-                        <div class="h-4 bg-slate-100 rounded w-full mb-2"></div>
-                        <div class="h-4 bg-slate-100 rounded w-3/4"></div>
-                    </div>
-                    <div class="lock-overlay">
-                        <button onclick="showSection('visa-intelligence')" class="bg-australia-yellow text-blue-900 font-black py-3 px-8 rounded-full text-[10px] uppercase tracking-widest shadow-lg">Liberar Inteligência Completa 🔒</button>
+                    <div class="bg-white p-8 rounded-[2rem] border text-center shadow-sm">
+                        <p class="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Score de Saúde</p>
+                        <p class="text-3xl font-black" id="res-score-f">--</p>
                     </div>
                 </div>
+                <button onclick="showSection('visa-intelligence')" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl uppercase tracking-widest">Ver Dashboard de Inteligência →</button>
             </div>
         </section>
 
-        <section id="visa-intelligence" class="hidden fade-in py-12 px-4 max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-                <div>
-                    <h2 class="text-3xl font-black text-australia-blue uppercase italic">Australia <span class="text-australia-yellow">Visa Intelligence</span></h2>
-                    <p class="text-slate-500 text-sm">Dashboard de análise de risco e força de aplicação.</p>
+        <section id="visa-intelligence" class="hidden fade-in py-12 px-4 max-w-5xl mx-auto">
+            <h2 class="text-3xl font-black text-australia-blue uppercase italic text-center mb-10">Visa <span class="text-australia-yellow">Intelligence</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-8 rounded-[2rem] border shadow-sm">
+                    <div class="flex justify-between mb-4"><span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Financeiro</span><span id="txt-s-fin" class="font-black">--</span></div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div id="bar-fin" class="progress-bar h-full"></div></div>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] border shadow-sm">
+                    <div class="flex justify-between mb-4"><span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Vínculos Brasil</span><span id="txt-s-vin" class="font-black">--</span></div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div id="bar-vin" class="progress-bar h-full"></div></div>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] border shadow-sm">
+                    <div class="flex justify-between mb-4"><span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Potencial Carreira</span><span id="txt-s-his" class="font-black">--</span></div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div id="bar-his" class="progress-bar h-full"></div></div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="bg-white p-6 rounded-3xl border shadow-sm">
-                    <span class="text-2xl">💰</span>
-                    <h4 class="text-[10px] font-black uppercase text-slate-400 mt-4">Financeiro</h4>
-                    <p class="text-xl font-black" id="score-fin">--</p>
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full mt-2"><div id="bar-fin" class="progress-bar h-full rounded-full"></div></div>
+            <div onclick="showSection('letter-ai')" class="bg-australia-blue p-10 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between cursor-pointer hover:bg-blue-900 transition-all border border-blue-400/20">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <h3 class="text-2xl font-black text-australia-yellow uppercase italic mb-2">Gerar Minha GTE (Carta de Intenção)</h3>
+                    <p class="text-blue-100 text-sm font-light">Nossa IA criará o rascunho baseado em <span class="res-ai-prof font-bold">...</span></p>
                 </div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm premium-lock">
-                    <span class="text-2xl">🤝</span>
-                    <h4 class="text-[10px] font-black uppercase text-slate-400 mt-4">Sponsor</h4>
-                    <p class="text-xl font-black text-slate-300">--</p>
-                    <div class="lock-overlay text-[8px] font-bold text-blue-900 uppercase bg-white/60">Premium</div>
-                </div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm">
-                    <span class="text-2xl">🏠</span>
-                    <h4 class="text-[10px] font-black uppercase text-slate-400 mt-4">Vínculos</h4>
-                    <p class="text-xl font-black" id="score-vin">--</p>
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full mt-2"><div id="bar-vin" class="progress-bar h-full rounded-full"></div></div>
-                </div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm">
-                    <span class="text-2xl">🎓</span>
-                    <h4 class="text-[10px] font-black uppercase text-slate-400 mt-4">Histórico</h4>
-                    <p class="text-xl font-black" id="score-his">--</p>
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full mt-2"><div id="bar-his" class="progress-bar h-full rounded-full"></div></div>
-                </div>
-                <div onclick="showSection('letter-ai')" class="bg-australia-blue p-6 rounded-3xl shadow-lg cursor-pointer">
-                    <span class="text-2xl">📝</span>
-                    <h4 class="text-[10px] font-black uppercase text-blue-200 mt-4">GTE AI</h4>
-                    <p class="text-sm font-bold text-white">Gerar Carta</p>
-                    <p class="text-[9px] text-blue-300 mt-2">Clique para iniciar</p>
-                </div>
-            </div>
-
-            <div class="mt-10 glow-button bg-white border border-aus-yellow/40 p-10 rounded-[2.5rem] text-center shadow-xl">
-                <h3 class="text-2xl font-black text-australia-blue uppercase italic mb-2">Plano Master Premium 💎</h3>
-                <p class="text-slate-500 text-sm mb-6">Análise detalhada de sponsor, checklist de documentos e estratégia personalizada.</p>
-                <a href="https://wa.me/5511974788391?text=Olá+Wesley,+vi+meu+score+e+quero+o+Plano+Premium" class="inline-block bg-australia-blue text-white font-black py-4 px-12 rounded-full uppercase text-xs tracking-widest">Garantir Acesso - R$ 49,90</a>
+                <div class="bg-white/10 px-8 py-4 rounded-2xl border border-white/20 font-black uppercase text-xs tracking-widest">Iniciar IA 📝</div>
             </div>
         </section>
 
         <section id="letter-ai" class="hidden fade-in py-12 px-4 max-w-4xl mx-auto">
-            <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl">
-                <h2 class="text-3xl font-black text-australia-blue uppercase italic mb-8">AI GTE Generator</h2>
-                
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="space-y-4">
-                        <label class="text-xs font-black uppercase text-slate-400">Por que Austrália e por que este curso?</label>
-                        <textarea id="ai-pergunta-1" class="w-full p-5 bg-slate-50 rounded-2xl h-32 outline-none" placeholder="Conte seus objetivos profissionais..."></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" id="ai-profissao" placeholder="Sua profissão atual" class="p-4 bg-slate-50 rounded-xl outline-none">
-                        <input type="number" id="ai-renda" placeholder="Sua renda mensal" class="p-4 bg-slate-50 rounded-xl outline-none">
-                    </div>
-                    <button onclick="gerarCarta()" class="w-full bg-australia-yellow text-blue-900 font-black py-5 rounded-xl uppercase tracking-widest shadow-lg">Gerar Rascunho Profissional (Preview)</button>
+            <div class="bg-white rounded-[3rem] p-10 shadow-2xl relative overflow-hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-black text-australia-blue uppercase italic">Sua Carta de Intenção</h2>
+                    <span class="px-4 py-1 bg-green-100 text-green-700 rounded-full text-[9px] font-black uppercase tracking-widest">Preview Gratuito Ativo</span>
                 </div>
 
-                <div id="carta-result" class="hidden mt-10 p-8 border rounded-3xl relative premium-lock">
-                    <div class="premium-blur">
-                        <h4 class="font-serif text-xl mb-4">Statement of Purpose</h4>
-                        <p class="text-sm italic leading-relaxed">To the Department of Home Affairs, I am writing to formally apply for the Student Visa... Having worked as a <span id="res-job">...</span> for several years, my goal is to enhance my skills in...</p>
+                <div class="mb-10">
+                    <h4 class="text-xs font-black uppercase text-slate-400 mb-4 tracking-widest">Estrutura Gerada pela IA:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-2 bg-slate-100 rounded-lg text-[10px] font-bold text-slate-600">1. Formal Introduction</span>
+                        <span class="px-3 py-2 bg-slate-100 rounded-lg text-[10px] font-bold text-slate-600">2. Academic Background</span>
+                        <span class="px-3 py-2 bg-slate-100 rounded-lg text-[10px] font-bold text-slate-600">3. Career Goals in Brazil</span>
+                        <span class="px-3 py-2 bg-slate-100 rounded-lg text-[10px] font-bold text-slate-600">4. Financial Evidence</span>
+                        <span class="px-3 py-2 bg-slate-100 rounded-lg text-[10px] font-bold text-slate-600">5. Conclusion & Ties</span>
                     </div>
-                    <div class="lock-overlay flex-col text-center p-6 bg-white/60">
-                        <span class="text-3xl mb-4">🔒</span>
-                        <h4 class="text-xl font-black text-blue-900 uppercase italic mb-4">Carta Completa Disponível</h4>
-                        <button onclick="irParaPagamento()" class="bg-australia-blue text-white font-black py-4 px-10 rounded-full uppercase text-[10px] tracking-widest">Pagar e Desbloquear Carta</button>
+                </div>
+
+                <div class="p-8 border border-slate-100 rounded-3xl bg-slate-50 relative min-h-[400px]">
+                    <div class="space-y-6">
+                        <div class="mb-6">
+                            <p class="text-xs font-black text-blue-600 uppercase mb-2">Introduction (Free Preview):</p>
+                            <p class="text-sm font-serif italic leading-relaxed text-slate-700 bg-white p-4 rounded-xl shadow-sm">
+                                "Dear Case Officer, I am writing to formally apply for the Student Visa (Subclass 500). 
+                                Having established a professional background as a <b><span class="res-ai-prof text-blue-800">...</span></b> in Brazil, 
+                                my primary objective in seeking an Australian qualification is to return to my home country and pursue a 
+                                career as a <b><span class="res-ai-meta text-blue-800">...</span></b>."
+                            </p>
+                        </div>
+
+                        <div class="premium-blur space-y-4">
+                            <p class="text-sm font-serif italic">Furthermore, the choice of the Australian education system is based on its international reputation for excellence. My academic history in Brazil provided me with a solid foundation, yet the specialization offered in Australia will bridge the gap to my next professional milestone...</p>
+                            <p class="text-sm font-serif italic">Regarding my return to Brazil, I possess strong ties including <span id="res-ai-bens">...</span> and family commitments that require my presence after the conclusion of my studies...</p>
+                        </div>
+                    </div>
+
+                    <div class="lock-overlay">
+                        <div class="text-center p-8 bg-white/95 rounded-3xl shadow-2xl border border-aus-yellow/30 max-w-sm">
+                            <span class="text-3xl mb-4 block">💎</span>
+                            <h4 class="text-lg font-black text-blue-900 uppercase mb-2 italic">Gostou da Introdução?</h4>
+                            <p class="text-slate-500 text-[11px] mb-6 leading-relaxed">Libere os outros 4 parágrafos estratégicos, formatados para as exigências da imigração e revisados pelo Wesley.</p>
+                            <button onclick="irParaPagamento()" class="w-full bg-australia-blue text-white font-black py-4 rounded-xl uppercase text-[10px] tracking-[0.2em] shadow-xl hover:scale-105 transition-all">Desbloquear Carta Completa</button>
+                            <p class="text-[9px] text-slate-400 mt-4 uppercase">Pagamento único via PIX - R$ 49,90</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
     <script>
         let userData = {
-            visto: 'student',
-            idade: 25,
-            faculdade: 'sim',
-            ingles: 2,
-            target: 45000,
-            cidade: 'Gold Coast'
+            visto: 'student', costBase: 48000, idade: 25, faculdade: 'sim', ingles: 2, 
+            profissao: '', meta: '', bens: '', currentStep: 'home-quiz'
         };
 
         function getScoreColor(val) {
-            if (val < 50) return '#ef4444';
+            if (val < 50) return '#ef4444'; 
             if (val <= 75) return '#f59e0b';
             return '#22c55e';
         }
@@ -275,94 +234,106 @@
         function processarQuiz() {
             userData.idade = parseInt(document.getElementById('q-idade').value);
             userData.faculdade = document.getElementById('q-faculdade').value;
-            userData.ingles = parseInt(document.getElementById('q-ingles').value);
 
-            if (userData.idade < 31 && userData.faculdade === 'sim' && userData.ingles >= 2) {
+            if (userData.idade < 31 && userData.faculdade === 'sim') {
                 userData.visto = 'Working Holiday (S462)';
-                userData.target = 25000;
-                userData.cidade = 'Perth';
-                document.getElementById('res-visto-curso').innerText = "Não Obrigatório (Foco em Trabalho)";
+                userData.costBase = 30000;
+                document.getElementById('res-visto-cidade').innerText = "Perth / Gold Coast";
             } else {
                 userData.visto = 'Visto de Estudante (S500)';
-                userData.target = 48000;
-                userData.cidade = 'Gold Coast';
-                document.getElementById('res-visto-curso').innerText = "Certificate IV in Business / English";
+                userData.costBase = 48000;
+                document.getElementById('res-visto-cidade').innerText = "Sydney / Brisbane";
             }
 
             document.getElementById('res-visto-nome').innerText = userData.visto;
-            document.getElementById('res-visto-cidade').innerText = userData.cidade;
-            document.getElementById('res-visto-custo').innerText = "R$ " + userData.target.toLocaleString();
-
-            document.getElementById('home-quiz').classList.add('hidden');
-            document.getElementById('quiz-result-screen').classList.remove('hidden');
+            document.getElementById('res-visto-custo').innerText = "R$ " + userData.costBase.toLocaleString();
+            showSection('quiz-result-screen');
         }
 
         function handlePlanner(e) {
             e.preventDefault();
-            const guarda = parseFloat(document.getElementById('p-guarda').value);
-            const reserva = parseFloat(document.getElementById('p-reserva').value);
-            const prazo = parseInt(document.getElementById('p-prazo').value);
+            userData.profissao = document.getElementById('p-profissao').value;
+            userData.meta = document.getElementById('p-cargo-meta').value;
+            userData.bens = document.getElementById('p-bens').value;
             
-            const falta = Math.max(0, userData.target - reserva);
-            const meses = guarda > 0 ? Math.ceil(falta / guarda) : '∞';
-            const scoreF = Math.min(100, Math.floor((reserva / userData.target) * 100) + (guarda / 500));
+            const reserva = parseFloat(document.getElementById('p-reserva').value) || 0;
+            const mesesMeta = parseInt(document.getElementById('p-meses-meta').value);
+
+            const falta = Math.max(0, userData.costBase - reserva);
+            const aporte = falta / mesesMeta;
+            
+            // Score Financeiro
+            let sFin = 100 - (aporte / 100);
+            sFin = Math.min(100, Math.max(20, sFin));
+
+            // Score Vínculos
+            let sVin = 30;
+            if (userData.bens === 'veiculo') sVin += 25;
+            if (userData.bens === 'imovel') sVin += 45;
+            if (userData.bens === 'ambos') sVin += 60;
+            if (userData.idade > 27) sVin += 10;
 
             document.getElementById('planner-result').classList.remove('hidden');
-            document.getElementById('res-meses').innerText = meses + " meses";
-            document.getElementById('res-investimento').innerText = "R$ " + userData.target.toLocaleString();
+            document.getElementById('res-aporte').innerText = "R$ " + Math.ceil(aporte).toLocaleString();
+            document.getElementById('res-investimento').innerText = "R$ " + userData.costBase.toLocaleString();
             
-            const fScore = document.getElementById('res-score-f');
-            fScore.innerText = scoreF + "/100";
-            fScore.style.color = getScoreColor(scoreF);
+            const scoreF = document.getElementById('res-score-f');
+            scoreF.innerText = sFin.toFixed(0) + "/100";
+            scoreF.style.color = getScoreColor(sFin);
 
-            // Feedback Texto
-            let feedback = `Seu perfil financeiro está <b>${scoreF > 70 ? 'Forte' : 'Moderado'}</b>. `;
-            if (meses <= prazo) feedback += `Você está dentro do cronograma para embarcar em ${prazo} meses.`;
-            else feedback += `Para embarcar no prazo desejado, você precisa aumentar seu aporte para R$ ${Math.ceil(falta/prazo)}.`;
-            
-            document.getElementById('res-feedback-texto').innerHTML = feedback;
-
-            // Atualiza Dashboard Inteligente
-            updateIntelligence(scoreF);
+            updateIntelligence(sFin, sVin, 85);
+            updateAIText();
         }
 
-        function updateIntelligence(sFin) {
-            let sVin = (userData.idade > 24 ? 40 : 20) + (userData.faculdade === 'sim' ? 40 : 10);
-            let sHis = (userData.faculdade === 'sim' ? 50 : 20) + (userData.ingles * 15);
-
-            const metrics = [
-                { id: 'fin', val: sFin },
-                { id: 'vin', val: sVin },
-                { id: 'his', val: sHis }
+        function updateIntelligence(f, v, h) {
+            const scores = [
+                { id: 'fin', val: f }, { id: 'vin', val: v }, { id: 'his', val: h }
             ];
-
-            metrics.forEach(m => {
-                const bar = document.getElementById('bar-' + m.id);
-                const txt = document.getElementById('score-' + m.id);
-                bar.style.width = m.val + "%";
-                bar.style.backgroundColor = getScoreColor(m.val);
-                txt.innerText = m.val + "/100";
-                txt.style.color = getScoreColor(m.val);
+            scores.forEach(s => {
+                const bar = document.getElementById('bar-' + s.id);
+                const txt = document.getElementById('txt-s-' + s.id);
+                bar.style.width = s.val + "%";
+                bar.style.backgroundColor = getScoreColor(s.val);
+                txt.innerText = s.val.toFixed(0) + "/100";
+                txt.style.color = getScoreColor(s.val);
             });
         }
 
-        function gerarCarta() {
-            document.getElementById('res-job').innerText = document.getElementById('ai-profissao').value;
-            document.getElementById('carta-result').classList.remove('hidden');
-        }
-
-        function irParaPagamento() {
-            const msg = encodeURIComponent(`Olá Wesley! Gerei meu planejamento no site e quero desbloquear minha Carta de Intenção e Análise Premium.\n\nPerfil: ${userData.visto}\nScore: ${document.getElementById('res-score-f').innerText}`);
-            window.location.href = `https://wa.me/5511974788391?text=${msg}`;
+        function updateAIText() {
+            document.querySelectorAll('.res-ai-prof').forEach(el => el.innerText = userData.profissao);
+            document.querySelectorAll('.res-ai-meta').forEach(el => el.innerText = userData.meta);
+            document.getElementById('res-ai-bens').innerText = userData.bens === 'nenhum' ? 'family commitments' : 'ownership of ' + userData.bens;
         }
 
         function showSection(id) {
-            document.getElementById('home-quiz').classList.add('hidden');
-            document.getElementById('quiz-result-screen').classList.add('hidden');
+            const sections = ['home-quiz', 'quiz-result-screen', 'smart-planner', 'visa-intelligence', 'letter-ai'];
+            sections.forEach(s => document.getElementById(s).classList.add('hidden'));
+            
+            document.getElementById('nav-back').classList.remove('hidden');
             document.getElementById('main-content').classList.remove('hidden');
-            ['smart-planner', 'visa-intelligence', 'letter-ai'].forEach(s => document.getElementById(s).classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
+            userData.currentStep = id;
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBack() {
+            const steps = {
+                'quiz-result-screen': 'home-quiz',
+                'smart-planner': 'quiz-result-screen',
+                'visa-intelligence': 'smart-planner',
+                'letter-ai': 'visa-intelligence'
+            };
+            const prev = steps[userData.currentStep];
+            if (prev === 'home-quiz') {
+                document.getElementById('nav-back').classList.add('hidden');
+                document.getElementById('main-content').classList.add('hidden');
+            }
+            showSection(prev);
+        }
+
+        function irParaPagamento() {
+            const msg = encodeURIComponent(`Olá Wesley! Gostei muito da introdução da GTE que a IA gerou para meu perfil de ${userData.profissao}.\n\nQuero desbloquear a carta completa e o Plano Premium.`);
+            window.location.href = `https://wa.me/5511974788391?text=${msg}`;
         }
     </script>
 </body>
