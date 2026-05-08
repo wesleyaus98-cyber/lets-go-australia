@@ -22,6 +22,9 @@
     --muted:      #6E7A94;
     --border:     #E4E6EE;
     --border-dark: rgba(255,255,255,0.1);
+    --ok:         #16a34a;
+    --warn:       #d97706;
+    --risk:       #dc2626;
     --radius-sm:  8px;
     --radius-md:  14px;
     --radius-lg:  22px;
@@ -34,7 +37,6 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
   body {
@@ -46,7 +48,6 @@
     overflow-x: hidden;
   }
 
-  /* ─── Grain overlay ─────────────────────────────── */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -57,12 +58,9 @@
     background-size: 180px 180px;
   }
 
-  /* ─── Typography ────────────────────────────────── */
   .font-display { font-family: 'Syne', sans-serif; }
-
   h1, h2 { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
 
-  /* ─── Screens ───────────────────────────────────── */
   .screen { display: none; animation: screenIn 0.4s cubic-bezier(0.4,0,0.2,1) both; }
   .screen.active { display: block; }
 
@@ -71,11 +69,9 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ─── Shared layout helpers ─────────────────────── */
   .container { width: 100%; max-width: 680px; margin: 0 auto; padding: 0 20px; }
-  .container-wide { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+  .container-wide { width: 100%; max-width: 920px; margin: 0 auto; padding: 0 20px; }
 
-  /* ─── SCREEN: QUIZ ──────────────────────────────── */
   #screen-quiz {
     background: var(--navy);
     min-height: 100dvh;
@@ -92,11 +88,7 @@
       var(--navy);
   }
 
-  .quiz-hero-content {
-    position: relative;
-    z-index: 1;
-    padding: 52px 0 48px;
-  }
+  .quiz-hero-content { position: relative; z-index: 1; padding: 52px 0 48px; }
 
   .eyebrow {
     display: inline-flex;
@@ -147,7 +139,6 @@
     max-width: 440px;
   }
 
-  /* ─── Quiz Card ─────────────────────────────────── */
   .quiz-card {
     background: #fff;
     border-radius: var(--radius-xl);
@@ -245,7 +236,6 @@
     background: #fff;
   }
 
-  /* ─── Buttons ───────────────────────────────────── */
   .btn-primary {
     display: flex;
     align-items: center;
@@ -266,14 +256,6 @@
     transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
     position: relative;
     overflow: hidden;
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0);
-    transition: background var(--transition);
   }
 
   .btn-primary:hover {
@@ -341,16 +323,18 @@
 
   .btn-ghost-dark:hover { border-color: var(--navy); color: var(--navy); }
 
-  /* ─── Quiz Result Card ──────────────────────────── */
+  /* Quiz Result + insight grid */
   .quiz-result-card {
     background: #fff;
     border-radius: var(--radius-xl);
     padding: 40px 32px;
     box-shadow: var(--shadow-lg);
-    text-align: center;
+    text-align: left;
     display: none;
     animation: screenIn 0.4s both;
   }
+
+  .quiz-result-top { text-align: center; margin-bottom: 24px; }
 
   .quiz-result-icon {
     width: 72px; height: 72px;
@@ -388,13 +372,71 @@
     font-size: 15px;
     color: var(--muted);
     line-height: 1.75;
-    margin-bottom: 32px;
-    max-width: 360px;
+    margin-bottom: 0;
+    max-width: 420px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* ─── SCREEN: LANDING ───────────────────────────── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0 24px;
+  }
+
+  @media (max-width: 520px) { .insight-grid { grid-template-columns: 1fr; } }
+
+  .insight-tile {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    text-align: left;
+  }
+
+  .insight-tile-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .insight-tile-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.25;
+  }
+
+  .stack-cta { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 14px;
+  }
+
+  .link-pill {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--gold-pale);
+    border: 1px solid rgba(245,184,0,0.45);
+    border-radius: 999px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+
+  .link-pill:hover { background: #fff3b0; }
+
+  /* Landing */
   #screen-landing {
     background: var(--navy);
     min-height: 100dvh;
@@ -410,11 +452,7 @@
       var(--navy);
   }
 
-  .landing-content {
-    position: relative; z-index: 1;
-    padding: 72px 0 56px;
-    text-align: center;
-  }
+  .landing-content { position: relative; z-index: 1; padding: 72px 0 56px; text-align: center; }
 
   .trust-row {
     display: flex;
@@ -435,12 +473,7 @@
     white-space: nowrap;
   }
 
-  .trust-dot {
-    width: 5px; height: 5px;
-    background: var(--gold);
-    border-radius: 50%;
-    opacity: 0.7;
-  }
+  .trust-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; opacity: 0.7; }
 
   .landing-title {
     font-family: 'Syne', sans-serif;
@@ -452,10 +485,7 @@
     margin-bottom: 18px;
   }
 
-  .landing-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
+  .landing-title em { font-style: italic; color: var(--gold); }
 
   .landing-sub {
     font-size: clamp(1rem, 2.5vw, 1.15rem);
@@ -472,7 +502,7 @@
     align-items: center;
     gap: 14px;
     max-width: 380px;
-    margin: 0 auto 52px;
+    margin: 0 auto 24px;
   }
 
   .btn-cta-main {
@@ -502,17 +532,32 @@
     background: var(--gold-hover);
   }
 
-  .btn-cta-main svg { transition: transform var(--transition); }
-  .btn-cta-main:hover svg { transform: translateX(3px); }
+  .btn-cta-secondary {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.92);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-md);
+    padding: 14px 28px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    max-width: 380px;
+    transition: background var(--transition), transform var(--transition);
+  }
 
-  /* Social proof strip */
+  .btn-cta-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+
   .social-proof-strip {
     background: rgba(255,255,255,0.05);
     border: 1px solid var(--border-dark);
     border-radius: var(--radius-lg);
     padding: 24px 28px;
     max-width: 560px;
-    margin: 0 auto;
+    margin: 0 auto 32px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
@@ -530,11 +575,7 @@
     display: block;
   }
 
-  .stat-label {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    font-weight: 400;
-  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 400; }
 
   .stat-divider {
     width: 1px;
@@ -544,11 +585,8 @@
     justify-self: center;
   }
 
-  /* ─── SCREEN: SOBRE ─────────────────────────────── */
-  #screen-sobre {
-    background: var(--cream);
-    padding: 52px 0 60px;
-  }
+  /* Sober */
+  #screen-sobre { background: var(--cream); padding: 52px 0 60px; }
 
   .section-header { text-align: center; margin-bottom: 40px; }
 
@@ -584,9 +622,7 @@
     overflow: hidden;
   }
 
-  @media (max-width: 520px) {
-    .photo-grid { grid-template-columns: 1fr 1fr; }
-  }
+  @media (max-width: 520px) { .photo-grid { grid-template-columns: 1fr 1fr; } }
 
   .photo-main {
     grid-row: span 2;
@@ -655,7 +691,6 @@
   .bio-text p + p { margin-top: 16px; }
   .bio-text strong { color: var(--navy); font-weight: 700; }
 
-  /* Timeline */
   .timeline { list-style: none; position: relative; padding: 0 0 8px 24px; margin-bottom: 32px; }
 
   .timeline::before {
@@ -688,11 +723,8 @@
 
   .timeline li strong { color: var(--navy); font-weight: 600; display: block; margin-bottom: 2px; }
 
-  /* ─── SCREEN: FORM ──────────────────────────────── */
-  #screen-form {
-    background: var(--cream);
-    padding: 52px 0 60px;
-  }
+  /* Planner + Form shared */
+  #screen-planner, #screen-form { background: var(--cream); padding: 52px 0 60px; }
 
   .form-wrapper {
     background: #fff;
@@ -741,11 +773,7 @@
     margin-bottom: 6px;
   }
 
-  .form-sub {
-    font-size: 14px;
-    color: rgba(255,255,255,0.55);
-    font-weight: 400;
-  }
+  .form-sub { font-size: 14px; color: rgba(255,255,255,0.55); font-weight: 400; }
 
   .form-body { padding: 36px; }
 
@@ -755,11 +783,7 @@
     .form-wrapper { border-radius: var(--radius-lg); }
   }
 
-  /* Float labels */
-  .float-field {
-    position: relative;
-    margin-bottom: 18px;
-  }
+  .float-field { position: relative; margin-bottom: 18px; }
 
   .float-field input,
   .float-field select {
@@ -815,24 +839,13 @@
     text-transform: uppercase;
   }
 
-  .input-hint {
-    font-size: 11.5px;
-    color: var(--muted);
-    margin-top: 5px;
-    padding-left: 4px;
-  }
+  .input-hint { font-size: 11.5px; color: var(--muted); margin-top: 5px; padding-left: 4px; }
 
   .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  @media (max-width: 480px) {
-    .form-grid-2 { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 480px) { .form-grid-2 { grid-template-columns: 1fr; } }
 
-  .form-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 22px 0;
-  }
+  .form-divider { height: 1px; background: var(--border); margin: 22px 0; }
 
   .form-section-label {
     font-size: 12px;
@@ -843,11 +856,8 @@
     margin-bottom: 16px;
   }
 
-  /* ─── SCREEN: RESULT ────────────────────────────── */
-  #screen-result {
-    background: var(--cream);
-    padding: 52px 0 60px;
-  }
+  /* RESULT + Premium lock */
+  #screen-result { background: var(--cream); padding: 52px 0 60px; }
 
   .result-wrapper {
     background: #fff;
@@ -882,11 +892,7 @@
     position: relative;
   }
 
-  .result-header-sub {
-    font-size: 13px;
-    color: rgba(255,255,255,0.5);
-    position: relative;
-  }
+  .result-header-sub { font-size: 13px; color: rgba(255,255,255,0.5); position: relative; }
 
   .result-body { padding: 36px; }
 
@@ -894,6 +900,216 @@
     .result-header { padding: 32px 24px; }
     .result-body { padding: 28px 24px; }
     .result-wrapper { border-radius: var(--radius-lg); }
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+    position: relative;
+  }
+
+  .status-pill {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.88);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .status-pill.ok { border-color: rgba(22,163,74,0.35); color: #86efac; }
+  .status-pill.mid { border-color: rgba(245,184,0,0.4); color: var(--gold); }
+  .status-pill.risk { border-color: rgba(220,38,38,0.35); color: #fca5a5; }
+
+  .metric-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 640px) { .metric-cards { grid-template-columns: 1fr; } }
+
+  .metric-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .metric-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .metric-card-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+
+  .metric-card-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .diag-score-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+    margin: 12px 0 8px;
+  }
+
+  .diag-score-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--navy-mid), var(--gold));
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .rec-list { list-style: none; margin: 0; padding: 0; }
+  .rec-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.55;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .rec-list li:last-child { border-bottom: none; }
+
+  .rec-icon {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gold-pale);
+    color: var(--navy);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+  }
+
+  .premium-shell {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+
+  .premium-inner { padding: 24px; transition: filter var(--transition); }
+
+  .premium-shell.locked .premium-inner {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .premium-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(248,247,242,0.2) 0%, rgba(0,18,51,0.65) 100%);
+    z-index: 2;
+  }
+
+  .premium-overlay[hidden] { display: none !important; }
+
+  .lock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .premium-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+
+  .premium-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    max-width: 320px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  .btn-premium {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  }
+
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    background: var(--gold-hover);
+    box-shadow: 0 12px 36px rgba(245,184,0,0.45);
+  }
+
+  .mini-link {
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
   }
 
   .diagnosis-card {
@@ -924,11 +1140,7 @@
 
   .diagnosis-row:last-child { border-bottom: none; }
 
-  .diagnosis-row-label {
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 400;
-  }
+  .diagnosis-row-label { font-size: 14px; color: var(--muted); font-weight: 400; }
 
   .diagnosis-row-value {
     font-family: 'Syne', sans-serif;
@@ -936,14 +1148,6 @@
     font-weight: 700;
     color: var(--navy);
     text-align: right;
-  }
-
-  .diagnosis-row-value.highlight {
-    color: var(--gold);
-    font-size: 1.5rem;
-    display: block;
-    text-align: left;
-    margin-top: 8px;
   }
 
   .aporte-block {
@@ -973,12 +1177,8 @@
     margin-bottom: 6px;
   }
 
-  .aporte-sub {
-    font-size: 13px;
-    color: rgba(255,255,255,0.45);
-  }
+  .aporte-sub { font-size: 13px; color: rgba(255,255,255,0.45); }
 
-  /* Master Plan CTA */
   .plan-cta {
     position: relative;
     background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
@@ -1070,10 +1270,7 @@
     color: var(--gold);
   }
 
-  .plan-price-label {
-    font-size: 13px;
-    color: rgba(255,255,255,0.45);
-  }
+  .plan-price-label { font-size: 13px; color: rgba(255,255,255,0.45); }
 
   .btn-plan {
     display: flex;
@@ -1122,7 +1319,256 @@
 
   .back-link:hover { color: var(--navy); }
 
-  /* ─── FOOTER: Exchange Bar ───────────────────────── */
+  /* SaaS dashboards: AI Center + Letter */
+  #screen-ai, #screen-letter {
+    background: linear-gradient(180deg, var(--cream) 0%, #eef0f5 55%, var(--cream) 100%);
+    padding: 48px 0 72px;
+    min-height: 100dvh;
+  }
+
+  .saas-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .saas-hero {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .saas-kicker {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(0,18,51,0.06);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .saas-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.75rem, 5vw, 2.55rem);
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+  }
+
+  .saas-sub {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+  }
+
+  .dash-span-8 { grid-column: span 8; }
+  .dash-span-4 { grid-column: span 4; }
+  .dash-span-6 { grid-column: span 6; }
+  .dash-span-12 { grid-column: span 12; }
+
+  @media (max-width: 900px) {
+    .dash-span-8, .dash-span-4, .dash-span-6 { grid-column: span 12; }
+  }
+
+  .dash-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dash-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--navy-mid));
+    opacity: 0.9;
+  }
+
+  .dash-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .dash-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .dash-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .dash-tag.live { border-color: rgba(22,163,74,0.35); color: var(--ok); background: rgba(22,163,74,0.06); }
+
+  .score-big {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .score-big-suffix {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--gold);
+    vertical-align: super;
+    margin-left: 4px;
+  }
+
+  .progress-row {
+    margin-bottom: 14px;
+  }
+
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .progress-track {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--navy), var(--navy-light));
+    transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .progress-fill.warn { background: linear-gradient(90deg, #b45309, var(--gold)); }
+  .progress-fill.bad { background: linear-gradient(90deg, #991b1b, var(--risk)); }
+
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .status-dot::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 3px rgba(22,163,74,0.2);
+  }
+
+  .status-dot.mid::before { background: var(--warn); box-shadow: 0 0 0 3px rgba(217,119,6,0.2); }
+  .status-dot.low::before { background: var(--risk); box-shadow: 0 0 0 3px rgba(220,38,38,0.2); }
+
+  .letter-steps {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 22px 0;
+  }
+
+  .step-chip {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: #fff;
+    transition: all var(--transition);
+  }
+
+  .step-chip.active {
+    border-color: var(--navy);
+    color: var(--navy);
+    background: var(--gold-pale);
+  }
+
+  .letter-panel {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .letter-panel-head {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(180deg, #fff 0%, var(--cream) 100%);
+  }
+
+  .letter-panel-body {
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .letter-preview {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--cream);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    border: 1px solid var(--border);
+    white-space: pre-wrap;
+  }
+
+  .letter-blurred {
+    position: relative;
+  }
+
+  .letter-blurred .letter-locked-part {
+    filter: blur(5px);
+    user-select: none;
+    opacity: 0.55;
+  }
+
+  /* Footer exch */
   #footer-bar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -1145,12 +1591,7 @@
     gap: 20px;
   }
 
-  .exchange-brand {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .exchange-brand { flex-shrink: 0; display: flex; flex-direction: column; gap: 2px; }
 
   .exchange-label {
     font-size: 9px;
@@ -1178,13 +1619,7 @@
     line-height: 1;
   }
 
-  .exchange-time {
-    font-size: 9px;
-    color: var(--muted);
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    margin-top: 2px;
-  }
+  .exchange-time { font-size: 9px; color: var(--muted); font-weight: 400; letter-spacing: 0.04em; margin-top: 2px; }
 
   .exchange-divider {
     width: 1px;
@@ -1193,19 +1628,9 @@
     flex-shrink: 0;
   }
 
-  .converter-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    min-width: 0;
-  }
+  .converter-wrap { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 
-  .conv-field {
-    position: relative;
-    flex: 1;
-    min-width: 0;
-  }
+  .conv-field { position: relative; flex: 1; min-width: 0; }
 
   .conv-field input {
     width: 100%;
@@ -1233,11 +1658,7 @@
     pointer-events: none;
   }
 
-  .conv-arrows {
-    flex-shrink: 0;
-    font-size: 16px;
-    color: var(--muted);
-  }
+  .conv-arrows { flex-shrink: 0; font-size: 16px; color: var(--muted); }
 
   @media (max-width: 600px) {
     .footer-inner { gap: 12px; }
@@ -1247,17 +1668,7 @@
     .conv-field input { padding: 9px 10px 9px 30px; font-size: 14px; }
   }
 
-  @media (max-width: 400px) {
-    .exchange-rate-block { flex-shrink: 0; }
-    .converter-wrap { gap: 6px; }
-  }
-
-  /* ─── Micro animations ──────────────────────────── */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
-  }
+  .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) forwards; }
 
   @keyframes fadeUp {
     to { opacity: 1; transform: translateY(0); }
@@ -1268,11 +1679,7 @@
   .fade-up-d3 { animation-delay: 0.24s; }
   .fade-up-d4 { animation-delay: 0.32s; }
 
-  /* Loading state */
-  .btn-loading {
-    opacity: 0.75;
-    pointer-events: none;
-  }
+  .btn-loading { opacity: 0.75; pointer-events: none; }
 
   .spinner {
     width: 18px; height: 18px;
@@ -1280,6 +1687,8 @@
     border-top-color: #fff;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -1287,9 +1696,7 @@
 </head>
 <body>
 
-<!-- ════════════════════════════════════════ -->
-<!--  SCREEN 1 — QUIZ                        -->
-<!-- ════════════════════════════════════════ -->
+<!-- SCREEN: QUIZ -->
 <div id="screen-quiz" class="screen active">
   <div class="quiz-hero-bg"></div>
   <div class="quiz-hero-content">
@@ -1298,31 +1705,25 @@
       <h1 class="hero-title fade-up fade-up-d1">Qual visto combina<br><span>com você?</span></h1>
       <p class="hero-sub fade-up fade-up-d2">Responda 4 perguntas rápidas e receba seu diagnóstico de visto personalizado.</p>
 
-      <!-- Quiz Box -->
       <div id="quiz-box" class="quiz-card fade-up fade-up-d3">
         <div class="quiz-step-header">
           <span class="quiz-step-label">Seu perfil de viagem</span>
-          <span class="quiz-step-label" id="quiz-step-count">4 perguntas</span>
+          <span class="quiz-step-label">4 perguntas</span>
         </div>
         <div class="quiz-progress-bar">
-          <div class="quiz-progress-fill" style="width: 100%"></div>
+          <div class="quiz-progress-fill" style="width:100%"></div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">
-            <span class="field-number">1</span>Qual a sua idade?
-          </label>
+          <label class="field-label"><span class="field-number">1</span>Qual a sua idade?</label>
           <select id="q-idade" class="styled-select">
             <option value="18-24">18 a 24 anos</option>
             <option value="25-30">25 a 30 anos</option>
             <option value="31+">31 anos ou mais</option>
           </select>
         </div>
-
         <div class="field-group">
-          <label class="field-label">
-            <span class="field-number">2</span>Qual seu objetivo principal?
-          </label>
+          <label class="field-label"><span class="field-number">2</span>Qual seu objetivo principal?</label>
           <select id="q-objetivo" class="styled-select">
             <option value="estudar">Estudar e me qualificar</option>
             <option value="trabalhar">Trabalhar e juntar dinheiro</option>
@@ -1330,21 +1731,15 @@
             <option value="migrar">Migrar permanentemente</option>
           </select>
         </div>
-
         <div class="field-group">
-          <label class="field-label">
-            <span class="field-number">3</span>Tem pelo menos 2 anos de faculdade?
-          </label>
+          <label class="field-label"><span class="field-number">3</span>Tem pelo menos 2 anos de faculdade?</label>
           <select id="q-faculdade" class="styled-select">
             <option value="sim">Sim, completo ou cursando</option>
             <option value="nao">Não tenho</option>
           </select>
         </div>
-
-        <div class="field-group" style="margin-bottom: 28px;">
-          <label class="field-label">
-            <span class="field-number">4</span>Como está seu inglês?
-          </label>
+        <div class="field-group" style="margin-bottom:28px;">
+          <label class="field-label"><span class="field-number">4</span>Como está seu inglês?</label>
           <select id="q-ingles" class="styled-select">
             <option value="basico">Básico — entendo pouco ou nada</option>
             <option value="intermediario">Intermediário — consigo me comunicar</option>
@@ -1352,33 +1747,57 @@
           </select>
         </div>
 
-        <button onclick="processarQuiz()" class="btn-primary">
+        <button type="button" onclick="processarQuiz()" class="btn-primary">
           Ver meu resultado
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </div>
 
-      <!-- Quiz Result -->
       <div id="quiz-result" class="quiz-result-card">
-        <div class="quiz-result-icon">🎯</div>
-        <div class="quiz-result-badge">Visto Recomendado</div>
-        <h2 class="quiz-result-title" id="visto-titulo"></h2>
-        <p class="quiz-result-desc" id="visto-descricao"></p>
-        <button onclick="showScreen('screen-landing')" class="btn-gold" style="max-width: 380px; margin: 0 auto;">
-          Quero meu diagnóstico financeiro
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button onclick="document.getElementById('quiz-result').style.display='none'; document.getElementById('quiz-box').style.display='block';" class="btn-ghost" style="margin-top: 12px; color: var(--muted);">← Refazer quiz</button>
+        <div class="quiz-result-top">
+          <div class="quiz-result-icon">🎯</div>
+          <div class="quiz-result-badge">Visto Recomendado</div>
+          <h2 class="quiz-result-title" id="visto-titulo"></h2>
+          <p class="quiz-result-desc" id="visto-descricao"></p>
+        </div>
+
+        <div class="insight-grid">
+          <div class="insight-tile">
+            <div class="insight-tile-label">Cidade sugerida</div>
+            <div class="insight-tile-value" id="qr-cidade">—</div>
+          </div>
+          <div class="insight-tile">
+            <div class="insight-tile-label">Faixa de custo (referência)</div>
+            <div class="insight-tile-value" id="qr-custo">—</div>
+          </div>
+          <div class="insight-tile" style="grid-column:1/-1;">
+            <div class="insight-tile-label">Curso / caminho sugerido</div>
+            <div class="insight-tile-value" id="qr-curso">—</div>
+          </div>
+        </div>
+
+        <div class="stack-cta">
+          <button type="button" onclick="openPlannerFromQuiz()" class="btn-gold">
+            Planejamento financeiro — Smart Australia Planner
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button type="button" onclick="resetQuiz()" class="btn-primary" style="background:var(--navy-light);">
+            Refazer quiz
+          </button>
+          <button type="button" onclick="showScreen('screen-landing')" class="btn-ghost" style="color:var(--muted);margin:0 auto;">Ver consultoria Let's Go Austrália</button>
+        </div>
+
+        <div class="link-row">
+          <button type="button" class="link-pill" onclick="showScreen('screen-ai')">Visa AI Center</button>
+          <button type="button" class="link-pill" onclick="showLetterFlow()">Carta de intenção (IA)</button>
+        </div>
       </div>
 
     </div>
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════ -->
-<!--  SCREEN 2 — LANDING                     -->
-<!-- ════════════════════════════════════════ -->
+<!-- LANDING -->
 <div id="screen-landing" class="screen">
   <div class="landing-bg"></div>
   <div class="landing-content">
@@ -1393,15 +1812,16 @@
         Viabilize seu<br>projeto <em>Austrália</em>
       </h1>
       <p class="landing-sub fade-up fade-up-d2">
-        Diagnóstico financeiro profissional baseado na cotação real do dólar australiano. Saiba exatamente quanto poupar e quando embarcar.
+        Plataforma inteligente: quiz de visto, Smart Australia Planner, score financeiro e (premium) Visa AI Center com análises profissionais da sua candidatura.
       </p>
 
       <div class="cta-stack fade-up fade-up-d3">
-        <button onclick="showScreen('screen-form')" class="btn-cta-main">
-          Solicitar diagnóstico gratuito
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <button type="button" onclick="showScreen('screen-planner')" class="btn-cta-main">
+          Abrir Smart Australia Planner
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
-        <button onclick="showScreen('screen-sobre')" class="btn-ghost">Conheça minha história na Austrália 🇦🇺</button>
+        <button type="button" onclick="showScreen('screen-ai')" class="btn-cta-secondary">Visa AI Center</button>
+        <button type="button" onclick="showScreen('screen-sobre')" class="btn-ghost">Conheça minha história na Austrália 🇦🇺</button>
       </div>
 
       <div class="social-proof-strip fade-up fade-up-d4">
@@ -1420,18 +1840,16 @@
           <span class="stat-label">Cotação live 24/7</span>
         </div>
       </div>
+
+      <button type="button" onclick="showScreen('screen-quiz')" class="btn-ghost" style="opacity:0.85;">← Voltar ao quiz de visto</button>
     </div>
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════ -->
-<!--  SCREEN 3 — SOBRE MIM                   -->
-<!-- ════════════════════════════════════════ -->
+<!-- SOBRE -->
 <div id="screen-sobre" class="screen">
-  <div id="screen-sobre-inner" style="padding: 52px 0 60px;">
+  <div style="padding:52px 0 60px;">
     <div class="container">
-
       <div class="section-header">
         <div class="section-tag">Minha Trajetória</div>
         <h2 class="section-title">De São Paulo<br>para a Austrália</h2>
@@ -1458,56 +1876,39 @@
       </div>
 
       <ul class="timeline">
-        <li>
-          <strong>Jan 2024 — Decisão tomada</strong>
-          Pesquisa intensiva, planejamento financeiro e aprovação do visto.
-        </li>
-        <li>
-          <strong>Mar 2024 — Chegada em Sydney</strong>
-          Primeiros passos, primeiros desafios, primeiras conquistas.
-        </li>
-        <li>
-          <strong>Jun 2024 — Emprego consolidado</strong>
-          Trabalho na área, renda em dólar, vida construída.
-        </li>
-        <li>
-          <strong>Hoje — Ajudando outros brasileiros</strong>
-          +200 diagnósticos entregues, sonhos viabilizados.
-        </li>
+        <li><strong>Jan 2024 — Decisão tomada</strong>Pesquisa intensiva, planejamento financeiro e aprovação do visto.</li>
+        <li><strong>Mar 2024 — Chegada em Sydney</strong>Primeiros passos, primeiros desafios, primeiras conquistas.</li>
+        <li><strong>Jun 2024 — Emprego consolidado</strong>Trabalho na área, renda em dólar, vida construída.</li>
+        <li><strong>Hoje — Ajudando outros brasileiros</strong>+200 diagnósticos entregues, sonhos viabilizados.</li>
       </ul>
 
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <button onclick="showScreen('screen-landing')" class="btn-primary" style="flex: 1; min-width: 200px;">
-          Começar meu diagnóstico
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button type="button" onclick="showScreen('screen-planner')" class="btn-primary" style="flex:1;min-width:200px;">
+          Começar meu planner
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
-        <button onclick="showScreen('screen-landing')" class="btn-ghost-dark">← Voltar</button>
+        <button type="button" onclick="showScreen('screen-landing')" class="btn-ghost-dark">← Voltar</button>
       </div>
-
     </div>
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════ -->
-<!--  SCREEN 4 — FORM                        -->
-<!-- ════════════════════════════════════════ -->
-<div id="screen-form" class="screen">
-  <div style="padding: 52px 0 60px;">
+<!-- SMART PLANNER -->
+<div id="screen-planner" class="screen">
+  <div style="padding:52px 0 60px;">
     <div class="container">
       <div class="form-wrapper">
         <div class="form-header">
           <div class="form-header-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-            Diagnóstico Gratuito
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/></svg>
+            Etapa gratuita
           </div>
-          <h2 class="form-title">Seu Perfil Financeiro</h2>
-          <p class="form-sub">Preencha abaixo para receber seu plano personalizado em segundos.</p>
+          <h2 class="form-title">Smart Australia Planner</h2>
+          <p class="form-sub">Um snapshot profissional do seu plano financeiro + score básico. Detalhes avançados ficam no premium.</p>
         </div>
-
         <div class="form-body">
-          <form id="calc-form" onsubmit="handleFormSubmit(event)">
-            <p class="form-section-label">Dados pessoais</p>
+          <form id="planner-form" onsubmit="handlePlannerSubmit(event)">
+            <p class="form-section-label">Contato</p>
             <div class="float-field">
               <input type="text" id="nome" required placeholder=" " autocomplete="off">
               <label>Nome completo</label>
@@ -1515,307 +1916,873 @@
             <div class="float-field">
               <input type="email" id="email" required placeholder=" " autocomplete="email">
               <label>Seu melhor e-mail</label>
-              <p class="input-hint">Sem spam. Usado apenas para enviar seu diagnóstico.</p>
+              <p class="input-hint">Sem spam. Podemos usar para enviar seu plano quando o recurso existir.</p>
             </div>
 
             <div class="form-divider"></div>
-            <p class="form-section-label">Tipo de visto</p>
+            <p class="form-section-label">Situação e meta</p>
+            <div class="form-grid-2">
+              <div class="float-field filled">
+                <select id="visto">
+                  <option value="working">Working Holiday (Subclass 462)</option>
+                  <option value="student">Visto de Estudante (Subclass 500)</option>
+                </select>
+                <label>Tipo de visto</label>
+              </div>
+              <div class="float-field filled">
+                <select id="plan-objetivo">
+                  <option value="estudar">Estudar e me qualificar</option>
+                  <option value="trabalhar">Trabalhar e juntar dinheiro</option>
+                  <option value="experiencia">Experiência / gap year</option>
+                  <option value="migrar">Migrar / longo prazo</option>
+                </select>
+                <label>Objetivo principal</label>
+              </div>
+            </div>
 
             <div class="float-field filled">
-              <select id="visto">
-                <option value="working">Working Holiday (Subclass 462)</option>
-                <option value="student">Visto de Estudante (Subclass 500)</option>
+              <select id="plan-ingles">
+                <option value="basico">Inglês básico</option>
+                <option value="intermediario">Inglês intermediário</option>
+                <option value="avancado">Inglês avançado</option>
               </select>
-              <label>Visto selecionado</label>
+              <label>Nível de inglês</label>
+            </div>
+
+            <div class="float-field filled">
+              <select id="plan-cidade">
+                <option value="sydney">Sydney</option>
+                <option value="melbourne">Melbourne</option>
+                <option value="brisbane">Brisbane</option>
+                <option value="perth">Perth</option>
+                <option value="adelaide">Adelaide</option>
+                <option value="outro">Outra / ainda decidindo</option>
+              </select>
+              <label>Cidade desejada</label>
             </div>
 
             <div class="form-divider"></div>
-            <p class="form-section-label">Planejamento financeiro</p>
-
+            <p class="form-section-label">Financeiro</p>
             <div class="form-grid-2">
               <div class="float-field">
-                <input type="number" id="salario" required placeholder=" " min="0">
-                <label>Renda mensal (R$)</label>
+                <input type="number" id="salario" required placeholder=" " min="0" step="100">
+                <label>Salário mensal (R$)</label>
               </div>
               <div class="float-field">
-                <input type="number" id="guardar" required placeholder=" " min="0">
-                <label>Aporte mensal (R$)</label>
+                <input type="number" id="guardar" required placeholder=" " min="0" step="100">
+                <label>Quanto consegue guardar / mês (R$)</label>
               </div>
             </div>
             <div class="float-field">
-              <input type="number" id="tempo" required placeholder=" " min="1" max="120">
-              <label>Meta em meses</label>
-              <p class="input-hint">Em quantos meses você quer embarcar?</p>
+              <input type="number" id="reserva" required placeholder=" " min="0" step="100">
+              <label>Reserva atual (R$)</label>
+              <p class="input-hint">Poupança disponível só para esse projeto.</p>
             </div>
 
-            <div style="margin-top: 28px;">
-              <button type="submit" id="btn-submit" class="btn-gold">
-                <span id="btn-label">Gerar meu diagnóstico</span>
+            <div class="form-grid-2">
+              <div class="float-field filled">
+                <select id="acompanhante">
+                  <option value="nao">Sozinho(a)</option>
+                  <option value="sim">Com acompanhante</option>
+                </select>
+                <label>Acompanhante</label>
+              </div>
+              <div class="float-field">
+                <input type="number" id="tempo" required placeholder=" " min="1" max="120">
+                <label>Prazo desejado (meses até embarcar)</label>
+              </div>
+            </div>
+
+            <div style="margin-top:28px;">
+              <button type="submit" id="btn-planner-submit" class="btn-gold">
+                <span id="btn-planner-label">Gerar plano inteligente</span>
               </button>
             </div>
-            <p style="text-align:center; font-size:12px; color:var(--muted); margin-top:14px;">
-              🔒 Seus dados são privados e nunca compartilhados.
+            <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:14px;">
+              🔒 Seus dados ficam apenas neste dispositivo (demo). Produção deve persistir com consentimento LGPD.
             </p>
           </form>
         </div>
       </div>
 
-      <div style="text-align: center; margin-top: 20px;">
-        <button onclick="showScreen('screen-landing')" class="back-link">← Voltar ao início</button>
+      <div style="text-align:center;margin-top:20px;display:flex;flex-direction:column;gap:10px;">
+        <button type="button" onclick="showScreen('screen-quiz')" class="back-link">← Voltar ao quiz</button>
+        <button type="button" onclick="showScreen('screen-landing')" class="back-link">Página inicial</button>
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════ -->
-<!--  SCREEN 5 — RESULT                      -->
-<!-- ════════════════════════════════════════ -->
+<!-- RESULT (Planner + Legacy summary) -->
 <div id="screen-result" class="screen">
-  <div style="padding: 52px 0 60px;">
+  <div style="padding:52px 0 60px;">
     <div class="container">
       <div class="result-wrapper">
         <div class="result-header">
           <div style="position:relative;">
-            <div style="font-size:36px; margin-bottom:12px;">🎯</div>
+            <div style="font-size:36px;margin-bottom:12px;">🎯</div>
             <h2 class="result-header-name" id="res-saudacao">Diagnóstico Pronto</h2>
-            <p class="result-header-sub">Baseado na cotação AUD/BRL em tempo real</p>
+            <p class="result-header-sub">Baseado na cotação AUD/BRL em tempo real + seu perfil</p>
+            <div id="res-pills" class="pill-row"></div>
           </div>
         </div>
 
         <div class="result-body">
-
-          <!-- Aporte ideal em destaque -->
-          <div class="aporte-block">
-            <p class="aporte-label">Aporte mensal necessário</p>
-            <p class="aporte-value" id="res-aporte">R$ ---</p>
-            <p class="aporte-sub" id="res-aporte-sub">Para embarcar no prazo desejado</p>
+          <div class="metric-cards">
+            <div class="metric-card">
+              <p class="metric-card-label">Custo total estimado</p>
+              <p class="metric-card-value" id="res-total-brl">R$ ---</p>
+              <p class="metric-card-hint" id="res-total-sub">Referência inicial de prova financeira</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-card-label">Tempo até embarque</p>
+              <p class="metric-card-value" id="res-meses">—</p>
+              <p class="metric-card-hint" id="res-meses-sub">Com base no seu aporte mensal</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-card-label">Score financeiro</p>
+              <p class="metric-card-value" id="res-score-num">—</p>
+              <div class="diag-score-bar"><div id="res-score-fill" class="diag-score-fill" style="width:0%"></div></div>
+              <p class="metric-card-hint" id="res-score-label">—</p>
+            </div>
           </div>
 
-          <!-- Tabela de detalhes -->
           <div class="diagnosis-card">
-            <p class="diagnosis-card-label">Detalhes do seu plano</p>
-            <div class="diagnosis-row">
-              <span class="diagnosis-row-label">Meta em AUD</span>
-              <span class="diagnosis-row-value" id="res-meta-aud">---</span>
+            <p class="diagnosis-card-label">Recomendações (grátis)</p>
+            <ul id="res-recs" class="rec-list"></ul>
+          </div>
+
+          <!-- Premium lock: deep analysis -->
+          <div id="premium-analysis" class="premium-shell locked">
+            <div class="premium-inner">
+              <div class="diagnosis-card" style="margin:0;background:#fff;">
+                <p class="diagnosis-card-label">Análises premium simuladas</p>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Análise completa da aplicação</span><span class="diagnosis-row-value">Pronta ✓</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Score avançado + Sponsor</span><span class="diagnosis-row-value">Detalhado</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Carta + checklist personalizado</span><span class="diagnosis-row-value">IA + humano</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Estratégia para fortalecer perfil</span><span class="diagnosis-row-value">Premium</span></div>
+              </div>
+              <div class="plan-cta" style="margin:16px 0 0;text-align:left;">
+                <p class="plan-cta-title" style="margin-bottom:14px;font-size:1.1rem;">O que você desbloqueia no premium</p>
+                <div class="plan-features">
+                  <div class="plan-feature-item"><span class="plan-check">✓</span> Análise de comprovação financeira granular</div>
+                  <div class="plan-feature-item"><span class="plan-check">✓</span> Sponsor / vínculos / histórico com plano de ação</div>
+                  <div class="plan-feature-item"><span class="plan-check">✓</span> Carta de intenção profissional (inglês) + revisão humana</div>
+                  <div class="plan-feature-item"><span class="plan-check">✓</span> Risk score + checklist oficial personalizado</div>
+                </div>
+              </div>
             </div>
-            <div class="diagnosis-row">
-              <span class="diagnosis-row-label">Equivalente em BRL</span>
-              <span class="diagnosis-row-value" id="res-meta-brl">---</span>
-            </div>
-            <div class="diagnosis-row">
-              <span class="diagnosis-row-label">Cotação usada</span>
-              <span class="diagnosis-row-value" id="res-cotacao">---</span>
-            </div>
-            <div class="diagnosis-row">
-              <span class="diagnosis-row-label">Prazo desejado</span>
-              <span class="diagnosis-row-value" id="res-tempo">---</span>
-            </div>
-            <div class="diagnosis-row">
-              <span class="diagnosis-row-label">Visto selecionado</span>
-              <span class="diagnosis-row-value" id="res-visto">---</span>
+            <div class="premium-overlay" id="premium-analysis-overlay">
+              <span class="lock-badge">🔐 Premium Let's Go Austrália</span>
+              <p class="premium-title">Análise aplicacional completa</p>
+              <p class="premium-sub">Checklist DIN, narrativa GS, sponsor e cenários conservadores/agressivos pra sua cidade.</p>
+              <a class="btn-premium" href="https://wa.me/5511974788391?text=Olá,+quero+desbloquear+o+premium+das+análises+Let's+Go+Austrália" target="_blank" rel="noopener">Falar no WhatsApp</a>
+              <button type="button" class="mini-link" onclick="unlockPremiumDemo()">Simular conta premium (demo)</button>
             </div>
           </div>
 
-          <!-- Plano Master CTA -->
+          <div class="aporte-block">
+            <p class="aporte-label">Compatível com prazo declarado — aporte necessário</p>
+            <p class="aporte-value" id="res-aporte">R$ ---</p>
+            <p class="aporte-sub" id="res-aporte-sub">Ou ajustar prazo / reserva (veja abaixo)</p>
+          </div>
+
+          <div class="diagnosis-card">
+            <p class="diagnosis-card-label">Detalhes do plano</p>
+            <div class="diagnosis-row"><span class="diagnosis-row-label">Meta AUD (cenário modelo)</span><span class="diagnosis-row-value" id="res-meta-aud">---</span></div>
+            <div class="diagnosis-row"><span class="diagnosis-row-label">Equivalente BRL na cotação</span><span class="diagnosis-row-value" id="res-meta-brl">---</span></div>
+            <div class="diagnosis-row"><span class="diagnosis-row-label">Cotação usada</span><span class="diagnosis-row-value" id="res-cotacao">---</span></div>
+            <div class="diagnosis-row"><span class="diagnosis-row-label">Prazo desejado</span><span class="diagnosis-row-value" id="res-tempo">---</span></div>
+            <div class="diagnosis-row"><span class="diagnosis-row-label">Visto selecionado</span><span class="diagnosis-row-value" id="res-visto">---</span></div>
+            <div class="diagnosis-row"><span class="diagnosis-row-label">Cidade / objetivo / inglês</span><span class="diagnosis-row-value" id="res-context-line" style="text-align:left;font-size:13px;">---</span></div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="dash-card dash-span-6">
+              <div class="dash-card-head"><span class="dash-card-title">Próximo passo SaaS</span><span class="dash-tag live">Free tier</span></div>
+              <p style="font-size:14px;color:var(--muted);margin-bottom:12px;line-height:1.55;">
+                Compare seu cenário dentro do Visa AI Center e gere um rascunho de carta (preview grátis).
+              </p>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button type="button" class="btn-primary" style="width:auto;padding:14px 20px;font-size:12px;" onclick="showScreen('screen-ai')">Abrir Visa AI Center</button>
+                <button type="button" class="btn-ghost-dark" style="flex:1;min-width:140px;padding:14px;" onclick="showScreen('screen-quiz')">Cancelar — voltar ao quiz</button>
+              </div>
+            </div>
+            <div class="dash-card dash-span-6">
+              <div class="dash-card-head"><span class="dash-card-title">Carta em inglês (IA)</span><span class="dash-tag">Preview</span></div>
+              <p style="font-size:14px;color:var(--muted);margin-bottom:12px;">Responda 6 etapas. Texto íntegra no premium.</p>
+              <button type="button" class="btn-gold" onclick="showLetterFlow()" style="width:100%;font-size:13px;padding:14px;">Começar gerador</button>
+            </div>
+          </div>
+
           <div class="plan-cta">
             <div class="plan-cta-shimmer"></div>
-            <p class="plan-cta-title">🚀 Plano Master — Próximo Nível</p>
-            <p class="plan-cta-sub">Tudo que você precisa para chegar preparado e economizar meses de erro.</p>
+            <p class="plan-cta-title">🚀 Plano Master — Próximo nível humano</p>
+            <p class="plan-cta-sub">Tudo premium + acesso direto com o Wesley.</p>
 
             <div class="plan-features">
-              <div class="plan-feature-item">
-                <span class="plan-check">✓</span>
-                Cronograma financeiro completo personalizado
-              </div>
-              <div class="plan-feature-item">
-                <span class="plan-check">✓</span>
-                Passo a passo de aplicação do visto
-              </div>
-              <div class="plan-feature-item">
-                <span class="plan-check">✓</span>
-                Lista de custos reais de chegada em Sydney
-              </div>
-              <div class="plan-feature-item">
-                <span class="plan-check">✓</span>
-                Acesso direto via WhatsApp com o Wesley
-              </div>
+              <div class="plan-feature-item"><span class="plan-check">✓</span> Cronograma financeiro granular + cenários AUD/BRL</div>
+              <div class="plan-feature-item"><span class="plan-check">✓</span> Narrativa oficial + validação dos docs</div>
+              <div class="plan-feature-item"><span class="plan-check">✓</span> Lista de custos de chegada real em Sydney/Melbourne</div>
+              <div class="plan-feature-item"><span class="plan-check">✓</span> Canal WhatsApp estratégico</div>
             </div>
 
             <div class="plan-price-tag">
               <span class="plan-price">R$ 49,90</span>
-              <span class="plan-price-label">pagamento único</span>
+              <span class="plan-price-label">pagamento único — consultoria</span>
             </div>
 
-            <a href="https://wa.me/5511974788391?text=Olá,+quero+o+Plano+Master+da+Let's+Go+Austrália" class="btn-plan">
+            <a href="https://wa.me/5511974788391?text=Olá,+quero+o+Plano+Master+da+Let's+Go+Austrália" target="_blank" rel="noopener" class="btn-plan">
               Garantir meu acesso agora
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
 
-          <button onclick="showScreen('screen-form')" class="back-link">← Novo diagnóstico</button>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <button type="button" onclick="showScreen('screen-planner')" class="back-link" style="width:auto;padding:14px;border:1px solid var(--border);border-radius:var(--radius-md);">← Ajustar planner</button>
+            <button type="button" onclick="showScreen('screen-quiz')" class="back-link" style="width:auto;padding:14px;">Refazer quiz</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- VISA AI CENTER -->
+<div id="screen-ai" class="screen">
+  <div class="saas-wrap">
+    <div class="saas-hero fade-up">
+      <div class="saas-kicker">Australia Visa Intelligence</div>
+      <h2 class="saas-title">Visa AI Center</h2>
+      <p class="saas-sub">
+        Radar visual do seu dossier modelo. Valores combinam dados do quiz + planner. Interpretação estratégica é premium —
+        mas você já sai com um norte claro onde investir primeiro.
+      </p>
+      <button type="button" class="link-pill" onclick="hydrateAIScores()" style="margin-top:14px;background:#fff;">Atualizar scores</button>
+    </div>
 
-<!-- ════════════════════════════════════════ -->
-<!--  FOOTER — Exchange Bar                  -->
-<!-- ════════════════════════════════════════ -->
+    <div class="dashboard-grid" style="margin-bottom:14px;">
+      <div class="dash-card dash-span-8">
+        <div class="dash-card-head">
+          <span class="dash-card-title">Executive overview</span>
+          <span class="dash-tag live">Simulated</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div class="score-big"><span id="ai-overall-num">--</span><span class="score-big-suffix">/100</span></div>
+            <p class="status-dot" id="ai-overall-status">Sincronizando...</p>
+          </div>
+          <button type="button" class="btn-primary" onclick="showScreen('screen-planner')" style="width:auto;padding:14px 18px;font-size:12px;text-transform:none;letter-spacing:0.03em;">
+            Ajustar dados no planner →
+          </button>
+        </div>
+      </div>
+      <div class="dash-card dash-span-4">
+        <div class="dash-card-head"><span class="dash-card-title">Checklist rápido</span><span class="dash-tag">Free</span></div>
+        <ul class="rec-list" id="ai-quick-check"></ul>
+        <button type="button" class="btn-premium" style="margin-top:8px;background:var(--navy);color:#fff;" onclick="showScreen('screen-result')">
+          Ver plano base
+        </button>
+      </div>
+    </div>
+
+    <div class="premium-shell locked" id="ai-prem-lock" style="margin-bottom:72px;">
+      <div class="premium-inner dashboard-grid">
+        <div class="dash-card dash-span-12">
+          <div class="dash-card-head"><span class="dash-card-title">Barras estratégicas</span></div>
+
+          <div class="progress-row">
+            <div class="progress-top"><span>Financeiro</span><span id="ai-bar-finance-val"></span></div>
+            <div class="progress-track"><div id="ai-bar-finance" class="progress-fill" style="width:0"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-top"><span>Sponsor / funding</span><span id="ai-bar-sponsor-val"></span></div>
+            <div class="progress-track"><div id="ai-bar-sponsor" class="progress-fill warn" style="width:0"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-top"><span>Vínculos com o Brasil</span><span id="ai-bar-ties-val"></span></div>
+            <div class="progress-track"><div id="ai-bar-ties" class="progress-fill" style="width:0"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-top"><span>Histórico (estudo/trabalho)</span><span id="ai-bar-history-val"></span></div>
+            <div class="progress-track"><div id="ai-bar-history" class="progress-fill" style="width:0"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-top"><span>Carta / narrativa oficial</span><span id="ai-bar-letter-val"></span></div>
+            <div class="progress-track"><div id="ai-bar-letter" class="progress-fill bad" style="width:0"></div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:22px;">
+            <div class="dash-card" style="box-shadow:none;padding:18px;"><div style="font-size:13px;color:var(--muted);margin-bottom:6px;">Interpretação automatizada</div><p id="ai-narrativa" style="font-size:13px;line-height:1.6;color:var(--text);">...</p></div>
+            <div class="dash-card" style="box-shadow:none;padding:18px;"><div style="font-size:13px;color:var(--muted);margin-bottom:6px;">Riscos + quick wins</div><ul id="ai-risks" class="rec-list"></ul></div>
+          </div>
+        </div>
+      </div>
+      <div class="premium-overlay" id="ai-prem-overlay">
+        <span class="lock-badge">Radar premium</span>
+        <p class="premium-title">Breakdown oficial + cenários Sponsor</p>
+        <p class="premium-sub">O score visual é atualizado com seus dados — o insights pack detalha cada alavanca antes do lodging.</p>
+        <a class="btn-premium" href="https://wa.me/5511974788391?text=Quero+o+insights+pack+do+Visa+AI+Center" target="_blank" rel="noopener">Liberar análises avançadas</a>
+        <button type="button" class="mini-link" onclick="unlockPremiumDemo()">Simular premium (demo)</button>
+      </div>
+    </div>
+
+    <button type="button" class="back-link" onclick="showScreen('screen-quiz')" style="text-align:center;">← Voltar</button>
+  </div>
+</div>
+
+<!-- LETTER FLOW -->
+<div id="screen-letter" class="screen">
+  <div class="saas-wrap">
+    <div class="saas-hero fade-up">
+      <div class="saas-kicker">Statement of Purpose — demo</div>
+      <h2 class="saas-title">Gerador de Carta com IA</h2>
+      <p class="saas-sub">
+        Produzimos um inglês institucional a partir das suas respostas. Esta versão não substitui assessoria registrada nem lodgment na ImmiAccount — é ferramenta de preparação narrativa.
+      </p>
+    </div>
+
+    <div id="letter-stepper-wrap" style="margin-bottom:10px;"></div>
+
+    <div class="letter-panel fade-up fade-up-d1">
+      <div class="letter-panel-head">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <strong style="font-family:Syne,sans-serif;color:var(--navy);">Draft inteligente</strong>
+          <span class="dash-tag live" id="letter-step-label">Etapa 1</span>
+        </div>
+        <button type="button" id="letter-next-btn" onclick="advanceLetter()" class="btn-primary" style="width:auto;font-size:12px;padding:10px 16px;text-transform:none;">Próximo</button>
+      </div>
+      <div class="letter-panel-body">
+        <div id="letter-question-mount"></div>
+        <div id="letter-result-mount" style="display:none;">
+          <p style="margin-bottom:10px;color:var(--muted);font-size:13px;">
+            Preview grátis • carta íntegra + PDF export ficam disponíveis após upgrade humano/legal.
+          </p>
+          <div class="letter-blurred letter-preview" id="letter-output"></div>
+          <button type="button" class="btn-gold" style="margin-top:16px;width:100%;" onclick="unlockLetterPremium()">
+            Desbloquear carta completa (premium via WhatsApp)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="back-link" onclick="showScreen('screen-quiz')" style="margin-top:24px;">← Voltar</button>
+  </div>
+</div>
+
 <footer id="footer-bar">
   <div class="footer-inner">
     <div class="exchange-brand">
       <span class="exchange-label">● Câmbio Live</span>
       <span class="exchange-pair">AUD / BRL</span>
     </div>
-
     <div class="exchange-rate-block">
       <p id="cotacao-val" class="exchange-rate">R$ ---</p>
       <p id="cotacao-data" class="exchange-time">Sincronizando...</p>
     </div>
-
     <div class="exchange-divider"></div>
-
     <div class="converter-wrap">
       <div class="conv-field">
         <span class="conv-field-flag">🇧🇷</span>
-        <input type="number" id="conv-brl" placeholder="R$ 0,00" oninput="converter('BRL')">
+        <input type="number" id="conv-brl" placeholder="R$ 0,00" oninput="converter('BRL')" aria-label="Valor em Real">
       </div>
-      <div class="conv-arrows">⇄</div>
+      <div class="conv-arrows" aria-hidden="true">⇄</div>
       <div class="conv-field">
         <span class="conv-field-flag">🇦🇺</span>
-        <input type="number" id="conv-aud" placeholder="A$ 0,00" oninput="converter('AUD')">
+        <input type="number" id="conv-aud" placeholder="A$ 0,00" oninput="converter('AUD')" aria-label="Valor em dólar australiano">
       </div>
     </div>
   </div>
 </footer>
 
-
 <script>
-  let cotacaoAUD = 3.80;
+(function () {
+  const WA_URL = 'https://wa.me/5511974788391?text=';
+  window.LetsGoAustralia = {};
 
-  /* ── Screen navigation ─────────────── */
-  function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => {
-      s.classList.remove('active');
-    });
+  window.cotacaoAUD = 3.8;
+  let premiumFlag = sessionStorage.getItem('letsgo_premium_demo') === '1';
+
+  const state = {
+    quiz: null,
+    planner: null,
+    letterAnswers: [],
+  };
+
+  const letterSteps = [
+    { id:'why-au', prompt:'Por que você escolhe a Austrália (missão principal)?', type:'textarea', field:'whyAu' },
+    { id:'course', prompt:'Área/nível que pretende cursar OU foco laboral?', type:'input', field:'course' },
+    { id:'goal', prompt:'Qual objetivo oficial em até 24 meses?', type:'textarea', field:'goal' },
+    { id:'occupation', prompt:'Profissão atual + empresa (opcional)?', type:'input', field:'occupation' },
+    { id:'income-br', prompt:'Faixa da sua renda no Brasil?', type:'select', options:['Até R$ 3k','R$ 3k — 8k','R$ 8k — 15k','15k+'], field:'income' },
+    { id:'ties', prompt:'Vínculos com o Brasil (família/bens/compromissos)?', type:'textarea', field:'ties' },
+    { id:'history', prompt:'Histórico (estudos, trabalho, viagens fortes)?', type:'textarea', field:'history' },
+    { id:'sponsor', prompt:'Como será o funding? (patrocinador, poupança, mix?)', type:'textarea', field:'sponsor' },
+  ];
+
+  let letterIndex = 0;
+
+  function qs(id) { return document.getElementById(id); }
+
+  window.showScreen = function(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById(id);
     if (el) {
       el.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    if (id === 'screen-ai') hydrateAIScores();
+  };
+
+  function syncFloatFilled(root) {
+    (root || document).querySelectorAll('.float-field select').forEach(sel => {
+      const wrap = sel.closest('.float-field');
+      if (!wrap) return;
+      const val = sel.value;
+      wrap.classList.toggle('filled', val !== '' && val != null);
+    });
   }
 
-  /* ── Quiz logic ────────────────────── */
-  function processarQuiz() {
-    const idade    = document.getElementById('q-idade').value;
-    const faculdade= document.getElementById('q-faculdade').value;
-    const ingles   = document.getElementById('q-ingles').value;
-    const objetivo = document.getElementById('q-objetivo').value;
+  document.querySelectorAll('.float-field select').forEach(sel => {
+    sel.addEventListener('change', () => syncFloatFilled(sel.closest('.screen') || document));
+  });
+
+  window.unlockPremiumDemo = function() {
+    premiumFlag = true;
+    sessionStorage.setItem('letsgo_premium_demo', '1');
+    applyPremiumUI();
+    hydrateAIScores();
+  };
+
+  function applyPremiumUI() {
+    const wrap = qs('premium-analysis');
+    const ov = qs('premium-analysis-overlay');
+    const aiLock = qs('ai-prem-lock');
+    const aiOv = qs('ai-prem-overlay');
+    if (premiumFlag && wrap) wrap.classList.remove('locked');
+    if (premiumFlag && ov) ov.hidden = true;
+    if (premiumFlag && aiLock) aiLock.classList.remove('locked');
+    if (premiumFlag && aiOv) aiOv.hidden = true;
+  }
+
+  function pickSuggestions({ vistoTituloKey, cidade, objetivo, ingles }) {
+    const cidadeMap = {
+      estudar:{ city:'Melbourne', course:'English + Diploma em área técnica (CRICOS alinhado)', cost:'A$ 12k–20k ano + vida' },
+      trabalhar:{ city:'Perth ou Brisbane', course:'Upskill curto via campus + trabalho paralelo autorizado pelo visto aplicável', cost:'A$ 8k–12k inicial' },
+      experiencia:{ city:'Sydney', course:'English + Hospitality/Retail como rampa rápida', cost:'A$ 9k–14k inicial' },
+      migrar:{ city:'Melbourne / Adelaide', course:'Higher Ed com foco em skilled pathway', cost:'A$ 18k–32k inicial' },
+    };
+    let key = objetivo && cidadeMap[objetivo] ? objetivo : 'estudar';
+    let pack = cidadeMap[key];
+    if ((vistoTituloKey || '').includes('Working')) {
+      pack = { ...pack, city: cidade || pack.city };
+    }
+    return pack;
+  }
+
+  window.processarQuiz = function() {
+    const idade = qs('q-idade').value;
+    const faculdade = qs('q-faculdade').value;
+    const ingles = qs('q-ingles').value;
+    const objetivo = qs('q-objetivo').value;
 
     let visto, desc;
-
-    if (idade === "31+" || faculdade === "nao" || ingles === "basico" || objetivo === "estudar") {
-      visto = "Visto de Estudante (Subclass 500)";
-      desc  = "Com base no seu perfil, o visto de estudante é sua melhor porta de entrada. Você pode estudar, trabalhar legalmente e construir uma carreira internacional.";
-      document.getElementById('visto').value = 'student';
+    if (idade === '31+' || faculdade === 'nao' || ingles === 'basico' || objetivo === 'estudar') {
+      visto = 'Visto de Estudante (Subclass 500)';
+      desc = 'Com base no seu perfil, o visto de estudante tende a ser a porta de entrada mais sólida. Você poderá estudar, trabalhar dentro das regras e construir caminho gradual.';
+      qs('visto').value = 'student';
     } else {
-      visto = "Working Holiday (Subclass 462)";
-      desc  = "Perfeito! Você tem o perfil ideal para o WHV. É a opção com mais liberdade: trabalhe, viaje e economize em dólar australiano sem burocracia.";
-      document.getElementById('visto').value = 'working';
+      visto = 'Working Holiday (Subclass 462)';
+      desc = 'Ótimo sinal para o Working Holiday — liberdade para trabalhar, viajar e entender mercado antes de decidir estudar.';
+      qs('visto').value = 'working';
     }
 
-    document.getElementById('quiz-box').style.display = 'none';
-    document.getElementById('quiz-result').style.display = 'block';
-    document.getElementById('visto-titulo').innerText = visto;
-    document.getElementById('visto-descricao').innerText = desc;
+    const pack = pickSuggestions({ objetivo, ingles });
+
+    qs('quiz-box').style.display = 'none';
+    const card = qs('quiz-result');
+    card.style.display = 'block';
+
+    qs('visto-titulo').innerText = visto;
+    qs('visto-descricao').innerText = desc;
+
+    qs('qr-cidade').innerText = pack.city;
+    qs('qr-custo').innerText = pack.cost;
+    qs('qr-curso').innerText = pack.course;
+
+    syncFloatFilled(document.getElementById('screen-planner'));
+
+    state.quiz = { idade, faculdade, ingles, objetivo, visto, cidade:pack.city };
+
+    qs('plan-objetivo').value = objetivo;
+    qs('plan-ingles').value = ingles;
+    if (pack.city === 'Melbourne') qs('plan-cidade').value = 'melbourne';
+    else if (pack.city.includes('Perth')) qs('plan-cidade').value = 'perth';
+    else if (pack.city.includes('Sydney')) qs('plan-cidade').value = 'sydney';
+    else qs('plan-cidade').value = 'melbourne';
+    syncFloatFilled(document.getElementById('screen-planner'));
+  };
+
+  window.resetQuiz = function() {
+    qs('quiz-result').style.display = 'none';
+    qs('quiz-box').style.display = 'block';
+  };
+
+  window.openPlannerFromQuiz = function() {
+    syncFloatFilled(qs('screen-planner'));
+    showScreen('screen-planner');
+  };
+
+  function cityAUDMultiplier(code) {
+    const map = { sydney:1.07, melbourne:1.04, brisbane:0.96, perth:0.94, adelaide:0.9, outro:1 };
+    return map[code] ?? 1;
   }
 
-  /* ── Exchange rate ─────────────────── */
-  async function buscarCotacao() {
-    try {
-      const res  = await fetch('https://economia.awesomeapi.com.br/last/AUD-BRL');
-      const data = await res.json();
-      if (data?.AUDBRL) {
-        cotacaoAUD = parseFloat(data.AUDBRL.bid);
-        document.getElementById('cotacao-val').innerText = `R$ ${cotacaoAUD.toFixed(2)}`;
-        const agora = new Date();
-        document.getElementById('cotacao-data').innerText =
-          `Atualizado às ${agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
-        document.getElementById('conv-brl').value = 1000;
-        converter('BRL');
-      }
-    } catch (e) {
-      document.getElementById('cotacao-val').innerText = "R$ 3,80";
-      document.getElementById('cotacao-data').innerText = "Valor estimado";
-    }
+  function computePlannerModel(inp) {
+    const baseAUD = inp.visto === 'student' ? 15000 : 8500;
+    const companionBump = inp.acompanhante === 'sim' ? 3800 : 0;
+    const cityMult = cityAUDMultiplier(inp.cidadeCode);
+    const metaAUD = Math.round((baseAUD + companionBump) * cityMult);
+    const metaBRL = metaAUD * cotacaoAUD;
+
+    let guardar = Math.max(inp.guardar || 0, 0);
+    let reserva = Math.max(inp.reserva || 0, 0);
+    const falta = Math.max(metaBRL - reserva, 0);
+
+    let mesesRitmo = guardar > 0 ? Math.ceil(falta / guardar) : Infinity;
+    const objetivoMeses = Math.max(inp.tempo || 1, 1);
+    let aporteNecessario = falta > 0 && objetivoMeses > 0 ? falta / objetivoMeses : 0;
+
+    const pctSave = inp.salario > 0 ? Math.min(inp.guardar / inp.salario, 1) : 0;
+    const bufferScore = inp.reserva / Math.max(metaBRL * 0.08, 1);
+    let financeScore = Math.round(Math.min(Math.max(((pctSave * 0.55 + Math.min(bufferScore, 5) / 5 * 0.45)), 0), 1) * 100);
+    if (!isFinite(mesesRitmo) || mesesRitmo === Infinity) financeScore -= 15;
+    financeScore = Math.min(Math.max(financeScore, 20), 99);
+
+    const labelFinance = financeScore >= 75 ? 'Forte para o prazo modelo' :
+      financeScore >= 52 ? 'Moderado — exige refinamento mensal' : 'Desafiador — recomponha prazo ou reserva';
+
+    const recs = [];
+    if (pctSave < 0.22) recs.push('Tente aumentar o aporte relativo ao salário (≥22%). Quando menor, projetos ficam mais sensíveis a imprevisto.');
+    if (inp.inglesBr === 'basico') recs.push('PRIORIZE inglês institucional: sem ele a narrativa oficial e trabalho ficam bem mais lentos.');
+    if (inp.visto === 'student') recs.push('Modele primeiro o COE + taxas de instituição. O valor AUD base assume chegada com prova inicial realista.');
+    else recs.push('WHV aceita menor prova inicial, mas Sydney/Melbourne exigem reserva extra por aluguel — ajuste cidade se quiser enxugar.');
+    if (inp.acompanhante === 'sim') recs.push('Acompanhante ≈ +A$3,8k no modelo. Refasça com documentação de funding compartilhada no premium.');
+
+    return {
+      metaAUD, metaBRL, guardar, reserva, falta, mesesRitmo, objetivoMeses, aporteNecessario,
+      financeScore, labelFinance, recs,
+    };
   }
 
-  function converter(moeda) {
-    const brl = document.getElementById('conv-brl');
-    const aud = document.getElementById('conv-aud');
-    if (moeda === 'BRL') {
-      aud.value = brl.value ? (parseFloat(brl.value) / cotacaoAUD).toFixed(2) : "";
-    } else {
-      brl.value = aud.value ? (parseFloat(aud.value) * cotacaoAUD).toFixed(2) : "";
-    }
-  }
-
-  /* ── Form submit ───────────────────── */
-  function handleFormSubmit(e) {
+  window.handlePlannerSubmit = function(e) {
     e.preventDefault();
-    const btn   = document.getElementById('btn-submit');
-    const label = document.getElementById('btn-label');
+    const btn = qs('btn-planner-submit');
+    const label = qs('btn-planner-label');
     btn.classList.add('btn-loading');
-    label.innerHTML = `<span class="spinner"></span> Calculando...`;
+    label.innerHTML = '<span class="spinner"></span> Calculando...';
     setTimeout(() => {
-      generatePlan();
+      generatePlannerResult();
       btn.classList.remove('btn-loading');
-      label.textContent = "Gerar meu diagnóstico";
-    }, 1400);
-  }
+      label.textContent = 'Gerar plano inteligente';
+    }, 1200);
+  };
 
-  function generatePlan() {
-    const nome         = document.getElementById('nome').value;
-    const guardar      = parseFloat(document.getElementById('guardar').value);
-    const tempoDesejado= parseInt(document.getElementById('tempo').value);
-    const tipoVisto    = document.getElementById('visto').value;
+  function generatePlannerResult() {
+    const nome = qs('nome').value.trim();
+    const guardar = parseFloat(qs('guardar').value);
+    const salario = parseFloat(qs('salario').value);
+    const reserva = parseFloat(qs('reserva').value);
+    const tempo = parseInt(qs('tempo').value, 10);
+    const tipoVisto = qs('visto').value;
+    const cidadeCode = qs('plan-cidade').value;
+    const objetivo = qs('plan-objetivo').value;
+    const inglesBr = qs('plan-ingles').value;
+    const acomp = qs('acompanhante').value;
 
-    const metaAUD  = tipoVisto === 'student' ? 15000 : 8500;
-    const metaBRL  = metaAUD * cotacaoAUD;
-    const aporte   = metaBRL / tempoDesejado;
-    const nomeFirst= nome.split(' ')[0];
+    const model = computePlannerModel({
+      visto: tipoVisto,
+      guardar, salario, reserva, tempo,
+      cidadeCode, objetivo, inglesBr, acompanhante: acomp,
+    });
 
-    const vistoLabel = tipoVisto === 'student'
+    state.planner = { nome, guardar, salario, reserva, tempo, tipoVisto, cidadeCode, objetivo, inglesBr, acomp };
+    state.planner.financeScoreCached = model.financeScore;
+
+    const nomeFirst = nome.split(/\s+/)[0] || 'Olá';
+    qs('res-saudacao').innerText = `${nomeFirst}, seu painel inteligente está pronto.`;
+
+    const fmtBRL = (n) => `R$ ${n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const fmtAUD = (n) => `A$ ${n.toLocaleString('pt-BR')}`;
+
+    qs('res-total-brl').innerText = fmtBRL(model.metaBRL);
+    qs('res-total-sub').innerText = `Inclui custo modelo do visto + chegada na cidade escolhida (${cidadeCode}).`;
+
+    const mesesTexto = isFinite(model.mesesRitmo) && model.guardar > 0
+      ? `~${model.mesesRitmo} meses`
+      : 'Indefinido';
+    qs('res-meses').innerText = mesesTexto;
+    qs('res-meses-sub').innerText = model.guardar > 0
+      ? 'Tempo para fechar o gap com seu aporte atual e reserva informada.'
+      : 'Sem aporte mensal não dá para projetar — ajuste o campo.';
+
+    qs('res-score-num').innerText = `${model.financeScore}`;
+    qs('res-score-fill').style.width = `${model.financeScore}%`;
+    qs('res-score-label').innerText = model.labelFinance;
+
+    const recMount = qs('res-recs');
+    recMount.innerHTML = '';
+    model.recs.forEach((t) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="rec-icon">✦</span><span>${t}</span>`;
+      recMount.appendChild(li);
+    });
+
+    qs('res-aporte').innerText = fmtBRL(model.aporteNecessario);
+    qs('res-aporte-sub').innerText =
+      `Para atingir o custo modelo em ${tempo} ${tempo === 1 ? 'mês' : 'meses'} (compatível com prazo desejado).`;
+
+    qs('res-meta-aud').innerText = fmtAUD(model.metaAUD);
+    qs('res-meta-brl').innerText = fmtBRL(model.metaBRL);
+    qs('res-cotacao').innerText = `R$ ${cotacaoAUD.toFixed(2)}`;
+    qs('res-tempo').innerText = `${tempo} ${tempo === 1 ? 'mês' : 'meses'}`;
+    qs('res-visto').innerText = tipoVisto === 'student'
       ? 'Estudante (Subclass 500)'
       : 'Working Holiday (Subclass 462)';
 
-    document.getElementById('res-saudacao').innerText = `${nomeFirst}, seu diagnóstico está pronto.`;
-    document.getElementById('res-aporte').innerText   =
-      `R$ ${aporte.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-    document.getElementById('res-aporte-sub').innerText =
-      `Para embarcar em ${tempoDesejado} ${tempoDesejado === 1 ? 'mês' : 'meses'}`;
+    const cidadeLabel = qs('plan-cidade').selectedOptions[0]?.text || cidadeCode;
+    qs('res-context-line').innerText = `${cidadeLabel} • ${objetivo} • ${inglesBr}`;
 
-    document.getElementById('res-meta-aud').innerText =
-      `A$ ${metaAUD.toLocaleString('pt-BR')}`;
-    document.getElementById('res-meta-brl').innerText =
-      `R$ ${metaBRL.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-    document.getElementById('res-cotacao').innerText  =
-      `R$ ${cotacaoAUD.toFixed(2)}`;
-    document.getElementById('res-tempo').innerText    =
-      `${tempoDesejado} ${tempoDesejado === 1 ? 'mês' : 'meses'}`;
-    document.getElementById('res-visto').innerText    = vistoLabel;
+    const pills = qs('res-pills');
+    pills.innerHTML = '';
+    const pillCl = model.financeScore >= 70 ? 'ok' : model.financeScore >= 50 ? 'mid' : 'risk';
+    const pill = document.createElement('span');
+    pill.className = `status-pill ${pillCl}`;
+    pill.innerText = model.financeScore >= 70 ? 'Perfil financeiro favorável' :
+      model.financeScore >= 50 ? 'Perfil financeiro moderado' : 'Perfil financeiro sensível';
+    pills.appendChild(pill);
 
+    applyPremiumUI();
     showScreen('screen-result');
   }
 
-  /* ── Init ──────────────────────────── */
+  function clamp(n, a, b) { return Math.min(Math.max(n, a), b); }
+
+  window.hydrateAIScores = function() {
+    const plan = state.planner;
+    const quiz = state.quiz;
+
+    let baseFinance = plan
+      ? (plan.financeScoreCached != null
+        ? plan.financeScoreCached
+        : computePlannerModel({
+            visto: plan.tipoVisto,
+            guardar: plan.guardar,
+            salario: plan.salario,
+            reserva: plan.reserva,
+            tempo: plan.tempo,
+            cidadeCode: plan.cidadeCode,
+            objetivo: plan.objetivo,
+            inglesBr: plan.inglesBr,
+            acompanhante: plan.acom,
+          }).financeScore)
+      : (quiz ? 62 : 45);
+
+    const sponsor = plan
+      ? (plan.tipoVisto === 'student' ? 58 : 72) - (plan.acom === 'sim' ? 6 : 0)
+      : 55;
+    const ties = plan
+      ? (plan.objetivo === 'migrar' ? 48 : 66)
+      : 60;
+    const history = quiz
+      ? (quiz.faculdade === 'sim' ? 78 : 54) + (quiz.ingles === 'avancado' ? 10 : quiz.ingles === 'intermediario' ? 4 : -6)
+      : 62;
+    const letter = 38;
+
+    const avg = Math.round((baseFinance + sponsor + ties + history + letter) / 5);
+
+    const scoreNum = qs('ai-overall-num');
+    if (scoreNum) scoreNum.textContent = String(avg);
+    const status = qs('ai-overall-status');
+    status.className = 'status-dot' + (avg >= 72 ? '' : avg >= 55 ? ' mid' : ' low');
+    status.innerText = avg >= 72 ? 'Consistência alta — foque em docs' :
+      avg >= 55 ? 'Consistência média — priorize funding + narrativa' : 'Risco elevado — replaneje baseline';
+
+    const setBar = (id, val) => {
+      const v = clamp(val, 0, 100);
+      qs(id).style.width = `${v}%`;
+      qs(id + '-val').innerText = `${v}/100`;
+    };
+    setBar('ai-bar-finance', baseFinance);
+    setBar('ai-bar-sponsor', sponsor);
+    setBar('ai-bar-ties', ties);
+    setBar('ai-bar-history', history);
+    setBar('ai-bar-letter', letter);
+
+    qs('ai-narrativa').innerText =
+      `Seu combo atual aponta ${plan ? 'com base no planner' : 'sem planner completo'} para ${avg >= 65 ? 'um caminho executável' : 'ajustes antes do lodging'}: `+
+      `${baseFinance >= 68 ? 'prova inicial coerente' : 'financeiro como gargalo primário'}, `+
+      `${sponsor >= 65 ? 'estrutura sponsor ok' : 'validar sponsor com extratos longos'}, `+
+      `${ties >= 60 ? 'vínculos conversam bem' : 'fortaleça vínculos na carta oficial'}.`;
+
+    const riskList = qs('ai-risks');
+    riskList.innerHTML = '';
+    [
+      'Validar valores exatos contra COE/oferta + airfare seasonality.',
+      'Manter fluxo reconciliado nos 3 meses que antecedem o lodging.',
+      'Construir paralelo entre curso/objetivo e histórico real.',
+    ].forEach(t => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="rec-icon">!</span><span>${t}</span>`;
+      riskList.appendChild(li);
+    });
+
+    const quick = qs('ai-quick-check');
+    quick.innerHTML = '';
+    [
+      'Consolidar reserva em conta com liquidez comprovável',
+      'Snapshot de renda + coerência com carta',
+      'Checklist de docs traduzidos e nome idêntico',
+    ].forEach(t => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="rec-icon">✓</span><span>${t}</span>`;
+      quick.appendChild(li);
+    });
+  };
+
+  window.showLetterFlow = function() {
+    letterIndex = 0;
+    state.letterAnswers = letterSteps.map(() => '');
+    const nb = qs('letter-next-btn');
+    if (nb) { nb.style.display = ''; }
+    renderLetterStepper();
+    renderLetterQuestion();
+    showScreen('screen-letter');
+  };
+
+  function renderLetterStepper() {
+    const wrap = qs('letter-stepper-wrap');
+    wrap.innerHTML = '<div class="letter-steps"></div>';
+    const row = wrap.querySelector('.letter-steps');
+    letterSteps.forEach((s, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'step-chip' + (i === letterIndex ? ' active' : '');
+      chip.innerText = `${i + 1}. ${s.id}`;
+      row.appendChild(chip);
+    });
+  }
+
+  function renderLetterQuestion() {
+    qs('letter-result-mount').style.display = 'none';
+    qs('letter-question-mount').style.display = 'block';
+    const step = letterSteps[letterIndex];
+    qs('letter-step-label').innerText = `Etapa ${letterIndex + 1} / ${letterSteps.length}`;
+
+    const mount = qs('letter-question-mount');
+    mount.innerHTML = `<p style="font-weight:600;margin-bottom:12px;color:var(--navy);">${step.prompt}</p>`;
+
+    const cur = state.letterAnswers[letterIndex] || '';
+    if (step.type === 'textarea') {
+      mount.innerHTML += `<textarea id="letter-field" class="styled-input" rows="4" style="resize:vertical;min-height:120px;">${cur}</textarea>`;
+    } else if (step.type === 'input') {
+      mount.innerHTML += `<input id="letter-field" class="styled-input" type="text" value="${cur.replace(/"/g, '&quot;')}">`;
+    } else if (step.type === 'select') {
+      let opts = step.options.map(o => `<option ${o === cur ? 'selected' : ''}>${o}</option>`).join('');
+      mount.innerHTML += `<select id="letter-field" class="styled-select">${opts}</select>`;
+    }
+
+    const btn = qs('letter-next-btn');
+    if (btn) {
+      btn.style.display = '';
+      btn.innerText = letterIndex === letterSteps.length - 1 ? 'Gerar carta' : 'Próximo';
+    }
+  }
+
+  window.advanceLetter = function() {
+    const field = qs('letter-field');
+    if (!field) return;
+    state.letterAnswers[letterIndex] = field.value.trim();
+    if (letterIndex < letterSteps.length - 1) {
+      letterIndex += 1;
+      renderLetterStepper();
+      renderLetterQuestion();
+      return;
+    }
+    const text = buildLetterEnglish();
+    qs('letter-question-mount').style.display = 'none';
+    qs('letter-result-mount').style.display = 'block';
+    qs('letter-output').innerHTML = text;
+    qs('letter-next-btn').style.display = 'none';
+  };
+
+  function buildLetterEnglish() {
+    const data = {};
+    letterSteps.forEach((s, i) => { data[s.field] = state.letterAnswers[i] || ''; });
+
+    const opening = `To the Case Officer,\n\nI am writing to clarify the genuine intention behind my application and how my plans in Australia align with my long-term professional development.`;
+    const body1 = `\n\nAustralia is the right environment for me because ${data.whyAu || '[detail why Australia fits your mission]'}. I intend to advance in ${data.course || '[field of study or work focus]'} with the concrete goal that ${data.goal || '[clear 24-month objective]'}.`;
+    const body2 = `\n\nCurrently, I work as ${data.occupation || '[role]'} with an income band of ${data.income || '[range]'} in Brazil. I maintain strong ties to Brazil through ${data.ties || '[family, assets, responsibilities]'}, which I will continue to honour while I study or work lawfully in Australia.`;
+    const body3 = `\n\nMy background includes ${data.history || '[education, employment, travel history]'}, giving me the discipline to succeed academically and integrate responsibly into the local community.`;
+    const body4 = `\n\nFunding for this plan will be secured through ${data.sponsor || '[savings, sponsor, blended approach]'} and I am prepared to present consistent financial evidence in line with Department requirements.`;
+    const closing = `\n\nThank you for considering my application. I remain available to provide any additional documentation required.\n\nSincerely,\n[Your name]`;
+
+    const freePart = opening + body1;
+    const lockedPart = body2 + body3 + body4 + closing;
+
+    return (
+      `<span class="letter-free-part">${escapeHtml(freePart)}</span>` +
+      `<span class="letter-locked-part">${escapeHtml(lockedPart)}</span>`
+    );
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  window.unlockLetterPremium = function() {
+    window.open(WA_URL + encodeURIComponent("Quero a carta de intenção completa + PDF do Let's Go Austrália"), '_blank');
+  };
+
+  async function buscarCotacao() {
+    try {
+      const res = await fetch('https://economia.awesomeapi.com.br/last/AUD-BRL');
+      const data = await res.json();
+      if (data && data.AUDBRL) {
+        cotacaoAUD = parseFloat(data.AUDBRL.bid);
+        qs('cotacao-val').innerText = `R$ ${cotacaoAUD.toFixed(2)}`;
+        const agora = new Date();
+        qs('cotacao-data').innerText =
+          `Atualizado às ${agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+        qs('conv-brl').value = 1000;
+        converter('BRL');
+      }
+    } catch (err) {
+      qs('cotacao-val').innerText = 'R$ 3,80';
+      qs('cotacao-data').innerText = 'Valor estimado';
+    }
+  }
+
+  window.converter = function(moeda) {
+    const brl = qs('conv-brl');
+    const aud = qs('conv-aud');
+    if (!brl || !aud) return;
+    if (moeda === 'BRL') {
+      aud.value = brl.value ? (parseFloat(brl.value) / cotacaoAUD).toFixed(2) : '';
+    } else {
+      brl.value = aud.value ? (parseFloat(aud.value) * cotacaoAUD).toFixed(2) : '';
+    }
+  };
+
   window.addEventListener('load', () => {
     buscarCotacao();
     setInterval(buscarCotacao, 60000);
+    syncFloatFilled(document);
+    applyPremiumUI();
+    const on = qs('ai-overall-num');
+    if (on && on.textContent === '--') hydrateAIScores();
   });
+
+})();
 </script>
 </body>
 </html>
