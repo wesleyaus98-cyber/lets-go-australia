@@ -1799,6 +1799,11 @@
 
   .btn-loading { opacity: 0.75; pointer-events: none; }
 
+  .btn-gold .spinner {
+    border-color: rgba(0,18,51,0.22);
+    border-top-color: var(--navy);
+  }
+
   .spinner {
     width: 18px; height: 18px;
     border: 2px solid rgba(255,255,255,0.3);
@@ -1810,63 +1815,224 @@
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── Guided journey / wizard ─────────────────── */
+  .wiz-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .wiz-back {
+    background: none;
+    border: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    padding: 8px 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transition);
+  }
+
+  .wiz-back:hover { color: rgba(255,255,255,0.9); }
+
+  .wiz-back:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: none;
+  }
+
+  #screen-welcome .wiz-back,
+  #screen-planner .wiz-back,
+  #screen-result .wiz-back {
+    color: var(--muted);
+  }
+
+  #screen-planner .wiz-back:hover,
+  #screen-result .wiz-back:hover {
+    color: var(--navy);
+  }
+
+  .wiz-pill {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+  }
+
+  #screen-planner .wiz-pill,
+  #screen-result .wiz-pill {
+    color: var(--muted);
+    border-color: var(--border);
+    background: var(--cream);
+  }
+
+  .wiz-panel { display: none; animation: screenIn 0.35s ease both; }
+  .wiz-panel.active { display: block; }
+
+  .wiz-one-liner {
+    font-size: clamp(1.05rem, 3.5vw, 1.2rem);
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 18px;
+    line-height: 1.45;
+  }
+
+  .accordion {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--cream);
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--transition);
+  }
+
+  .acc-trigger:hover { background: #f0f1f5; }
+
+  .acc-trigger .acc-chev {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform var(--transition);
+  }
+
+  .accordion.is-open .acc-trigger .acc-chev { transform: rotate(90deg); }
+
+  .acc-panel {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .accordion.is-open .acc-panel { display: block; }
+
+  .result-summary-lead {
+    text-align: center;
+    font-size: clamp(14px, 3.5vw, 16px);
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 20px;
+    max-width: 26rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sticky-wiz-hint {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: linear-gradient(180deg, var(--cream) 85%, transparent);
+    padding-bottom: 8px;
+    margin: -4px 0 12px;
+  }
 </style>
 </head>
 <body>
 
+<!-- WELCOME — single CTA -->
+<div id="screen-welcome" class="screen active">
+  <div class="quiz-hero-bg"></div>
+  <div class="quiz-hero-content">
+    <div class="container">
+      <div class="eyebrow fade-up">Let's Go Austrália</div>
+      <h1 class="hero-title fade-up fade-up-d1">Seu plano para a Austrália,<br><span>sem complicação</span></h1>
+      <p class="hero-sub fade-up fade-up-d2">Em poucos minutos você descobre qual caminho faz mais sentido e quanto precisa juntar — passo a passo, no seu ritmo.</p>
+      <div class="quiz-card fade-up fade-up-d3" style="text-align:center;padding-bottom:32px;">
+        <p class="wiz-one-liner" style="margin-bottom:24px;">Toque em começar. A gente guia o resto.</p>
+        <button type="button" class="btn-gold" onclick="startJourney()" style="max-width:340px;margin:0 auto;">
+          Começar
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p style="margin-top:18px;font-size:12px;color:var(--muted);">Grátis nesta etapa · Cotação do dólar na barra de baixo</p>
+        <button type="button" class="btn-ghost" style="margin-top:8px;color:rgba(255,255,255,0.45);" onclick="showScreen('screen-sobre')">Conhecer o Wesley</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- SCREEN: QUIZ -->
-<div id="screen-quiz" class="screen active">
+<div id="screen-quiz" class="screen">
   <div class="quiz-hero-bg"></div>
   <div class="quiz-hero-content">
     <div class="container">
       <div class="eyebrow fade-up">Let's Go Austrália</div>
       <h1 class="hero-title fade-up fade-up-d1">Qual visto combina<br><span>com você?</span></h1>
-      <p class="hero-sub fade-up fade-up-d2">Responda 4 perguntas rápidas e receba seu diagnóstico de visto personalizado.</p>
+      <p class="hero-sub fade-up fade-up-d2">Quatro perguntas bem simples. Uma de cada vez.</p>
 
       <div id="quiz-box" class="quiz-card fade-up fade-up-d3">
-        <div class="quiz-step-header">
-          <span class="quiz-step-label">Seu perfil de viagem</span>
-          <span class="quiz-step-label">4 perguntas</span>
+        <div class="wiz-top">
+          <button type="button" class="wiz-back" id="quiz-wiz-back" onclick="quizWizardBack()" disabled>Voltar</button>
+          <span class="wiz-pill" id="quiz-wiz-step-label">Pergunta 1 de 4</span>
         </div>
-        <div class="quiz-progress-bar">
-          <div class="quiz-progress-fill" style="width:100%"></div>
+        <div class="quiz-progress-bar" aria-hidden="true">
+          <div id="quiz-wiz-progress-fill" class="quiz-progress-fill" style="width:25%"></div>
         </div>
 
-        <div class="field-group">
+        <div id="quiz-panel-0" class="wiz-panel active field-group">
           <label class="field-label"><span class="field-number">1</span>Qual a sua idade?</label>
-          <select id="q-idade" class="styled-select">
+          <select id="q-idade" class="styled-select" aria-label="Idade">
             <option value="18-24">18 a 24 anos</option>
             <option value="25-30">25 a 30 anos</option>
             <option value="31+">31 anos ou mais</option>
           </select>
         </div>
-        <div class="field-group">
-          <label class="field-label"><span class="field-number">2</span>Qual seu objetivo principal?</label>
-          <select id="q-objetivo" class="styled-select">
+        <div id="quiz-panel-1" class="wiz-panel field-group">
+          <label class="field-label"><span class="field-number">2</span>O que você quer fazer na Austrália?</label>
+          <select id="q-objetivo" class="styled-select" aria-label="Objetivo">
             <option value="estudar">Estudar e me qualificar</option>
             <option value="trabalhar">Trabalhar e juntar dinheiro</option>
-            <option value="experiencia">Viver uma experiência (Gap Year)</option>
-            <option value="migrar">Migrar permanentemente</option>
+            <option value="experiencia">Ter uma experiência (tipo gap year)</option>
+            <option value="migrar">Planejar ficar mais tempo / migrar</option>
           </select>
         </div>
-        <div class="field-group">
-          <label class="field-label"><span class="field-number">3</span>Tem pelo menos 2 anos de faculdade?</label>
-          <select id="q-faculdade" class="styled-select">
-            <option value="sim">Sim, completo ou cursando</option>
-            <option value="nao">Não tenho</option>
+        <div id="quiz-panel-2" class="wiz-panel field-group">
+          <label class="field-label"><span class="field-number">3</span>Você tem pelo menos 2 anos de faculdade?</label>
+          <select id="q-faculdade" class="styled-select" aria-label="Faculdade">
+            <option value="sim">Sim (completo ou cursando)</option>
+            <option value="nao">Não</option>
           </select>
         </div>
-        <div class="field-group" style="margin-bottom:28px;">
-          <label class="field-label"><span class="field-number">4</span>Como está seu inglês?</label>
-          <select id="q-ingles" class="styled-select">
-            <option value="basico">Básico — entendo pouco ou nada</option>
-            <option value="intermediario">Intermediário — consigo me comunicar</option>
-            <option value="avancado">Avançado — pronto para IELTS/PTE</option>
+        <div id="quiz-panel-3" class="wiz-panel field-group" style="margin-bottom:24px;">
+          <label class="field-label"><span class="field-number">4</span>Como está seu inglês hoje?</label>
+          <select id="q-ingles" class="styled-select" aria-label="Inglês">
+            <option value="basico">Básico — entendo pouco</option>
+            <option value="intermediario">Intermediário — me viro bem</option>
+            <option value="avancado">Avançado — preparado para teste</option>
           </select>
         </div>
 
-        <button type="button" onclick="processarQuiz()" class="btn-primary">
-          Ver meu resultado
+        <button type="button" id="quiz-wiz-next" onclick="quizWizardNext()" class="btn-primary">
+          Continuar
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </div>
@@ -1874,40 +2040,57 @@
       <div id="quiz-result" class="quiz-result-card">
         <div class="quiz-result-top">
           <div class="quiz-result-icon">🎯</div>
-          <div class="quiz-result-badge">Visto Recomendado</div>
+          <div class="quiz-result-badge">Sugestão para você</div>
           <h2 class="quiz-result-title" id="visto-titulo"></h2>
           <p class="quiz-result-desc" id="visto-descricao"></p>
         </div>
 
-        <div class="insight-grid">
-          <div class="insight-tile">
-            <div class="insight-tile-label">Cidade sugerida</div>
-            <div class="insight-tile-value" id="qr-cidade">—</div>
-          </div>
-          <div class="insight-tile">
-            <div class="insight-tile-label">Faixa de custo (referência)</div>
-            <div class="insight-tile-value" id="qr-custo">—</div>
-          </div>
-          <div class="insight-tile" style="grid-column:1/-1;">
-            <div class="insight-tile-label">Curso / caminho sugerido</div>
-            <div class="insight-tile-value" id="qr-curso">—</div>
-          </div>
-        </div>
-
         <div class="stack-cta">
           <button type="button" onclick="openPlannerFromQuiz()" class="btn-gold">
-            Planejamento financeiro — Smart Australia Planner
+            Continuar — ver quanto preciso juntar
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
           <button type="button" onclick="resetQuiz()" class="btn-primary" style="background:var(--navy-light);">
-            Refazer quiz
+            Refazer perguntas
           </button>
-          <button type="button" onclick="showScreen('screen-landing')" class="btn-ghost" style="color:var(--muted);margin:0 auto;">Ver consultoria Let's Go Austrália</button>
         </div>
 
-        <div class="link-row">
-          <button type="button" class="link-pill" onclick="showScreen('screen-ai')">Visa AI Center</button>
-          <button type="button" class="link-pill" onclick="showLetterFlow()">Carta de intenção (IA)</button>
+        <div class="accordion" id="acc-quiz-extra">
+          <button type="button" class="acc-trigger" onclick="toggleAccordion('acc-quiz-extra')" aria-expanded="false">
+            Ver sugestões extras (cidade e custos)
+            <span class="acc-chev">›</span>
+          </button>
+          <div class="acc-panel">
+            <div class="insight-grid" style="margin-top:8px;">
+              <div class="insight-tile">
+                <div class="insight-tile-label">Cidade sugerida</div>
+                <div class="insight-tile-value" id="qr-cidade">—</div>
+              </div>
+              <div class="insight-tile">
+                <div class="insight-tile-label">Faixa de custo (referência)</div>
+                <div class="insight-tile-value" id="qr-custo">—</div>
+              </div>
+              <div class="insight-tile" style="grid-column:1/-1;">
+                <div class="insight-tile-label">Caminho sugerido</div>
+                <div class="insight-tile-value" id="qr-curso">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" id="acc-quiz-tools">
+          <button type="button" class="acc-trigger" onclick="toggleAccordion('acc-quiz-tools')" aria-expanded="false">
+            Ferramentas avançadas (opcional)
+            <span class="acc-chev">›</span>
+          </button>
+          <div class="acc-panel">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Só se você quiser explorar depois.</p>
+            <div class="link-row">
+              <button type="button" class="link-pill" onclick="showScreen('screen-ai')">Visa AI Center</button>
+              <button type="button" class="link-pill" onclick="showLetterFlow()">Carta em inglês (IA)</button>
+              <button type="button" class="link-pill" onclick="showScreen('screen-landing')">Página do projeto</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1927,19 +2110,18 @@
       </div>
 
       <h1 class="landing-title fade-up fade-up-d1">
-        Viabilize seu<br>projeto <em>Austrália</em>
+        Austrália,<br>sem <em>complicação</em>
       </h1>
       <p class="landing-sub fade-up fade-up-d2">
-        Plataforma inteligente: quiz de visto, Smart Australia Planner, score financeiro e (premium) Visa AI Center com análises profissionais da sua candidatura.
+        Um caminho guiado: primeiro entendemos seu perfil, depois seus números. Você só segue os botões.
       </p>
 
       <div class="cta-stack fade-up fade-up-d3">
-        <button type="button" onclick="showScreen('screen-planner')" class="btn-cta-main">
-          Abrir Smart Australia Planner
+        <button type="button" onclick="startJourney()" class="btn-cta-main">
+          Começar o passo a passo
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
-        <button type="button" onclick="showScreen('screen-ai')" class="btn-cta-secondary">Visa AI Center</button>
-        <button type="button" onclick="showScreen('screen-sobre')" class="btn-ghost">Conheça minha história na Austrália 🇦🇺</button>
+        <button type="button" onclick="showScreen('screen-sobre')" class="btn-ghost">Conhecer o Wesley 🇦🇺</button>
       </div>
 
       <div class="social-proof-strip fade-up fade-up-d4">
@@ -1959,7 +2141,7 @@
         </div>
       </div>
 
-      <button type="button" onclick="showScreen('screen-quiz')" class="btn-ghost" style="opacity:0.85;">← Voltar ao quiz de visto</button>
+      <button type="button" onclick="startJourney()" class="btn-ghost" style="opacity:0.85;">Ir para o passo a passo</button>
     </div>
   </div>
 </div>
@@ -2001,8 +2183,8 @@
       </ul>
 
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <button type="button" onclick="showScreen('screen-planner')" class="btn-primary" style="flex:1;min-width:200px;">
-          Começar meu planner
+        <button type="button" onclick="startJourney()" class="btn-primary" style="flex:1;min-width:200px;">
+          Ir para o passo a passo
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
         <button type="button" onclick="showScreen('screen-landing')" class="btn-ghost-dark">← Voltar</button>
@@ -2011,121 +2193,127 @@
   </div>
 </div>
 
-<!-- SMART PLANNER -->
+<!-- SMART PLANNER — wizard -->
 <div id="screen-planner" class="screen">
-  <div style="padding:52px 0 60px;">
+  <div style="padding:44px 0 72px;">
     <div class="container">
+      <div class="sticky-wiz-hint">
+        <div class="wiz-top" style="margin-bottom:0;">
+          <button type="button" class="wiz-back" id="planner-wiz-back" onclick="plannerWizardBack()">Voltar</button>
+          <span class="wiz-pill" id="planner-wiz-step-label">Passo 1 de 3</span>
+        </div>
+      </div>
+
       <div class="form-wrapper">
         <div class="form-header">
           <div class="form-header-tag">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/></svg>
-            Etapa gratuita
+            Passo a passo
           </div>
-          <h2 class="form-title">Smart Australia Planner</h2>
-          <p class="form-sub">Um snapshot profissional do seu plano financeiro + score básico. Detalhes avançados ficam no premium.</p>
+          <h2 class="form-title" id="planner-wiz-title">Quase lá</h2>
+          <p class="form-sub" id="planner-wiz-sub">Responda em 3 passos curtos. Sem pegadinhas.</p>
         </div>
         <div class="form-body">
-          <form id="planner-form" onsubmit="handlePlannerSubmit(event)">
-            <p class="form-section-label">Contato</p>
-            <div class="float-field">
-              <input type="text" id="nome" required placeholder=" " autocomplete="off">
-              <label>Nome completo</label>
-            </div>
-            <div class="float-field">
-              <input type="email" id="email" required placeholder=" " autocomplete="email">
-              <label>Seu melhor e-mail</label>
-              <p class="input-hint">Sem spam. Podemos usar para enviar seu plano quando o recurso existir.</p>
+          <form id="planner-form" onsubmit="return false;">
+
+            <div id="planner-panel-0" class="wiz-panel active">
+              <p class="wiz-one-liner">Primeiro, como podemos te chamar?</p>
+              <div class="float-field">
+                <input type="text" id="nome" required placeholder=" " autocomplete="name">
+                <label>Seu nome</label>
+              </div>
+              <div class="float-field">
+                <input type="email" id="email" required placeholder=" " autocomplete="email">
+                <label>E-mail</label>
+                <p class="input-hint">Só para contato. Sem spam.</p>
+              </div>
             </div>
 
-            <div class="form-divider"></div>
-            <p class="form-section-label">Situação e meta</p>
-            <div class="form-grid-2">
+            <div id="planner-panel-1" class="wiz-panel">
+              <p class="wiz-one-liner">Conte como você imagina essa ida.</p>
               <div class="float-field filled">
                 <select id="visto">
-                  <option value="working">Working Holiday (Subclass 462)</option>
-                  <option value="student">Visto de Estudante (Subclass 500)</option>
+                  <option value="working">Working Holiday (462)</option>
+                  <option value="student">Estudante (500)</option>
                 </select>
-                <label>Tipo de visto</label>
+                <label>Visto</label>
               </div>
               <div class="float-field filled">
                 <select id="plan-objetivo">
-                  <option value="estudar">Estudar e me qualificar</option>
-                  <option value="trabalhar">Trabalhar e juntar dinheiro</option>
+                  <option value="estudar">Estudar</option>
+                  <option value="trabalhar">Trabalhar / juntar dinheiro</option>
                   <option value="experiencia">Experiência / gap year</option>
-                  <option value="migrar">Migrar / longo prazo</option>
+                  <option value="migrar">Ficar mais tempo</option>
                 </select>
-                <label>Objetivo principal</label>
+                <label>Foco principal</label>
               </div>
-            </div>
-
-            <div class="float-field filled">
-              <select id="plan-ingles">
-                <option value="basico">Inglês básico</option>
-                <option value="intermediario">Inglês intermediário</option>
-                <option value="avancado">Inglês avançado</option>
-              </select>
-              <label>Nível de inglês</label>
-            </div>
-
-            <div class="float-field filled">
-              <select id="plan-cidade">
-                <option value="sydney">Sydney</option>
-                <option value="melbourne">Melbourne</option>
-                <option value="brisbane">Brisbane</option>
-                <option value="perth">Perth</option>
-                <option value="adelaide">Adelaide</option>
-                <option value="outro">Outra / ainda decidindo</option>
-              </select>
-              <label>Cidade desejada</label>
-            </div>
-
-            <div class="form-divider"></div>
-            <p class="form-section-label">Financeiro</p>
-            <div class="form-grid-2">
-              <div class="float-field">
-                <input type="number" id="salario" required placeholder=" " min="0" step="100">
-                <label>Salário mensal (R$)</label>
-              </div>
-              <div class="float-field">
-                <input type="number" id="guardar" required placeholder=" " min="0" step="100">
-                <label>Quanto consegue guardar / mês (R$)</label>
-              </div>
-            </div>
-            <div class="float-field">
-              <input type="number" id="reserva" required placeholder=" " min="0" step="100">
-              <label>Reserva atual (R$)</label>
-              <p class="input-hint">Poupança disponível só para esse projeto.</p>
-            </div>
-
-            <div class="form-grid-2">
               <div class="float-field filled">
-                <select id="acompanhante">
-                  <option value="nao">Sozinho(a)</option>
-                  <option value="sim">Com acompanhante</option>
+                <select id="plan-ingles">
+                  <option value="basico">Inglês básico</option>
+                  <option value="intermediario">Inglês intermediário</option>
+                  <option value="avancado">Inglês avançado</option>
                 </select>
-                <label>Acompanhante</label>
+                <label>Inglês hoje</label>
+              </div>
+              <div class="float-field filled">
+                <select id="plan-cidade">
+                  <option value="sydney">Sydney</option>
+                  <option value="melbourne">Melbourne</option>
+                  <option value="brisbane">Brisbane</option>
+                  <option value="perth">Perth</option>
+                  <option value="adelaide">Adelaide</option>
+                  <option value="outro">Outra / não sei ainda</option>
+                </select>
+                <label>Cidade desejada</label>
+              </div>
+            </div>
+
+            <div id="planner-panel-2" class="wiz-panel">
+              <p class="wiz-one-liner">Último passo: números em reais (aproximado tá ótimo).</p>
+              <div class="form-grid-2">
+                <div class="float-field">
+                  <input type="number" id="salario" required placeholder=" " min="0" step="100" inputmode="decimal">
+                  <label>Quanto você ganha por mês?</label>
+                </div>
+                <div class="float-field">
+                  <input type="number" id="guardar" required placeholder=" " min="0" step="100" inputmode="decimal">
+                  <label>Quanto consegue guardar por mês?</label>
+                </div>
               </div>
               <div class="float-field">
-                <input type="number" id="tempo" required placeholder=" " min="1" max="120">
-                <label>Prazo desejado (meses até embarcar)</label>
+                <input type="number" id="reserva" required placeholder=" " min="0" step="100" inputmode="decimal">
+                <label>Quanto já tem guardado pra isso?</label>
+                <p class="input-hint">Soma da poupança que você usaria neste plano.</p>
+              </div>
+              <div class="form-grid-2">
+                <div class="float-field filled">
+                  <select id="acompanhante">
+                    <option value="nao">Sozinho(a)</option>
+                    <option value="sim">Com alguém</option>
+                  </select>
+                  <label>Vai com alguém?</label>
+                </div>
+                <div class="float-field">
+                  <input type="number" id="tempo" required placeholder=" " min="1" max="120" inputmode="numeric">
+                  <label>Em quantos meses quer embarcar?</label>
+                </div>
               </div>
             </div>
 
             <div style="margin-top:28px;">
-              <button type="submit" id="btn-planner-submit" class="btn-gold">
-                <span id="btn-planner-label">Gerar plano inteligente</span>
+              <button type="button" id="btn-planner-next" class="btn-gold" onclick="plannerWizardNext()">
+                <span id="btn-planner-label">Continuar</span>
               </button>
             </div>
-            <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:14px;">
-              🔒 Seus dados ficam apenas neste dispositivo (demo). Produção deve persistir com consentimento LGPD.
+            <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:14px;line-height:1.45;">
+              Os números são uma estimativa para te orientar. Demo local — não salvamos no servidor.
             </p>
           </form>
         </div>
       </div>
 
-      <div style="text-align:center;margin-top:20px;display:flex;flex-direction:column;gap:10px;">
-        <button type="button" onclick="showScreen('screen-quiz')" class="back-link">← Voltar ao quiz</button>
-        <button type="button" onclick="showScreen('screen-landing')" class="back-link">Página inicial</button>
+      <div style="text-align:center;margin-top:18px;">
+        <button type="button" onclick="showScreen('screen-quiz')" class="back-link">← Voltar ao resultado do quiz</button>
       </div>
     </div>
   </div>
@@ -2140,34 +2328,40 @@
           <div style="position:relative;">
             <div style="font-size:36px;margin-bottom:12px;">🎯</div>
             <h2 class="result-header-name" id="res-saudacao">Diagnóstico Pronto</h2>
-            <p class="result-header-sub">Baseado na cotação AUD/BRL em tempo real + seu perfil</p>
+            <p class="result-header-sub">Estimativa automática com o dólar de agora</p>
             <div id="res-pills" class="pill-row"></div>
           </div>
         </div>
 
         <div class="result-body">
+          <p class="result-summary-lead" id="res-lead"></p>
           <div class="metric-cards">
             <div class="metric-card">
-              <p class="metric-card-label">Custo total estimado</p>
+              <p class="metric-card-label">Valor total (referência)</p>
               <p class="metric-card-value" id="res-total-brl">R$ ---</p>
-              <p class="metric-card-hint" id="res-total-sub">Referência inicial de prova financeira</p>
+              <p class="metric-card-hint" id="res-total-sub">Estimativa pra você se orientar</p>
             </div>
             <div class="metric-card">
-              <p class="metric-card-label">Tempo até embarque</p>
+              <p class="metric-card-label">Quanto tempo pode levar</p>
               <p class="metric-card-value" id="res-meses">—</p>
-              <p class="metric-card-hint" id="res-meses-sub">Com base no seu aporte mensal</p>
+              <p class="metric-card-hint" id="res-meses-sub">No ritmo que você informou</p>
             </div>
             <div class="metric-card">
-              <p class="metric-card-label">Score financeiro</p>
+              <p class="metric-card-label">Leitura rápida</p>
               <p class="metric-card-value" id="res-score-num">—</p>
               <div class="diag-score-bar"><div id="res-score-fill" class="diag-score-fill" style="width:0%"></div></div>
               <p class="metric-card-hint" id="res-score-label">—</p>
             </div>
           </div>
 
-          <div class="diagnosis-card">
-            <p class="diagnosis-card-label">Recomendações (grátis)</p>
-            <ul id="res-recs" class="rec-list"></ul>
+          <div class="accordion" id="acc-recs">
+            <button type="button" class="acc-trigger" onclick="toggleAccordion('acc-recs')" aria-expanded="false">
+              Ver dicas pra você (grátis)
+              <span class="acc-chev">›</span>
+            </button>
+            <div class="acc-panel">
+              <ul id="res-recs" class="rec-list" style="margin-top:8px;"></ul>
+            </div>
           </div>
 
           <!-- Premium lock: deep analysis -->
@@ -2205,31 +2399,34 @@
             <p class="aporte-sub" id="res-aporte-sub">Ou ajustar prazo / reserva (veja abaixo)</p>
           </div>
 
-          <div class="diagnosis-card">
-            <p class="diagnosis-card-label">Detalhes do plano</p>
-            <div class="diagnosis-row"><span class="diagnosis-row-label">Meta AUD (cenário modelo)</span><span class="diagnosis-row-value" id="res-meta-aud">---</span></div>
-            <div class="diagnosis-row"><span class="diagnosis-row-label">Equivalente BRL na cotação</span><span class="diagnosis-row-value" id="res-meta-brl">---</span></div>
-            <div class="diagnosis-row"><span class="diagnosis-row-label">Cotação usada</span><span class="diagnosis-row-value" id="res-cotacao">---</span></div>
-            <div class="diagnosis-row"><span class="diagnosis-row-label">Prazo desejado</span><span class="diagnosis-row-value" id="res-tempo">---</span></div>
-            <div class="diagnosis-row"><span class="diagnosis-row-label">Visto selecionado</span><span class="diagnosis-row-value" id="res-visto">---</span></div>
-            <div class="diagnosis-row"><span class="diagnosis-row-label">Cidade / objetivo / inglês</span><span class="diagnosis-row-value" id="res-context-line" style="text-align:left;font-size:13px;">---</span></div>
-          </div>
-
-          <div class="dashboard-grid">
-            <div class="dash-card dash-span-6">
-              <div class="dash-card-head"><span class="dash-card-title">Próximo passo SaaS</span><span class="dash-tag live">Free tier</span></div>
-              <p style="font-size:14px;color:var(--muted);margin-bottom:12px;line-height:1.55;">
-                Compare seu cenário dentro do Visa AI Center e gere um rascunho de carta (preview grátis).
-              </p>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button type="button" class="btn-primary" style="width:auto;padding:14px 20px;font-size:12px;" onclick="showScreen('screen-ai')">Abrir Visa AI Center</button>
-                <button type="button" class="btn-ghost-dark" style="flex:1;min-width:140px;padding:14px;" onclick="showScreen('screen-quiz')">Cancelar — voltar ao quiz</button>
+          <div class="accordion" id="acc-details">
+            <button type="button" class="acc-trigger" onclick="toggleAccordion('acc-details')" aria-expanded="false">
+              Ver detalhes do cálculo
+              <span class="acc-chev">›</span>
+            </button>
+            <div class="acc-panel">
+              <div class="diagnosis-card" style="margin:12px 0 0;border:none;padding:0;background:transparent;">
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Meta em AUD (modelo)</span><span class="diagnosis-row-value" id="res-meta-aud">---</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Em reais (cotação atual)</span><span class="diagnosis-row-value" id="res-meta-brl">---</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Cotação usada</span><span class="diagnosis-row-value" id="res-cotacao">---</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Prazo que você escolheu</span><span class="diagnosis-row-value" id="res-tempo">---</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Visto</span><span class="diagnosis-row-value" id="res-visto">---</span></div>
+                <div class="diagnosis-row"><span class="diagnosis-row-label">Cidade / foco / inglês</span><span class="diagnosis-row-value" id="res-context-line" style="text-align:left;font-size:13px;">---</span></div>
               </div>
             </div>
-            <div class="dash-card dash-span-6">
-              <div class="dash-card-head"><span class="dash-card-title">Carta em inglês (IA)</span><span class="dash-tag">Preview</span></div>
-              <p style="font-size:14px;color:var(--muted);margin-bottom:12px;">Responda 6 etapas. Texto íntegra no premium.</p>
-              <button type="button" class="btn-gold" onclick="showLetterFlow()" style="width:100%;font-size:13px;padding:14px;">Começar gerador</button>
+          </div>
+
+          <div class="accordion" id="acc-more-tools">
+            <button type="button" class="acc-trigger" onclick="toggleAccordion('acc-more-tools')" aria-expanded="false">
+              Quer ir além? (opcional)
+              <span class="acc-chev">›</span>
+            </button>
+            <div class="acc-panel">
+              <p style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.5;">Ferramentas extras — só se fizer sentido pra você.</p>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <button type="button" class="btn-primary" style="width:100%;padding:14px;font-size:13px;text-transform:none;letter-spacing:0.02em;" onclick="showScreen('screen-ai')">Ver Visa AI Center</button>
+                <button type="button" class="btn-ghost-dark" style="width:100%;padding:14px;font-size:13px;" onclick="showLetterFlow()">Gerar carta em inglês (rascunho)</button>
+              </div>
             </div>
           </div>
 
@@ -2256,9 +2453,9 @@
             </a>
           </div>
 
-          <div style="display:flex;flex-wrap:wrap;gap:10px;">
-            <button type="button" onclick="showScreen('screen-planner')" class="back-link" style="width:auto;padding:14px;border:1px solid var(--border);border-radius:var(--radius-md);">← Ajustar planner</button>
-            <button type="button" onclick="showScreen('screen-quiz')" class="back-link" style="width:auto;padding:14px;">Refazer quiz</button>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;">
+            <button type="button" onclick="openPlannerFromQuiz()" class="back-link" style="width:auto;padding:14px;border:1px solid var(--border);border-radius:var(--radius-md);">Ajustar números</button>
+            <button type="button" onclick="resetFullJourney()" class="back-link" style="width:auto;padding:14px;">Começar de novo</button>
           </div>
         </div>
       </div>
@@ -2273,10 +2470,8 @@
       <div class="saas-kicker">Australia Visa Intelligence</div>
       <h2 class="saas-title">Visa AI Center</h2>
       <p class="saas-sub">
-        Radar visual do seu dossier modelo. Valores combinam dados do quiz + planner. Interpretação estratégica é premium —
-        mas você já sai com um norte claro onde investir primeiro.
+        Um panorama visual do seu cenário. Os detalhes mais profundos ficam no premium — aqui você vê por onde começar.
       </p>
-      <button type="button" class="link-pill" onclick="hydrateAIScores()" style="margin-top:14px;background:#fff;">Atualizar scores</button>
     </div>
 
     <div class="dashboard-grid" style="margin-bottom:14px;">
@@ -2345,7 +2540,7 @@
       </div>
     </div>
 
-    <button type="button" class="back-link" onclick="showScreen('screen-quiz')" style="text-align:center;">← Voltar</button>
+    <button type="button" class="back-link" onclick="showScreen('screen-result')" style="text-align:center;">← Voltar ao resumo</button>
   </div>
 </div>
 
@@ -2354,9 +2549,9 @@
   <div class="saas-wrap">
     <div class="saas-hero fade-up">
       <div class="saas-kicker">Statement of Purpose — demo</div>
-      <h2 class="saas-title">Gerador de Carta com IA</h2>
+      <h2 class="saas-title">Carta em inglês</h2>
       <p class="saas-sub">
-        Produzimos um inglês institucional a partir das suas respostas. Esta versão não substitui assessoria registrada nem lodgment na ImmiAccount — é ferramenta de preparação narrativa.
+        Respondemos por você em inglês profissional. É um rascunho para você revisar — não substitui assessoria oficial.
       </p>
     </div>
 
@@ -2384,7 +2579,7 @@
       </div>
     </div>
 
-    <button type="button" class="back-link" onclick="showScreen('screen-quiz')" style="margin-top:24px;">← Voltar</button>
+    <button type="button" class="back-link" onclick="showScreen('screen-result')" style="margin-top:24px;">← Voltar ao resumo</button>
   </div>
 </div>
 
@@ -2428,19 +2623,158 @@
   };
 
   const letterSteps = [
-    { id:'why-au', prompt:'Por que você escolhe a Austrália (missão principal)?', type:'textarea', field:'whyAu' },
-    { id:'course', prompt:'Área/nível que pretende cursar OU foco laboral?', type:'input', field:'course' },
-    { id:'goal', prompt:'Qual objetivo oficial em até 24 meses?', type:'textarea', field:'goal' },
-    { id:'occupation', prompt:'Profissão atual + empresa (opcional)?', type:'input', field:'occupation' },
-    { id:'income-br', prompt:'Faixa da sua renda no Brasil?', type:'select', options:['Até R$ 3k','R$ 3k — 8k','R$ 8k — 15k','15k+'], field:'income' },
-    { id:'ties', prompt:'Vínculos com o Brasil (família/bens/compromissos)?', type:'textarea', field:'ties' },
-    { id:'history', prompt:'Histórico (estudos, trabalho, viagens fortes)?', type:'textarea', field:'history' },
-    { id:'sponsor', prompt:'Como será o funding? (patrocinador, poupança, mix?)', type:'textarea', field:'sponsor' },
+    { id:'why-au', prompt:'Por que a Austrália faz sentido pra você neste momento?', type:'textarea', field:'whyAu' },
+    { id:'course', prompt:'O que você quer estudar ou fazer por lá?', type:'input', field:'course' },
+    { id:'goal', prompt:'O que você quer conquistar nos próximos 12–24 meses?', type:'textarea', field:'goal' },
+    { id:'occupation', prompt:'O que você faz hoje no Brasil? (cargo em poucas palavras)', type:'input', field:'occupation' },
+    { id:'income-br', prompt:'Sua renda mensal hoje, mais ou menos:', type:'select', options:['Até R$ 3k','R$ 3k — 8k','R$ 8k — 15k','15k+'], field:'income' },
+    { id:'ties', prompt:'O que te prende ao Brasil? (família, trabalho, casa…)', type:'textarea', field:'ties' },
+    { id:'history', prompt:'Seu histórico rápido: estudos, trabalhos, viagens importantes', type:'textarea', field:'history' },
+    { id:'sponsor', prompt:'De onde vem o dinheiro da viagem? (poupança, família, misto…)', type:'textarea', field:'sponsor' },
   ];
 
   let letterIndex = 0;
 
+  let quizWizardStep = 0;
+  const QUIZ_WIZ_STEPS = 4;
+  let plannerWizardStep = 0;
+  const PLANNER_WIZ_STEPS = 3;
+
+  const plannerWizardCopy = [
+    { title: 'Primeiro, o básico', sub: 'Como podemos te chamar?' },
+    { title: 'Seu cenário', sub: 'Já deixamos parecido com o seu quiz — muda se precisar.' },
+    { title: 'Seus números', sub: 'Valores aproximados estão ótimos.' },
+  ];
+
   function qs(id) { return document.getElementById(id); }
+
+  window.startJourney = function() {
+    showScreen('screen-quiz');
+    initQuizWizard(0);
+  };
+
+  function initQuizWizard(step) {
+    quizWizardStep = Math.max(0, Math.min(QUIZ_WIZ_STEPS - 1, step));
+    for (let i = 0; i < QUIZ_WIZ_STEPS; i++) {
+      const p = qs('quiz-panel-' + i);
+      if (p) p.classList.toggle('active', i === quizWizardStep);
+    }
+    const back = qs('quiz-wiz-back');
+    if (back) back.disabled = quizWizardStep === 0;
+    const fill = qs('quiz-wiz-progress-fill');
+    if (fill) fill.style.width = `${((quizWizardStep + 1) / QUIZ_WIZ_STEPS) * 100}%`;
+    const lab = qs('quiz-wiz-step-label');
+    if (lab) lab.textContent = `Pergunta ${quizWizardStep + 1} de ${QUIZ_WIZ_STEPS}`;
+    const next = qs('quiz-wiz-next');
+    if (next) {
+      next.innerHTML = quizWizardStep === QUIZ_WIZ_STEPS - 1
+        ? 'Ver resultado <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+        : 'Continuar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    }
+  }
+
+  window.quizWizardNext = function() {
+    if (quizWizardStep < QUIZ_WIZ_STEPS - 1) {
+      quizWizardStep += 1;
+      initQuizWizard(quizWizardStep);
+      return;
+    }
+    processarQuiz();
+  };
+
+  window.quizWizardBack = function() {
+    if (quizWizardStep === 0) return;
+    quizWizardStep -= 1;
+    initQuizWizard(quizWizardStep);
+  };
+
+  window.toggleAccordion = function(id) {
+    const el = qs(id);
+    if (!el) return;
+    el.classList.toggle('is-open');
+    const tr = el.querySelector('.acc-trigger');
+    if (tr) tr.setAttribute('aria-expanded', el.classList.contains('is-open') ? 'true' : 'false');
+  };
+
+  function initPlannerWizard(step) {
+    plannerWizardStep = Math.max(0, Math.min(PLANNER_WIZ_STEPS - 1, step));
+    for (let i = 0; i < PLANNER_WIZ_STEPS; i++) {
+      const p = qs('planner-panel-' + i);
+      if (p) p.classList.toggle('active', i === plannerWizardStep);
+    }
+    const title = qs('planner-wiz-title');
+    const sub = qs('planner-wiz-sub');
+    const lab = qs('planner-wiz-step-label');
+    const copy = plannerWizardCopy[plannerWizardStep];
+    if (title && copy) title.textContent = copy.title;
+    if (sub && copy) sub.textContent = copy.sub;
+    if (lab) lab.textContent = `Passo ${plannerWizardStep + 1} de ${PLANNER_WIZ_STEPS}`;
+    const lbl = qs('btn-planner-label');
+    if (lbl) lbl.textContent = plannerWizardStep === PLANNER_WIZ_STEPS - 1 ? 'Ver meu resultado' : 'Continuar';
+    syncFloatFilled(qs('screen-planner'));
+  }
+
+  function validatePlannerStep(step) {
+    if (step === 0) {
+      const n = qs('nome').value.trim();
+      const e = qs('email').value.trim();
+      if (!n || !e) {
+        window.alert('Por favor, preencha seu nome e e-mail.');
+        return false;
+      }
+      return true;
+    }
+    if (step === 2) {
+      const sal = qs('salario').value;
+      const gu = qs('guardar').value;
+      const res = qs('reserva').value;
+      const te = qs('tempo').value;
+      if (sal === '' || gu === '' || res === '' || te === '') {
+        window.alert('Preencha todos os campos para continuarmos.');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  window.plannerWizardNext = function() {
+    if (!validatePlannerStep(plannerWizardStep)) return;
+    if (plannerWizardStep < PLANNER_WIZ_STEPS - 1) {
+      plannerWizardStep += 1;
+      initPlannerWizard(plannerWizardStep);
+      return;
+    }
+    const btn = qs('btn-planner-next');
+    const lbl = qs('btn-planner-label');
+    if (btn) btn.classList.add('btn-loading');
+    if (lbl) lbl.innerHTML = '<span class="spinner"></span> Um momento...';
+    setTimeout(() => {
+      generatePlannerResult();
+      if (btn) btn.classList.remove('btn-loading');
+      if (lbl) lbl.textContent = 'Continuar';
+    }, 900);
+  };
+
+  window.plannerWizardBack = function() {
+    if (plannerWizardStep === 0) {
+      showScreen('screen-quiz');
+      if (qs('quiz-result')) qs('quiz-result').style.display = 'block';
+      if (qs('quiz-box')) qs('quiz-box').style.display = 'none';
+      return;
+    }
+    plannerWizardStep -= 1;
+    initPlannerWizard(plannerWizardStep);
+  };
+
+  window.resetFullJourney = function() {
+    plannerWizardStep = 0;
+    initPlannerWizard(0);
+    quizWizardStep = 0;
+    initQuizWizard(0);
+    if (qs('quiz-result')) qs('quiz-result').style.display = 'none';
+    if (qs('quiz-box')) qs('quiz-box').style.display = 'block';
+    showScreen('screen-welcome');
+  };
 
   window.showScreen = function(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2450,6 +2784,12 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     if (id === 'screen-ai') hydrateAIScores();
+    if (id === 'screen-quiz') {
+      const qb = qs('quiz-box');
+      const qr = qs('quiz-result');
+      if (qb && qr && qb.style.display !== 'none') initQuizWizard(quizWizardStep);
+    }
+    if (id === 'screen-planner') initPlannerWizard(plannerWizardStep);
   };
 
   function syncFloatFilled(root) {
@@ -2544,9 +2884,12 @@
   window.resetQuiz = function() {
     qs('quiz-result').style.display = 'none';
     qs('quiz-box').style.display = 'block';
+    initQuizWizard(0);
   };
 
   window.openPlannerFromQuiz = function() {
+    plannerWizardStep = 0;
+    initPlannerWizard(0);
     syncFloatFilled(qs('screen-planner'));
     showScreen('screen-planner');
   };
@@ -2577,34 +2920,21 @@
     if (!isFinite(mesesRitmo) || mesesRitmo === Infinity) financeScore -= 15;
     financeScore = Math.min(Math.max(financeScore, 20), 99);
 
-    const labelFinance = financeScore >= 75 ? 'Forte para o prazo modelo' :
-      financeScore >= 52 ? 'Moderado — exige refinamento mensal' : 'Desafiador — recomponha prazo ou reserva';
+    const labelFinance = financeScore >= 75 ? 'Boa margem pro seu prazo' :
+      financeScore >= 52 ? 'Dá pra encaixar com ajustes' : 'Vale alongar o prazo ou subir o aporte';
 
     const recs = [];
-    if (pctSave < 0.22) recs.push('Tente aumentar o aporte relativo ao salário (≥22%). Quando menor, projetos ficam mais sensíveis a imprevisto.');
-    if (inp.inglesBr === 'basico') recs.push('PRIORIZE inglês institucional: sem ele a narrativa oficial e trabalho ficam bem mais lentos.');
-    if (inp.visto === 'student') recs.push('Modele primeiro o COE + taxas de instituição. O valor AUD base assume chegada com prova inicial realista.');
-    else recs.push('WHV aceita menor prova inicial, mas Sydney/Melbourne exigem reserva extra por aluguel — ajuste cidade se quiser enxugar.');
-    if (inp.acompanhante === 'sim') recs.push('Acompanhante ≈ +A$3,8k no modelo. Refasça com documentação de funding compartilhada no premium.');
+    if (pctSave < 0.22) recs.push('Se puder, guarde um pouco mais por mês em relação ao salário — ajuda a absorver imprevistos.');
+    if (inp.inglesBr === 'basico') recs.push('Inglês conta muito: vale um curso ou rotina de estudo antes de aplicar.');
+    if (inp.visto === 'student') recs.push('Para estudante, confira também mensalidade e materiais — além da reserva inicial.');
+    else recs.push('Cidades como Sydney e Melbourne costumam pedir mais reserva de moradia.');
+    if (inp.acompanhante === 'sim') recs.push('Com acompanhante, o custo de referência sobe — revise com calma no último passo.');
 
     return {
       metaAUD, metaBRL, guardar, reserva, falta, mesesRitmo, objetivoMeses, aporteNecessario,
       financeScore, labelFinance, recs,
     };
   }
-
-  window.handlePlannerSubmit = function(e) {
-    e.preventDefault();
-    const btn = qs('btn-planner-submit');
-    const label = qs('btn-planner-label');
-    btn.classList.add('btn-loading');
-    label.innerHTML = '<span class="spinner"></span> Calculando...';
-    setTimeout(() => {
-      generatePlannerResult();
-      btn.classList.remove('btn-loading');
-      label.textContent = 'Gerar plano inteligente';
-    }, 1200);
-  };
 
   function generatePlannerResult() {
     const nome = qs('nome').value.trim();
@@ -2628,21 +2958,29 @@
     state.planner.financeScoreCached = model.financeScore;
 
     const nomeFirst = nome.split(/\s+/)[0] || 'Olá';
-    qs('res-saudacao').innerText = `${nomeFirst}, seu painel inteligente está pronto.`;
+    qs('res-saudacao').innerText = `${nomeFirst}, aqui está seu panorama.`;
 
     const fmtBRL = (n) => `R$ ${n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+    const lead = qs('res-lead');
+    if (lead) {
+      const mesOk = isFinite(model.mesesRitmo) && model.guardar > 0;
+      lead.textContent = mesOk
+        ? `No ritmo que você indicou, dá para mirar algo perto de ${fmtBRL(model.metaBRL)} no total — em torno de ${model.mesesRitmo} meses para fechar o valor faltante, se mantiver o aporte.`
+        : `Montamos um valor de referência perto de ${fmtBRL(model.metaBRL)}. Ajuste o aporte mensal para ver quanto tempo pode levar.`;
+    }
     const fmtAUD = (n) => `A$ ${n.toLocaleString('pt-BR')}`;
 
     qs('res-total-brl').innerText = fmtBRL(model.metaBRL);
-    qs('res-total-sub').innerText = `Inclui custo modelo do visto + chegada na cidade escolhida (${cidadeCode}).`;
+    qs('res-total-sub').innerText = 'Inclui uma estimativa de ida + chegada na cidade que você escolheu.';
 
     const mesesTexto = isFinite(model.mesesRitmo) && model.guardar > 0
       ? `~${model.mesesRitmo} meses`
       : 'Indefinido';
     qs('res-meses').innerText = mesesTexto;
     qs('res-meses-sub').innerText = model.guardar > 0
-      ? 'Tempo para fechar o gap com seu aporte atual e reserva informada.'
-      : 'Sem aporte mensal não dá para projetar — ajuste o campo.';
+      ? 'Quanto tempo pode levar pra juntar o que falta, no ritmo que você colocou.'
+      : 'Coloque quanto consegue guardar por mês pra estimar o tempo.';
 
     qs('res-score-num').innerText = `${model.financeScore}`;
     qs('res-score-fill').style.width = `${model.financeScore}%`;
@@ -2658,7 +2996,7 @@
 
     qs('res-aporte').innerText = fmtBRL(model.aporteNecessario);
     qs('res-aporte-sub').innerText =
-      `Para atingir o custo modelo em ${tempo} ${tempo === 1 ? 'mês' : 'meses'} (compatível com prazo desejado).`;
+      `Sugestão de guardar por mês pra bater o prazo de ${tempo} ${tempo === 1 ? 'mês' : 'meses'} que você escolheu.`;
 
     qs('res-meta-aud').innerText = fmtAUD(model.metaAUD);
     qs('res-meta-brl').innerText = fmtBRL(model.metaBRL);
@@ -2676,8 +3014,8 @@
     const pillCl = model.financeScore >= 70 ? 'ok' : model.financeScore >= 50 ? 'mid' : 'risk';
     const pill = document.createElement('span');
     pill.className = `status-pill ${pillCl}`;
-    pill.innerText = model.financeScore >= 70 ? 'Perfil financeiro favorável' :
-      model.financeScore >= 50 ? 'Perfil financeiro moderado' : 'Perfil financeiro sensível';
+    pill.innerText = model.financeScore >= 70 ? 'Cenário confortável' :
+      model.financeScore >= 50 ? 'Cenário equilibrado' : 'Cenário apertado — dá pra ajustar';
     pills.appendChild(pill);
 
     applyPremiumUI();
@@ -2758,9 +3096,9 @@
     const quick = qs('ai-quick-check');
     quick.innerHTML = '';
     [
-      'Consolidar reserva em conta com liquidez comprovável',
-      'Snapshot de renda + coerência com carta',
-      'Checklist de docs traduzidos e nome idêntico',
+      'Tenha reserva em conta fácil de comprovar',
+      'Renda e valores batendo com a sua história',
+      'Documentos com o mesmo nome em tudo',
     ].forEach(t => {
       const li = document.createElement('li');
       li.innerHTML = `<span class="rec-icon">✓</span><span>${t}</span>`;
@@ -2785,7 +3123,7 @@
     letterSteps.forEach((s, i) => {
       const chip = document.createElement('span');
       chip.className = 'step-chip' + (i === letterIndex ? ' active' : '');
-      chip.innerText = `${i + 1}. ${s.id}`;
+      chip.innerText = `Parte ${i + 1}`;
       row.appendChild(chip);
     });
   }
